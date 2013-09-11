@@ -3,6 +3,8 @@
 #include  <stdio.h>
 #include  <string.h>
 #include  "SMS_PDU.h"
+#include  "App_moduleConfig.h"
+
 
 const char GB_DATA[]="京津沪宁渝琼藏川粤青贵闽吉陕蒙晋甘桂鄂赣浙苏新鲁皖湘黑辽云豫冀";
 const char UCS2_CODE[]="4EAC6D256CAA5B816E1D743C85CF5DDD7CA497528D3595FD540996558499664B7518684291028D636D5982CF65B09C8176966E589ED18FBD4E918C6B5180";
@@ -12,16 +14,15 @@ const char UCS2_CODE[]="4EAC6D256CAA5B816E1D743C85CF5DDD7CA497528D3595FD54099655
 static int StringFind(const char* string,const char* find,int number)
 {
 	char* pos;
-	char* p;
 	int count = 0;
 	//pos=string;
 	//p = string;
-	pos=strstr(string,find);
+	pos=strstr(string,find); 
 	if (pos == (void *)0)
 		return -1;
 	count=pos-string;
 	return count;
-	#ifdef 0
+	#if 0
 	while (number > 0)
 	{
 		/*定义查找到的字符位置的指针，以便临时指针进行遍历*/
@@ -141,53 +142,6 @@ u16  GsmEncode8bit(const u8 *pSrc, u8 *pDst, u16 nSrcLength)
 	return nSrcLength;
 }
 
-u16 GsmDecodeUcs2_old(const u8* pSrc, u8* pDst, u16 nSrcLength)
-{
-	u16 nDstLength=nSrcLength;        // UNICODE宽字符数目
-	u16 i;
-   // INT16U wchar[128];      // UNICODE串缓冲区
-    
-    // 高低字节对调，拼成UNICODE
-    for(i=0; i<nSrcLength; i+=2)
-    {
-        // 先高位字节,因为是数据。高字节为0
-         pSrc++;
-        // 后低位字节
-        *pDst++= *pSrc++;
-       
-   
-    }
-        // UNICODE串-.字符串
-    //nDstLength = ::WideCharToMultiByte(CP_ACP, 0, wchar, nSrcLength/2, pDst, 160, NULL, NULL);
-        // 输出字符串加个结束符    
-    //pDst[nDstLength] = '\0';    
-        // 返回目标字符串长度
-    return (nDstLength>>1);
-}
-
-u16 GsmEncodeUcs2_old(const u8* pSrc, u8* pDst, u16 nSrcLength)
-{
-	u16 nDstLength=nSrcLength;        // UNICODE宽字符数目
-	u16 i;
-    //INT16U wchar[128];      // UNICODE串缓冲区
-    
-    // 字符串-.UNICODE串
-   // nDstLength = ::MultiByteToWideChar(CP_ACP, 0, pSrc, nSrcLength, wchar, 128);
- 
-    // 高低字节对调，输出
-    for(i=0; i<nDstLength; i++)
-    {
-         // 先输出高位字节
-        *pDst++ = 0x00;
-        // 后输出低位字节
-        *pDst++ = * pSrc++;
-       
-    }
-    
-    // 返回目标编码串长度
-    return (nDstLength <<1);
-}
-
 u16 GsmDecodeUcs2(const u8* pSrc, u8* pDst, u16 nSrcLength)
 {
 	u16 nDstLength=0;        // UNICODE宽字符数目
@@ -253,38 +207,37 @@ u16 GsmEncodeUcs2(const u8* pSrc, u8* pDst, u16 nSrcLength)
     //INT16U wchar[128];      // UNICODE串缓冲区
     nDstLength=0;
     // 字符串-.UNICODE串
-   // nDstLength = ::MultiByteToWideChar(CP_ACP, 0, pSrc, nSrcLength, wchar, 128);
- 
+    // nDstLength = ::MultiByteToWideChar(CP_ACP, 0, pSrc, nSrcLength, wchar, 128); 
     // 高低字节对调，输出
     for(i=0; i<nSrcLength; i++)
     {
     	if((*pSrc&0x80)==0x80)		///汉字编码
     		{
-    		strTemp[0]=*pSrc;
-    		strTemp[1]=*(pSrc+1);
-			strTemp[2]=0;
-    		indexNum=StringFind(GB_DATA,strTemp,strlen(GB_DATA));
-			if(indexNum>=0)
-				{
-				indexNum=indexNum*2;
-				Ascii_To_Hex(&UCS2_CODE[indexNum],strTemp,4);
-				*pDst++ = strTemp[0];
-				*pDst++ = strTemp[1];
-				}
-			else		///不可识别的汉子用"※"表示
-				{
-				*pDst++ = 0x20;
-				*pDst++ = 0x3B;
-				}
-			pSrc+=2;
-			i++;
+	    		strTemp[0]=*pSrc;
+	    		strTemp[1]=*(pSrc+1);
+				strTemp[2]=0;
+	    		indexNum=StringFind(GB_DATA,strTemp,strlen(GB_DATA));
+				if(indexNum>=0)
+					{
+					indexNum=indexNum*2;
+					Ascii_To_Hex(&UCS2_CODE[indexNum],strTemp,4);
+					*pDst++ = strTemp[0];
+					*pDst++ = strTemp[1];
+					}
+				else		///不可识别的汉子用"※"表示
+					{
+					*pDst++ = 0x20;
+					*pDst++ = 0x3B;
+					}
+				pSrc+=2;
+				i++;
     		}
 		else						///英文编码
 			{
-	         // 先输出高位字节
-	        *pDst++ = 0x00;
-	        // 后输出低位字节
-	        *pDst++ = * pSrc++;
+		         // 先输出高位字节 
+		        *pDst++ = 0x00;
+		        // 后输出低位字节
+		        *pDst++ = * pSrc++;
 			}
 		nDstLength++;
        
@@ -473,22 +426,9 @@ u8 Que_Number_Length(const u8 *Src)
   }
 
 
-/*********************************************************************************
-*函数名称:u16 SetPhoneNumToPDU(u8 *pDest,u8 *pSrc,u16 len)
-*功能描述:将字符串格式转换成BCD码格式的PDU电话号码，如原始号码为"13820554863"转为13820554863F
-*输    入:pSrc 原始数据，len输出的最大长度
-*输    出:pDest 输出字符串
-*返 回 值:	有效的号码长度
-*作    者:白养民
-*创建日期:2013-05-28
-*---------------------------------------------------------------------------------
-*修 改 人:
-*修改日期:
-*修改描述:
-*********************************************************************************/
 u16 SetPhoneNumToPDU(u8 *pDest,char *pSrc,u16 len)
 {
-	u16 i,j;
+	u16 i;
 	
     memset(pDest,0xff,len);
     for( i=0; i<len; i++)
@@ -515,19 +455,7 @@ u16 SetPhoneNumToPDU(u8 *pDest,char *pSrc,u16 len)
 	}
 	return i;
 }
-/*********************************************************************************
-*函数名称:void GetPhoneNumFromPDU(u8 *pDest,u8 *pSrc,u16 len)
-*功能描述:将BCD码格式的PDU电话号码转换成字符串格式，如原始号码为13820554863F转为"13820554863"
-*输    入:pSrc 原始数据，len输入的最大长度
-*输    出:pDest 输出字符串
-*返 回 值:	有效的号码长度
-*作    者:白养民
-*创建日期:2013-05-28
-*---------------------------------------------------------------------------------
-*修 改 人:
-*修改日期:
-*修改描述:
-*********************************************************************************/
+
 u16 GetPhoneNumFromPDU(char *pDest,u8 *pSrc,u16 len)
 {
 	u16 i,j;
@@ -781,134 +709,204 @@ u16 GsmEncodePdu_Center(const SmsType pSrc,const u8 *DataSrc,u16 datalen, u8* pD
     // 返回目标字符串长度
     return nDstLength;
 }
-/*
-// 两两颠倒的字符串转换为正常顺序的字符串
-// 如："8613693092030" -. "683196032930F0"
-// pSrc: 源字符串指针
-// pDst: 目标字符串指针
-// nSrcLength: 源字符串长度
-// 返回: 目标字符串长度
-  INT16U  GsmSerializeNumbers(const INT8U* pSrc, INT8U* pDst, INT16U nSrcLength)
+
+#ifdef MC8332_CDMA
+u16   CDMA_decode_PDU(const u8* pSrc,u16 pSrcLength,u8 *SmsSytle,u8 *DataDst)
 {
+    /*
+      0B22313336303230363931393122130902161412FF01FFFF010000000D54573730332344555228333029
+
+	0B
+	22 31 33 36 30 32 30 36 39 31 39 31 22      "13602069191"
+	13 09 02 16 14 12    // time
+	FF   lang
+	01    format   +10
+	FF    prt
+	FF    prv
+	01    ack
+	00    type
+	00    state
+	00    udh_len
+	0D    msg_length 
+	54573730332344555228333029
+
+        //-----------------------------------------
+       0B22313336303230363931393122130903155041FF06FFFF010000001C00540057003700300033002300440055005200285180003300300029
+
+       0B
+	 22 31 33 36 30 32 30 36 39 31 39 31 22
+	 13 09 03 15 50 41 
+	 FF 
+	 06       +10
+	 FF
+	 FF
+	 01
+	 00
+	 00
+	 00
+	 1C
+	 00 54 00 57 00 37 00 30 00 33 00 23 00 44 00 55 00 52 00 28 51 80 00 33 00 30 00 29
+	//-----------------------------------------
+    */ 
+    u8 srcnumlen=0;          // 目标PDU串长度
+    u8 udh_len=0;            // udh  len
+    u8 content_len=0;        //
+    u8 Rx_Fomat=0;   // 接收方式的模式
+	u16 hex_len=0;       // 内部用的临时字节变量
+	u8 buf[256];  // 内部用的缓冲区
+	u16 i=0,dest_i=0;
+	u16 index=0;
+	u8  *p_sms;
+	u8  AsciiREG[4];
+
+    // 1. ASCII to HEX  convert
+    memset(buf,0,sizeof(buf)); 
+    hex_len=GSM_AsciitoHEX_Convert((u8*)pSrc,pSrcLength,buf); 
+	//OutPrint_HEX("MSG SMS",buf,hex_len);
+
+	//2.获取来源号码
+    srcnumlen=buf[0];//     消息来源号码长度  
+
+	memcpy(SmsSytle,buf+2,srcnumlen);
+	//rt_kprintf("\r\n come num%s\r\n",SmsSytle);
+	// 3. 获取模式
+	Rx_Fomat=buf[srcnumlen+10];   //  6+ 4 (  "" FF)
+	//rt_kprintf("\r\n RxMode: %X\r\n",Rx_Fomat); 
 	
-	INT16U nDstLength;   // 目标字符串长度
-    INT8U ch;          // 用于保存一个字符
-    
-    // 复制串长度
-    nDstLength = nSrcLength;
-	  // 两两颠倒
-    for(INT16U i=0; i<nSrcLength;i+=2)
-    {
-        ch = *pSrc++;        // 保存先出现的字符
-        *pDst++ = *pSrc++;   // 复制后出现的字符
-        *pDst++ = ch;        // 复制先出现的字符
-    }
-    
-    // 最后的字符是'F'吗？
-    if(*(pDst-1) == 'F')
-    {
-        pDst--;
-        nDstLength--;        // 目标字符串长度减1
-    }
-    
-    // 输出字符串加个结束符
-    *pDst = '\0';
-    
-    // 返回目标字符串长度
-    return nDstLength;
+    // 4. 判断udh_len +16
+     udh_len=buf[srcnumlen+16];
+
+	// 5.  原始信息长度
+	    content_len=buf[srcnumlen+17+udh_len]; 	
+	// 6.  原始信息解析
+	switch(Rx_Fomat) 
+		{
+		    case  0x01:   // TXT   没有汉字                        
+                       memcpy(DataDst,buf+18+srcnumlen+udh_len, content_len);
+					  // OutPrint_HEX("contentmsg",DataDst,content_len);
+			           break;
+			case  0x06:  //  含有汉字		
+			           p_sms=&buf[18+srcnumlen+udh_len];
+			          // memcpy(DataDst,buf+18+srcnumlen+udh_len, content_len);
+					  // OutPrint_HEX("contentmsg",DataDst,content_len);
+
+					   //00 54 00 57 00 37 00 30 00 33 00 23 00 44 00 55 00 52 00 28 51 80 00 33 00 30 00 29
+					   dest_i=0;
+                       for(i=0;i<content_len;i+=2)
+                       	{
+                       	  if(p_sms[i]==0x00)   // 必须是半角
+                       	  	{
+                              DataDst[dest_i++]=p_sms[i+1];
+                       	  	}
+                          else
+                          	{
+                          	   memset(AsciiREG,0,sizeof(AsciiREG));
+                               Hex_To_Ascii(p_sms+i,AsciiREG,2);
+                               //rt_kprintf("\r\n 汉字UNICODE:%s",AsciiREG);
+                               index=StringFind(UCS2_CODE,AsciiREG,strlen(UCS2_CODE));
+                               if(index>=0)
+								{
+								   index=index>>1;
+								   DataDst[dest_i++]=GB_DATA[index];
+								   DataDst[dest_i++]=GB_DATA[1+index]; 
+								
+								//rt_kprintf("\r\n index=%d, %2X%2X",index,GB_DATA[index],GB_DATA[1+index]); 
+								}
+							   else
+								{
+								 DataDst[dest_i++]= 0x20;		///不可识别的汉子用"※"表示
+								 DataDst[dest_i++]= 0x3B; 
+								}                               
+                          	}
+                       	}
+                        content_len=dest_i;
+			            //OutPrint_HEX("contentmsg",DataDst,content_len); 
+
+                       break;
+		   default:
+		               return 0;
+		}
+		return   content_len;
+	
 }
 
-//PDU串中的号码和时间，都是两两颠倒的字符串。利用下面两个函数可进行正反变换：
-// 正常顺序的字符串转换为两两颠倒的字符串，若长度为奇数，补'F'凑成偶数
-// 如："8613693092030" -. "683196032930F0"
-// pSrc: 源字符串指针
-// pDst: 目标字符串指针
-// nSrcLength: 源字符串长度
-// 返回: 目标字符串长度
- INT16U  GsmInvertNumbers(const INT8U* pSrc, INT8U* pDst, INT16U nSrcLength)
+u16   CDMA_encode_PDU(const u8* pSrc,u16 pSrcLength,u8 *DataDst)
 {
-	
-	 INT16U nDstLength;   // 目标字符串长度
-    INT8U ch;          // 用于保存一个字符
-    
-    // 复制串长度
-    nDstLength = nSrcLength;
-    
-    // 两两颠倒
-    for(INT16U i=0; i<nSrcLength;i+=2)
-    {
-        ch = *pSrc++;        // 保存先出现的字符
-        *pDst++ = *pSrc++;   // 复制后出现的字符
-        *pDst++ = ch;        // 复制先出现的字符
-    }
-    
-    // 源串长度是奇数吗？
-    if(nSrcLength & 1)
-   {
-        *(pDst-2) = 'F';     // 补'F'
-        nDstLength++;        // 目标串长度加1
-    }
-    
-    // 输出字符串加个结束符
-    *pDst = '\0';
-    
-    // 返回目标字符串长度
-    return nDstLength;
+   
+   /*
+        0B22313336303230363931393122130903155041FF06FFFF010000001C00540057003700300033002300440055005200285180003300300029
+
+       0B
+	 22 31 33 36 30 32 30 36 39 31 39 31 22
+	 13 09 03 15 50 41 
+	 01 
+	 06       +10
+	 00
+	 00
+	 00
+	 00
+	 00
+	 00
+	 1C
+	 00 54 00 57 00 37 00 30 00 33 00 23 00 44 00 55 00 52 00 28 51 80 00 33 00 30 00 29
+   */
+   u16 content_len=0;  //返回填充字符
+   u16 dest_i=0;  // 发送下标
+   u8  Hex_buf[200];
+   u8  content_hex[200];   
+   u8  content_hex_len=0;
+   u16 ascii_len=0; //  发送ASCII 字符串长度
+   u8  ascii_buf[4];
+   
+   memset(Hex_buf,0,sizeof(Hex_buf));
+   // ID len
+   Hex_buf[dest_i++]=strlen(SMS_Service.SMS_destNum);
+   //  dest num   
+  // Hex_buf[dest_i++]=0x22;
+   memcpy(Hex_buf+dest_i,SMS_Service.SMS_destNum,strlen(SMS_Service.SMS_destNum)); 
+   dest_i+=strlen(SMS_Service.SMS_destNum); 
+  // Hex_buf[dest_i++]=0x22;   
+   // time  6 byte
+   
+   Hex_buf[dest_i++]=0xFF;
+   Hex_buf[dest_i++]=0xFF;
+   Hex_buf[dest_i++]=0xFF;
+   Hex_buf[dest_i++]=0xFF;
+   Hex_buf[dest_i++]=0xFF;
+   Hex_buf[dest_i++]=0xFF;  
+   
+  // Time2BCD(Hex_buf+dest_i);  
+  // dest_i+=6;
+   
+   // lang
+   Hex_buf[dest_i++]=0x01;
+   // type
+   Hex_buf[dest_i++]=0x06; //汉字模式
+   // other settings
+	     Hex_buf[dest_i++]=0x00;  //prt
+		 Hex_buf[dest_i++]=0x00;  // prv  
+		 Hex_buf[dest_i++]=0x00;  //ack
+		 Hex_buf[dest_i++]=0x00;  // type
+		 Hex_buf[dest_i++]=0x00;  // state
+		 Hex_buf[dest_i++]=0x01;  // udh_length
+		 Hex_buf[dest_i++]=0x00;  // udh 
+		 
+   //  msg convert process 
+    memset(content_hex,0,sizeof(content_hex));
+    content_hex_len=GsmEncodeUcs2(SMS_Service.SMS_sd_Content,Hex_buf+dest_i+1,pSrcLength); // +1  是jump  一个长度字节       
+   //OutPrint_HEX("SendContent",Hex_buf+dest_i+1,content_hex_len); 
+   //rt_kprintf("\r\n index=%d",content_hex_len); 
+   // msg len	 
+   Hex_buf[dest_i++]=content_hex_len;  // 补填那个长度字节
+   // update   content   len   
+   dest_i+=content_hex_len;
+   // msg content
+   ascii_len=GSM_HextoAscii_Convert(Hex_buf,dest_i,DataDst); 
+  // OutPrint_HEX("AsciiContent",DataDst,ascii_len); 
+  // rt_kprintf("\r\n asciilen=%d",ascii_len);   
+
+   return ascii_len; 
 }
 
-//加短信中心号码
-  INT16U  GsmEncodePdu(const SM_PARAM* pSrc, INT8U* pDst)
-{
-	
-	INT16U nLength;             // 内部用的串长度
-    INT16U nDstLength;          // 目标PDU串长度
-    INT8U buf[256];  // 内部用的缓冲区
-    
-    // SMSC地址信息段
-    nLength = strlen(pSrc.SCA);    // SMSC地址字符串的长度    
-    buf[0] = (INT8U)((nLength & 1) == 0 ? nLength : nLength + 1) / 2 + 1;    // SMSC地址信息长度
-    buf[1] = 0x91;        // 固定: 用国际格式号码
-    nDstLength = Hex_To_Ascii(buf, pDst, 2);        // 转换2个字节到目标PDU串
-    nDstLength += GsmInvertNumbers(pSrc.SCA, &pDst[nDstLength], nLength);    // 转换SMSC到目标PDU串
-     // TPDU段基本参数、目标地址等
-    nLength = strlen(pSrc.TPA);    // TP-DA地址字符串的长度
-	CString rec_number=CString(pSrc.TPA);
-    buf[0] = 0x11;            // 是发送短信(TP-MTI=01)，TP-VP用相对格式(TP-VPF=10)
-    buf[1] = 0;               // TP-MR=0
-    buf[2] = (INT8U)nLength;   // 目标地址数字个数(TP-DA地址字符串真实长度)
-    buf[3] = 0x91;            // 固定: 用国际格式号码
-    nDstLength += Hex_To_Ascii(buf, &pDst[nDstLength], 4);  // 转换4个字节到目标PDU串
-    nDstLength += GsmInvertNumbers(pSrc.TPA, &pDst[nDstLength], nLength); // 转换TP-DA到目标PDU串
-    
-    // TPDU段协议标识、编码方式、用户信息等
-    nLength = strlen(pSrc.TP_UD);    // 用户信息字符串的长度
-    buf[0] = pSrc.TP_PID;        // 协议标识(TP-PID)
-    buf[1] = pSrc.TP_DCS;        // 用户信息编码方式(TP-DCS)
-    buf[2] = 0;            // 有效期(TP-VP)为5分钟
-    if(pSrc.TP_DCS == GSM_7BIT)    
-    {
-        // 7-bit编码方式
-        buf[3] = nLength;            // 编码前长度
-        nLength = GsmEncode7bit(pSrc.TP_UD, &buf[4], nLength+1) + 4; 
-		// 转换		TP-DA到目标PDU串
-    }
-    else if(pSrc.TP_DCS == GSM_UCS2)
-    {
-        // UCS2编码方式
-        buf[3] = GsmEncodeUcs2(pSrc.TP_UD, &buf[4], nLength);    // 转换TP-DA到目标PDU串
-        nLength = buf[3] + 4;        // nLength等于该段数据长度
-    }
-    else
-    {
-        // 8-bit编码方式
-        buf[3] = GsmEncode8bit(pSrc.TP_UD, &buf[4], nLength);    // 转换TP-DA到目标PDU串
-        nLength = buf[3] + 4;        // nLength等于该段数据长度
-    }
-    nDstLength += Hex_To_Ascii(buf, &pDst[nDstLength], nLength);        // 转换该段数据到目标PDU串
-    
-    // 返回目标字符串长度
-    return nDstLength;
-}
-*/
 
-
+#endif

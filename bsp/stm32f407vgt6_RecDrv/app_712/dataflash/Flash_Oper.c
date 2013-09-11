@@ -112,7 +112,7 @@ u8 ReadCycleGPS(u32 cycleread,u8 *content ,u16 ReadLen)
      DF_delay_us(20);
     // DF_delay_ms(10); 
 	// rt_kprintf("\r\n  ReadGPS Starpageoffset=%d  PageOffset= %d ,  InPageAddr= %d  \r\n",CycleStart_offset,pageoffset,InPageoffset);  
-  if(DispContent)
+  if(DispContent==2)
   {
      rt_kprintf("\r\n  ¶ÁÈ¡CycleGPS ÄÚÈÝÎª :\r\n ");   
 	  for(i=0;i<ReadLen;i++)

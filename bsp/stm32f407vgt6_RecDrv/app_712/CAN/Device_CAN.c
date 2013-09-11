@@ -449,7 +449,7 @@ void CAN_SD(char* instr)
  
   u8 Reg_buf[10];
   
-	if (strlen(instr)==0)
+	if (strlen((const char*)instr)==0)
 	{
 	     
 	    rt_kprintf("\r\n  CAN 固定\r\n"); 	  
@@ -458,9 +458,9 @@ void CAN_SD(char* instr)
 	}
 	else 
 	{      
-	  CANTXStr((u8*)instr,strlen((char*)instr));  
+	  CANTXStr((u8*)instr,strlen((const char*)(char*)instr));  
 	  memset(Reg_buf,0,sizeof(Reg_buf));
-	  memcpy(Reg_buf,instr,strlen(instr));
+	  memcpy(Reg_buf,instr,strlen((const char*)instr));
 	  rt_kprintf("\r\n		 Can 发送数据: "); 
 	  rt_kprintf("%s\r\n",Reg_buf);    
 	  return;  

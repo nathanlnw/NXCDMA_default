@@ -32,7 +32,13 @@
 // -------  ISP  Address   -------------
 #define    ISP_APP_Addr                        0x6400    //  512*50  Page
 #define    ISP_RAM_Addr                       0x1400   // 512*10 Page
- 
+
+//--------ISP Status Byte  ------------
+#define    ISP_BYTE_StartValue            0xF1     // 远程下载开始字节
+#define    ISP_BYTE_CrcPass               0xE1     //  接收完数据包后，改成这个数值，表示校验通过
+#define    ISP_BYTE_TypeNotmatch          0xC1     //   校验通过，但类型不匹配
+#define    ISP_BYTE_Rdy2Update            0x01     //   校验通过类型匹配，等待更新
+
 
 //------- 通话状态---------
 #define CallState_Idle 		        0
@@ -247,6 +253,7 @@ typedef struct _VechInfo
  u16    Dev_CityID;          // 车辆所在市ID    
  u8     Dev_Color;           // 车牌颜色           // JT415    1  蓝 2 黄 3 黑 4 白 9其他
  u8     loginpassword_flag;  //  界面输入标志位    0 :default    1:  longin ok
+ u8     Link_Frist_Mode;		 //   首次连接模式		  0  : dnsr first	  1: mainlink  first 
 }VechINFO;
 
 //--------- 终端属性---------
@@ -459,8 +466,8 @@ typedef struct _CENTER_ASK
   u16 ASK_floatID; // 提问流水号
   u8  ASK_infolen;// 信息长度  
   u8  ASK_answerID;    // 回复ID
-  u8  ASK_info[30];//  信息内容
-  u8  ASK_answer[30];  // 候选答案  
+  u8  ASK_info[60];//  信息内容
+  u8  ASK_answer[140];  // 候选答案  
   u8  ASK_disp_Enable;// 小屏显示使能
 }CENTRE_ASK;
 
@@ -643,6 +650,7 @@ typedef struct _ISP_BD
    u32  Content_len;// 升级包长度
    u8   ContentData[1024]; // 数据包内容
    u8   ISP_resualt;  //升级结果
+   u8   ISP_status_Read;  // 上电读取 DF 状态
 }ISP_BD;
 
 
@@ -725,7 +733,6 @@ typedef struct  _JT808Config   //name:  jt808
     u32  BD_CameraTakeByTime_Settings;   // 摄像头定时拍照开关    0 不允许1 允许 表13
     u32  BD_CameraTakeByDistance_Settings;  //  摄像头定距离拍照控制位
     u8   Close_CommunicateFlag;   // 关闭通信标志位
-	u8   Link_Frist_Mode;       //   首次连接模式        0  : dnsr first     1: mainlink  first 
     
      //--------  实时上报 ---------  
     REALTIME_LOCK    RT_LOCK;     // 实时跟踪      
@@ -886,6 +893,7 @@ typedef struct
 {
   u8  SD_flag;        // 图片数据发送标志
   u8  photo_sending; //  处于照片发送状态
+  u8  photo_sendTimeout; //   发送状态超时判断
   u16 SD_packetNum;  //  发送数据的包序号
   u16 Total_packetNum; // 拍照的总包数
   u8  Data_SD_counter; //  数据发送间隔    
@@ -982,7 +990,6 @@ extern  u8		   Vehicle_sensor_BAK; // 车辆传感器状态	0.2s  查询一次
 extern  DOUBT_TYPE        Sensor_buf[100];// 20s 状态记录   
 extern 	u8		   save_sensorCounter,sensor_writeOverFlag;  
 extern u16  Delta_1s_Plus;
-extern 	u32 	   total_plus; 
 
 
 extern u8 TextInforCounter;//文本信息条数
@@ -1167,6 +1174,15 @@ extern u16   DebugSpd;	//调试用GPS速度
 extern u8	 MMedia2_Flag;
 extern u8     Send_Rdy4ok;
 
+//-------------    不同北斗模块设置  ----
+//#ifdef HC_595_CONTROL
+//---------74CH595  Q5   control Power----
+extern u8   Print_power_Q5_enable;     
+extern u8   Buzzer_on_Q7_enable; 
+//#endif
+
+
+
 
 //==================================================================================================
 // 第一部分 :   以下是GPS 解析转换相关函数 
@@ -1296,7 +1312,10 @@ extern  void  Meida_Trans_Exception(void);
 extern void   Photo_send_start(u16 Numpic);  
 extern  void  DataTrans_Init(void);
 extern void  TIRED_Drive_Init(void);
+
+#ifdef REC_VOICE_ENABLE
 extern u8     Sound_send_start(void);
+#endif
 
 extern void  TCP_RX_Process(u8  LinkNum);  
 extern u16    AsciiToGb(u8 *dec,u8 InstrLen,u8 *scr);
@@ -1317,6 +1336,7 @@ extern void  CycleRail_Judge(u8* LatiStr,u8* LongiStr);
 extern void  RectangleRail_Judge(u8* LatiStr,u8* LongiStr);       
 extern u8    Save_MediaIndex( u8 type, u8* name, u8 ID,u8 Evencode);  
 extern void  vin_set(u8 *instr);
+extern void Tired_Check(void);  
 extern void OutPrint_HEX(u8 * Descrip, u8 *instr, u16 inlen); 
 //extern void  Sound_SaveStart(void);
 //extern void  Sound_SaveEnd(void); 
@@ -1328,8 +1348,21 @@ extern void   CAN_send_timer(void);
 extern void   redial(void);
 extern void   dnsr_main(u8*instr);
 extern void   dnsr_aux(u8*instr);
-extern void   port_main(u8 *instr);
+extern void   port_main(u8 *instr); 
 extern void   port_aux(u8 *instr); 
+extern void   buzzer_onoff(u8 in); 
+
+extern void  Photo_send_TimeOut(void); 
+extern void  Photo_send_end(void);
+#ifdef REC_VOICE_ENABLE
+extern void  Sound_send_end(void); 
+#endif 
+extern void  print_power(u8*instr); 
+extern void  dur(u8 *content); 
+extern void provinceid(u8 *strin);
+extern void cityid(u8 *strin);  
+
+
 
 //extern u8  RecordSerial_output_Str(const char *fmt,...); 
 

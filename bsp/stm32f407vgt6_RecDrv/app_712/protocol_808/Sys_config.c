@@ -13,7 +13,7 @@
 #include  "Vdr.h"
 
  
-#define   SYSID            0xAE5B     
+#define   SYSID            0xB9EE     
                                 /*        
                                                         0x0000   -----   0x00FF  生产和研发用
                                                         0x0100   -----   0x0FFF  产品出货用
@@ -52,7 +52,7 @@ u16     Remote_Link2_Port=9131;
 
 
 u8           APN_String[30]="UNINET"; //"CMNET";   //  河北天地通  移动的卡
-u8           DomainNameStr[50]="jt1.gghypt.net"; ;  // 域名  天地通up.gps960.com //jt1.gghypt.net
+u8           DomainNameStr[50]="jt1.gghypt.net"; ;  // 域名  天地通up.gps960.com //jt1.gghypt.net 
 u8           DomainNameStr_aux[50]="jt2.gghypt.net";     //"www.sina.com";//jt2.gghypt.net
 u16         ACC_on_sd_Duration=30;    //  ACC 开启的时候 上报的时间间隔  
 u16         ACC_off_sd_Duration=60;    //  ACC 关闭时候上报的时间间隔  
@@ -289,18 +289,18 @@ u8  SysConfig_init(void)
 
 void SysConfig_Read(void)
 {
-        if( Api_Config_read(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct)==false))   //读取系统配置信息
+        if( Api_Config_read(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct))==false)   //读取系统配置信息
                       rt_kprintf("\r\nConfig_ Read Error\r\n");   
 
 			
  		memset((u8*)APN_String,0 ,sizeof(APN_String)); 
-		memcpy((u8*)APN_String,SysConf_struct.APN_str,strlen(SysConf_struct.APN_str));  
+		memcpy((u8*)APN_String,SysConf_struct.APN_str,strlen((const char*)SysConf_struct.APN_str));  
 	                        //   域名
 		memset((u8*)DomainNameStr,0 ,sizeof(DomainNameStr));
-		memcpy((u8*)DomainNameStr,SysConf_struct.DNSR,strlen(SysConf_struct.DNSR)); 
+		memcpy((u8*)DomainNameStr,SysConf_struct.DNSR,strlen((const char*)SysConf_struct.DNSR)); 
 	                        //   域名aux
 		memset((u8*)DomainNameStr_aux,0 ,sizeof(DomainNameStr_aux));
-		memcpy((u8*)DomainNameStr_aux,SysConf_struct.DNSR_Aux,strlen(SysConf_struct.DNSR_Aux)); 
+		memcpy((u8*)DomainNameStr_aux,SysConf_struct.DNSR_Aux,strlen((const char*)SysConf_struct.DNSR_Aux)); 
 
 		
 			 
@@ -329,7 +329,7 @@ void SysConfig_Read(void)
 */
 void JT808_DURATION_Init(void)
 {
-       JT808Conf_struct.DURATION.Heart_Dur=300;       // 心跳包发送间隔
+    JT808Conf_struct.DURATION.Heart_Dur=60;       // 心跳包发送间隔 
 	JT808Conf_struct.DURATION.TCP_ACK_Dur=20;     //  TCP 应答超时
 	JT808Conf_struct.DURATION.TCP_ReSD_Num=3;     //  TCP 重发次数
 	JT808Conf_struct.DURATION.TCP_ACK_Dur=20;     //  UDP 应答超时
@@ -385,10 +385,11 @@ void  Vehicleinfo_Init(void)
 	memcpy(Vechicle_Info.Vech_VIN,"00000000000000000",17);
 	memcpy(Vechicle_Info.Vech_Num,"津A00000",8);        
 	memcpy(Vechicle_Info.Vech_Type,"未知型",6);       
-	Vechicle_Info.Dev_ProvinceID=0;  // 默认省ID   0
-	Vechicle_Info.Dev_CityID=0;      // 默认市ID   0		
+	Vechicle_Info.Dev_ProvinceID=64;  // 默认省ID       12   天津  64  宁夏
+	Vechicle_Info.Dev_CityID=101;      // 默认市ID   0		101  宁夏银川 
 	Vechicle_Info.Dev_Color=1;       // 默认颜色    // JT415    1  蓝 2 黄 3 黑 4 白 9其他     
 	Vechicle_Info.loginpassword_flag=0;
+	Vechicle_Info.Link_Frist_Mode=0; //     0  : dnsr first     1: mainlink  first  
 
 	DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
 	
@@ -449,7 +450,7 @@ u8     JT808_Conf_init( void )
    	
                 JT808Conf_struct.OutGPS_Flag=1;     //  0  默认  1  接外部有源天线 
                 JT808Conf_struct.concuss_step=40;
-				JT808Conf_struct.Link_Frist_Mode=0; //     0  : dnsr first     1: mainlink  first
+				
 		   JT808_RealTimeLock_Init();   //  实时跟踪设置	
 
 		    		 
@@ -501,7 +502,7 @@ void  TIRED_Drive_Init(void)
 	 TiredConf_struct.Tired_drive.PreWarn_Dur=1200;  //疲劳驾驶预报警
 	 TiredConf_struct.Tired_drive.CurrentDay_DriveTimer_0=0;         //  上报策略为  0 时 
      TiredConf_struct.Tired_drive.CurrentDay_DriveTimer_Driver_1=0;  // 上报策略为1 时
-     TiredConf_struct.Tired_drive.CurrentDay_DriveTimer_Driver_2; //  上报策略为1 时
+     TiredConf_struct.Tired_drive.CurrentDay_DriveTimer_Driver_2=0; //  上报策略为1 时
 
 
          //--- below again ---
@@ -1295,6 +1296,7 @@ void  SendMode_ConterProcess(void)         //  定时发送处理程序
             JT808Conf_struct.DURATION.Heart_SDFlag=1; 
     	}
    //  2. 发送超时判断
+   #if 0
     if(1==JT808Conf_struct.DURATION.TCP_SD_state)
     {
       JT808Conf_struct.DURATION.TCP_ACK_DurCnter++;
@@ -1312,6 +1314,7 @@ void  SendMode_ConterProcess(void)         //  定时发送处理程序
 	  	}
  
     }
+   #endif  
 }
 
 
@@ -1346,14 +1349,12 @@ void  FirstRun_Config_Write(void)
 //-----------------------------------------------------------------
 void SetConfig(void)
 {
-       u8  res=0;
-	u8 Reg_buf[22];	 
-	u8 i=0;//,len_write=0;
+	//u8 i=0;//,len_write=0;
 //	u32 j=0;
 	
        rt_kprintf("\r\nSave Config\r\n");
 	// 1.  读取config 操作      0 :成功    1 :  失败
-	res=Api_Config_read(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));           
+	Api_Config_read(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));           
        //rt_kprintf("\r\nRead Save SYSID\r\n");
        //  2. 读取成功  ，判断  版本ID 
 	if(SysConf_struct.Version_ID!=SYSID)//SYSID)   //  check  wether need  update  or not 
@@ -1366,7 +1367,10 @@ void SetConfig(void)
            FirstRun_Config_Write();   // 里边更新了 SYSID           
            rt_kprintf("\r\nready--erase vdr!\r\n");
 		   vdr_erase(); 
-	  	   rt_kprintf("\r\nSave Over!\r\n");  
+	  	   rt_kprintf("\r\nSave Over!\r\n"); 
+
+		   //----- BD_Module Type
+		   BD_MODULE_Write(Module_3020C);
 	}
 	else			
 		   rt_kprintf("\r\n Config Already Exist!\r\n"); 
@@ -1376,15 +1380,15 @@ void SetConfig(void)
 {
     u16   i=0;
 	
-           DF_delay_ms(50); 
+           DF_delay_ms(500);  
 		  DF_LOCK=1;   // lock  df
           // Api_Config_read(jt808,0,(u8*)&JT808Conf_struct,sizeof(JT808Conf_struct));   //  读取JT808   配置信息
          //-------- JT808 参数配置读取测试，操作频繁而且重要所以需要特殊处理 
            DF_ReadFlash(JT808Start_offset, 0,(u8*)&JT808Conf_struct,sizeof(JT808Conf_struct)); 
-		   DF_delay_ms(80); 	// large content delay	
+		   DF_delay_ms(100); 	// large content delay	
 
 		   DF_ReadFlash(JT808_BakSetting_offset, 0,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak)); 
-		   DF_delay_ms(80); 	// large content delay	
+		   DF_delay_ms(100); 	// large content delay	 
 
 		   // 2. 比较
 		  i=memcmp((u8*)&JT808Conf_struct,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak));
@@ -1435,8 +1439,8 @@ void SetConfig(void)
 		   DF_ReadFlash(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));   
            
 			//---- 设备ID  --------	 
-		   memset(DeviceNumberID,0,sizeof(DeviceNumberID));
-		   DF_ReadFlash(DF_DeviceID_offset,0,(u8*)DeviceNumberID,12);  
+		  // memset(DeviceNumberID,0,sizeof(DeviceNumberID));
+		  // DF_ReadFlash(DF_DeviceID_offset,0,(u8*)DeviceNumberID,12);  
 		   //读出车牌号是否设置标志
 		   DF_ReadFlash(DF_License_effect,0,&License_Not_SetEnable,1); 
 		   if(License_Not_SetEnable==1) 
@@ -1615,7 +1619,7 @@ void DefaultConfig(void)
 	     BD_list(); 
 
 		 // ----    首次连接类型  --------------------
-		 if(JT808Conf_struct.Link_Frist_Mode==1)
+		 if(Vechicle_Info.Link_Frist_Mode==1)  
 		 	{
                  rt_kprintf("\r\n\r\n   首次连接模式:   MainLink");    
 		 	}
@@ -1623,7 +1627,7 @@ void DefaultConfig(void)
 		 	{
                   rt_kprintf("\r\n\r\n   首次连接模式:  DNSR域名");     
 		 	}
-
+#if  0
 		if(DeviceNumberID[0]==0xFF)
 			rt_kprintf("\r\n  =======> 尚未设置设备编号，请重新设置\r\n" );  
 		else
@@ -1633,6 +1637,7 @@ void DefaultConfig(void)
 				rt_kprintf("%c",DeviceNumberID[i]);
 			rt_kprintf("\r\n");
 			}  
+#endif		
        //---------- SIM ID -----------------------------  
         	if(SimID_12D[0]==0xFF)
 			rt_kprintf("\r\n  =======> 尚未设置SIMID_入网编号，请重新设置\r\n" );  
@@ -1643,9 +1648,14 @@ void DefaultConfig(void)
 				rt_kprintf("%c",SimID_12D[i]);
 			rt_kprintf("\r\n");
 			} 
-	  	// 短息中心号码
-	  	 rt_kprintf("\r\n		   短息中心号码 :%s	 \r\n",JT808Conf_struct.SMS_RXNum);
-	  	
+	  	// 短息中心号码-----------------------------
+	  	// rt_kprintf("\r\n		   短息中心号码 :%s	 \r\n",JT808Conf_struct.SMS_RXNum);
+		// -------------- 北斗模块的读取  ----------
+	  	 BD_MODULE_Read();
+
+		 // ---  硬件版本信息-------------
+		  HardWareVerion=HardWareGet();		 
+		  rt_kprintf("\r\n		        -------硬件版本:%X        B : %d %d %d\r\n",HardWareVerion,(HardWareVerion>>2)&0x01,(HardWareVerion>>1)&0x01,(HardWareVerion&0x01));   
  
 }
 //FINSH_FUNCTION_EXPORT(DefaultConfig, DefaultConfig);     
@@ -1662,8 +1672,6 @@ void DefaultConfig(void)
 			DefaultConfig();      
 	}
 
-
-	 
 
 
 void RstWrite_ACConoff_counter(void) 
@@ -1715,7 +1723,7 @@ void  idip(u8 *str)
 //FINSH_FUNCTION_EXPORT(idip, id code set);
 
 
-
+#if 0
 void deviceid(u8 *str)
 {
 
@@ -1747,6 +1755,7 @@ void deviceid(u8 *str)
 
 			 if(value)
 			 	{
+			 	  rt_kprintf("\r\ndevice_ContentError\r\n");
 			 	  rt_kprintf("\r\n 手动设置终端ID不合法!  \r\n");   
                   return ;
 			 	} 
@@ -1754,6 +1763,7 @@ void deviceid(u8 *str)
           }
 		  else
 		  	{
+		  	    rt_kprintf("\r\ndevice_LenError\r\n");
 		  	    rt_kprintf("\r\n 手动设置终端ID 长度不正确!  \r\n");   
                 return ;
 		  	}	
@@ -1761,17 +1771,19 @@ void deviceid(u8 *str)
 		  memset(DeviceNumberID,0,sizeof(DeviceNumberID));
 		  memcpy(DeviceNumberID,reg_str,12);								 
 		  DF_WriteFlashSector(DF_DeviceID_offset,0,DeviceNumberID,13); 
-		  delay_ms(80); 		  
-		  rt_kprintf("\r\n 手动终端ID设置为 : ");  
+		  delay_ms(80);
+		  
+		  rt_kprintf("\r\ndevice_OK(");  
 		  DF_ReadFlash(DF_DeviceID_offset,0,DeviceNumberID,13);    
 		  for(i=0;i<12;i++)
 		  	rt_kprintf("%c",DeviceNumberID[i]);
-		  rt_kprintf("\r\n");
+		  rt_kprintf(")\r\n"); 
+		  rt_kprintf("\r\n手动终端ID设置为 :%s\r\n",DeviceNumberID);
 	         return ;
 		}
 }
-FINSH_FUNCTION_EXPORT(deviceid, deviceid set); 
-
+FINSH_FUNCTION_EXPORT(deviceid, deviceid set);  
+#endif 
 
 
 void simid(u8 *str)

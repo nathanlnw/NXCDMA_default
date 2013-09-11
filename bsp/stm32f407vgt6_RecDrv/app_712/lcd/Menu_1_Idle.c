@@ -7,16 +7,20 @@ unsigned char dispstat=0;
 unsigned char tickcount=0;
 unsigned int  reset_firstset=0;
 
-unsigned char gsm_g[]={
+
+#ifdef MC8332_CDMA
+ unsigned char gsm_g[]={
 0x1c,					/*[   ***  ]*/
 0x22,					/*[  *   * ]*/
 0x40,					/*[ *      ]*/
 0x40,					/*[ *      ]*/
-0x4e,					/*[ *  *** ]*/
-0x42,					/*[ *    * ]*/
-0x22,					/*[  *   * ]*/
-0x1e,					/*[   **** ]*/
+0x40,					/*[ *     ]*/
+0x40,					/*[ *     ]*/
+0x20,					/*[  *    ]*/
+0x1e,					/*[   **** ]*/ 
 };
+
+#endif
 
 unsigned char gsm_0[]={
 0x00,					/*[        ]*/	
@@ -152,8 +156,19 @@ void  Disp_Idle(void)
    u8 i=0;
    u16  disp_spd=0;
    u8  Date[3],Time[3];
+   if(UDP_dataPacket_flag==0x02)
+   	{
+	Date[0]=Temp_Gps_Gprs.Date[0];
+	Date[1]=Temp_Gps_Gprs.Date[1];
+	Date[2]=Temp_Gps_Gprs.Date[2]; 
 
-	time_now=Get_RTC(); 
+	Time[0]=Temp_Gps_Gprs.Time[0]; 
+	Time[1]=Temp_Gps_Gprs.Time[1]; 
+	Time[2]=Temp_Gps_Gprs.Time[2]; 
+   	}
+   else
+   	{
+   	time_now=Get_RTC(); 
 
 	Date[0]= time_now.year;
 	Date[1]= time_now.month;
@@ -162,7 +177,7 @@ void  Disp_Idle(void)
 	Time[0]= time_now.hour;
 	Time[1]= time_now.min;
 	Time[2]= time_now.sec;
-
+   	}
 	for(i=0;i<3;i++)
 		Dis_date[2+i*3]=Date[i]/10+'0';
 	for(i=0;i<3;i++)
@@ -191,11 +206,11 @@ void  Disp_Idle(void)
 
        	}
 	 else  
-	if((disp_spd>=0)&&(disp_spd<10))
+	if(disp_spd<10)
 		{
 		       Dis_speDer[0]=' ';
 		      Dis_speDer[1]=' ';
-		      Dis_speDer[2]=disp_spd%10+'0';
+		      Dis_speDer[2]=disp_spd%10+'0'; 
 		}
 
        //---------------方向-----------------------------              
@@ -215,7 +230,7 @@ void  Disp_Idle(void)
 
        	}
 	 else  
-	if((GPS_direction>=0)&&(GPS_direction<10))
+	if(GPS_direction<10)
 		{
 		       Dis_speDer[12]=' ';
 		      Dis_speDer[13]=' ';
@@ -228,7 +243,20 @@ void  Disp_Idle(void)
 	lcd_text12(0,10,(char *)Dis_date,20,LCD_MODE_SET);
 	lcd_text12(0,20,(char *)Dis_speDer,18,LCD_MODE_SET);
 	lcd_bitmap(0,3,&BMP_gsm_g, LCD_MODE_SET);
-	lcd_bitmap(8,3,&BMP_gsm_3, LCD_MODE_SET);
+
+	// ---------- GSM 信号--------
+	if(ModuleSQ>26)     //31/4	
+	     lcd_bitmap(8,3,&BMP_gsm_3, LCD_MODE_SET);
+	else
+       if(ModuleSQ>18)	  
+	    lcd_bitmap(8,3,&BMP_gsm_2, LCD_MODE_SET);	
+	else   
+	 if(ModuleSQ>9)	  
+	    lcd_bitmap(8,3,&BMP_gsm_1, LCD_MODE_SET);	   
+	else 
+	     lcd_bitmap(8,3,&BMP_gsm_0, LCD_MODE_SET); 	  
+
+	
 	GPSGPRS_Status();
 	
 	lcd_update_all();
@@ -248,6 +276,7 @@ static void keypress(unsigned int key)
 	switch(KeyValue)
 		{
 		case KeyValueMenu:
+			Dis_deviceid_flag=0;
 			CounterBack=0;
 		    SetVIN_NUM=1;
 			OK_Counter=0;
@@ -261,6 +290,7 @@ static void keypress(unsigned int key)
             reset_firstset=0;
 			break;
 		case KeyValueOk:
+			Dis_deviceid_flag=0;
 			if(reset_firstset==0)
 				reset_firstset=1;
 			else if(reset_firstset==3)
@@ -269,6 +299,7 @@ static void keypress(unsigned int key)
 				reset_firstset=5;	
 			break;
 		case KeyValueUP:
+			Dis_deviceid_flag=0;
 			if(reset_firstset==1)
 				reset_firstset=2;
 			else if(reset_firstset==2)
@@ -277,12 +308,13 @@ static void keypress(unsigned int key)
 				reset_firstset=6;
 			break;
 		case KeyValueDown:
+			Dis_deviceid_flag=0;
             reset_firstset=0;
 			//打印开电
 			GPIO_SetBits(GPIOB,GPIO_Pin_7);
 
             //------------------------------------------------------
-		    gps_onoff(0);  //关掉GPS 模块的点
+		    //gps_onoff(0);  //关掉GPS 模块的点
 			print_workingFlag=1;  // 打印状态进行中
 			Power_485CH1_OFF;     // 关闭485
 			Speak_OFF;      //  关闭音频功放           
@@ -314,6 +346,12 @@ else if(reset_firstset>=7)//50ms一次,,60s
 	lcd_text12(0,3,"需重新设置车牌号和ID",20,LCD_MODE_SET);
 	lcd_text12(24,18,"重新加电查看",12,LCD_MODE_SET); 
 	lcd_update_all();
+	}
+else if(Dis_deviceid_flag>=2)
+	{
+	Dis_deviceid_flag++;
+	if(Dis_deviceid_flag>=50)
+		Dis_deviceid_flag=0;
 	}
 else
 	{

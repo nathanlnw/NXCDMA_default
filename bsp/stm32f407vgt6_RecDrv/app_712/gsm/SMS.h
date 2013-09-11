@@ -5,6 +5,8 @@
 #include "SMS_PDU.h"
 
 
+
+#define  SMS_VER_STRING         "NXC"   //    宁夏CDMA 版本  
 #define  SMS_ENABLE  
 
 #define  SMS_ACK_msg          1      // 需哟返回短息
@@ -12,7 +14,7 @@
 
 
 
-typedef  struct _SMS
+typedef struct _SMS
 {
    	u8  SMIndex;    // 短信记录
 	u8  SMS_read;   // 读取短信标志位

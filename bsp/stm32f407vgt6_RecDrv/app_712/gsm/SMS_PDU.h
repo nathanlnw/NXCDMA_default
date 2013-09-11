@@ -1,6 +1,10 @@
 #ifndef _H_SMS_PDH
 #define _H_SMS_PDH
 
+
+
+
+
 #define SMS_TYPE_PDU
 
 
@@ -27,4 +31,11 @@ extern u16 GsmDecodePdu(const u8* pSrc,u16 pSrcLength,SmsType *pSmstype,u8 *Data
 extern u16 GsmEncodePdu_NoCenter(const SmsType pSrc,const u8 *DataSrc,u16 datalen, u8* pDst);
 extern u16 AnySmsEncode_NoCenter(const u8 *SrcNumber,u8 type,const u8 *DataSrc,u16 datalen, u8* pDst);
 extern u16 GsmEncodePdu_Center(const SmsType pSrc,const u8 *DataSrc,u16 datalen, u8* pDst);
+
+
+#ifdef MC8332_CDMA
+extern u16   CDMA_decode_PDU(const u8* pSrc,u16 pSrcLength,u8 *SmsSytle,u8 *DataDst);
+extern u16   CDMA_encode_PDU(const u8* pSrc,u16 pSrcLength,u8 *DataDst); 
+
+ #endif
 #endif

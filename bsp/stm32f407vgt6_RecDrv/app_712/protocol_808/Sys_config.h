@@ -133,7 +133,7 @@
 
 
 
-#define   Max_SystemCounter            14400// 28800 // 86400   //定时重启时间24小时 一天 
+#define   Max_SystemCounter            20400// 28800 // 86400   //定时重启时间24小时 一天  
 
 //-----------------------  Max  Add    ---------------------------------
 #define   Max_CycleNum                  16384
@@ -218,6 +218,7 @@ extern ALIGN(RT_ALIGN_SIZE)  TIRED_CONF      TiredConf_struct;    //  疲劳驾驶相
 //----------  Basic  Config---------------------------
 extern u8		DeviceNumberID[13];//="800130100001";	 // 车辆DeviceID	---- 河北天地通用
 extern u8		SimID_12D[13]; // 
+extern u8       HardWareVerion;   //   硬件版本检测 
 
 extern u8       RemoteIP_Dnsr[4]; 
 extern u8		RemoteIP_main[4];//

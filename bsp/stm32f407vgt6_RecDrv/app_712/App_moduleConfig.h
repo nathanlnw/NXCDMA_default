@@ -98,6 +98,7 @@
 #include "IC_card.h"
 #include "CRC.h"  
 
+#include "Vdr.h"
 
 
 // size                 

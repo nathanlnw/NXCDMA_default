@@ -14,6 +14,7 @@
 #include  "App_moduleConfig.h"
 #include  "App_gsm.h"
 #include  "SMS.h"
+#include  "SMS_PDU.h" 
 
 
 SMS_Style   SMS_Service;    //  短息相关    
@@ -36,25 +37,6 @@ void SMS_timer(void)
 {
 	if(SMS_Service.SMS_waitCounter)
 		SMS_Service.SMS_waitCounter--;
-	/*
-	if(SMS_Service.SMS_delALL>1)
-		{
-		SMS_Service.SMS_delALL--;
-		}
-		*/
-	 //-------- 短信相关 ------------------
-	 /*
-	 if(SMS_Service.SMS_come==1)
-	 {
-		 SMS_Service.SMS_delayCounter++;
-		 if(SMS_Service.SMS_delayCounter)
-		   {
-			 SMS_Service.SMS_delayCounter=0;
-			 SMS_Service.SMS_come=0;
-			 SMS_Service.SMS_read=3;	  // 使能读取
-		   }
-	 }
-	 */
 }
 
 
@@ -74,7 +56,7 @@ void SMS_timer(void)
 void SMS_Process(void) 
 {
 	u16   	ContentLen=0;
-	u16 		i,j,k;
+//	u16 		i,j,k;
 	char *pstrTemp;
 	if(SMS_Service.SMS_waitCounter)
 		return;
@@ -119,19 +101,18 @@ void SMS_Process(void)
 			memset(SMS_Service.SMSAtSend,0,sizeof(SMS_Service.SMSAtSend));
 			///申请400字节空间
 			pstrTemp=rt_malloc(400);
-			memset(pstrTemp,0,400);
-			///将字符串格式的目的电话号码设置为PDU格式的号码
-			SetPhoneNumToPDU(SMS_Service.Sms_Info.TPA, SMS_Service.SMS_destNum, sizeof(SMS_Service.Sms_Info.TPA));
-			///生成PDU格式短信内容
-			ContentLen=AnySmsEncode_NoCenter(SMS_Service.Sms_Info.TPA,GSM_UCS2,SMS_Service.SMS_sd_Content,strlen(SMS_Service.SMS_sd_Content),pstrTemp);
-			//ContentLen=strlen(pstrTemp);
-			///添加短信尾部标记"esc"
-			pstrTemp[ContentLen]=0x1A;      // message  end  	
-			//////
-			sprintf( ( char * ) SMS_Service.SMSAtSend, "AT+CMGS=%d\r\n", (ContentLen-2)/2); 
+			memset(pstrTemp,0,400);   
+
+            #ifdef MC8332_CDMA 
+			    ContentLen=CDMA_encode_PDU(SMS_Service.SMS_sd_Content,strlen(SMS_Service.SMS_sd_Content),pstrTemp);
+				///添加短信尾部标记"esc"
+				pstrTemp[ContentLen]=0x1A;      // message  end  	 
+				sprintf( ( char * ) SMS_Service.SMSAtSend, "AT+CMGS=%d\r", (ContentLen>>1));   
+            #endif
+			
 			rt_kprintf("%s",SMS_Service.SMSAtSend); 
 			rt_hw_gsm_output( ( char * ) SMS_Service.SMSAtSend );
-			rt_thread_delay(50);
+			rt_thread_delay(60); 
 			//////	
 			//rt_kprintf("%s",pstrTemp); 
 			rt_device_write( &dev_vuart, 0, pstrTemp, strlen(pstrTemp) );
@@ -223,6 +204,8 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 	strcpy(SMS_Service.SMS_sd_Content,Vechicle_Info.Vech_Num);
 	strcat(SMS_Service.SMS_sd_Content,"#");// Debug
 	strcat(SMS_Service.SMS_sd_Content,SimID_12D);// Debug
+	strcat(SMS_Service.SMS_sd_Content,"#");// 版本信息 
+	strcat(SMS_Service.SMS_sd_Content,SMS_VER_STRING);//  版本信息  
 	/*************************处理信息****************************/
 	p_Instr=(char *)instr;
 	for(i=0;i<len;i++)
@@ -360,7 +343,8 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 					Add_SMS_Ack_Content(sms_ack_data,ACKstate);
 					}
 				}
-			else if(strncmp(pstrTemp,"DEVICEID",8)==0)			///4. 修改终端ID
+			#if 0
+			   else if(strncmp(pstrTemp,"DEVICEID",8)==0)			///4. 修改终端ID
 				{
 				if(cmdLen<=sizeof(DeviceNumberID))
 					{
@@ -379,7 +363,8 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 					{
 					       continue;
 					}
-				}    //DeviceNumberID			
+				}    //DeviceNumberID		
+			   #endif
 				else if(strncmp(pstrTemp,"SIMID",5)==0)			///4. 修改SIMID
 				{
 				if(cmdLen<=sizeof(SimID_12D))
@@ -397,11 +382,33 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 					     idip("clear");		     
 					
 					}
+				    else
+					{
+					       continue;
+					}
+				}   	
+				else if(strncmp(pstrTemp,"PHONENUM",8)==0)			///4. 修改SIMID
+				{
+				   if(cmdLen==11)
+					{
+						rt_kprintf("\r\n修改PHONENUM_ID  !"); 
+						memset(SimID_12D,0,sizeof(SimID_12D));
+						SimID_12D[0]='0'; //    第一位填写 0  
+						memcpy(SimID_12D+1,pstrTempStart,cmdLen);
+						DF_WriteFlashSector(DF_SIMID_12D,0,SimID_12D,13);  
+						SIMID_Convert_SIMCODE(); //  转换
+						
+						///
+						Add_SMS_Ack_Content(sms_ack_data,ACKstate);
+						 //--------    清除鉴权码 -------------------
+						     idip("clear");		      
+					
+					}
 				else
 					{
 					       continue;
 					}
-				}    //DeviceNumberID		
+				}   
 			else if(strncmp(pstrTemp,"IP",2)==0)				///5.设置IP地址
 				{
 				j = sscanf(sms_content, "%u.%u.%u.%u", (u32*)&u8TempBuf[0], (u32*)&u8TempBuf[1], (u32*)&u8TempBuf[2], (u32*)&u8TempBuf[3]);
@@ -471,7 +478,7 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 				      TiredDrv_write=0;
 				      TiredDrv_read=0;	   
 				      DF_Write_RecordAdd(TiredDrv_write,TiredDrv_read,TYPE_TiredDrvAdd);      
-				      Add_SMS_Ack_Content(sms_ack_data,ACKstate);	  
+				      Add_SMS_Ack_Content(sms_ack_data,ACKstate);	   
 				}
 			else if(strncmp(pstrTemp,"DISCLEAR",8)==0)			///9清除里程
 				{
@@ -480,6 +487,16 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
                                      Api_Config_Recwrite_Large(jt808,0,(u8*)&JT808Conf_struct,sizeof(JT808Conf_struct)); 
 					   Add_SMS_Ack_Content(sms_ack_data,ACKstate);				 
 				}
+            else if(strncmp(pstrTemp,"SPDWARNCLEAR",12)==0)    //  超速报警清除
+            	{
+            	  
+					 //-----  Record update---- 	
+				     AvrgSpdPerMin_write=0;
+					 AvrgSpdPerMin_write=0;
+				     DF_Write_RecordAdd(AvrgSpdPerMin_write, AvrgSpdPerMin_write, TYPE_AvrgSpdAdd);  
+					 Add_SMS_Ack_Content(sms_ack_data,ACKstate);	
+
+            	}
 			else if(strncmp(pstrTemp,"RESET",5)==0)			///10.终端重启
 				{
 				      reset();
@@ -514,24 +531,72 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 				}
 			else if(strncmp(pstrTemp,"PLAY",4)==0)				///13.语音播报
 				{
-				      TTS_Get_Data(sms_content,strlen(sms_content));
+				     TTS_Get_Data(sms_content,strlen(sms_content));
 				     Add_SMS_Ack_Content(sms_ack_data,ACKstate);		  
 				}
 			else if(strncmp(pstrTemp,"QUERY",5)==0)			///14.车辆状态查询
 				{
 				       switch(sms_content[0])
 				     	{
-				     	    case 0:  
-
-								     break;
-							case 1:
-
-								     break;
-                            case 2:
-
-								     break;
-				     	}				
-				        Add_SMS_Ack_Content(sms_ack_data,ACKstate);	  
+				     	    case '0':  // 终端号  主域名  主端口
+								     
+									 strcat((char *)SMS_Service.SMS_sd_Content,sms_ack_data);
+									 strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+                                     //  strcat(SMS_Service.SMS_sd_Content,DeviceNumberID);// 终端ID
+                                     //strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+                                     strcat(SMS_Service.SMS_sd_Content,DomainNameStr);// 分隔符号
+                                     strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+                                     sprintf(SMS_Service.SMS_sd_Content+strlen(SMS_Service.SMS_sd_Content),"%d",RemotePort_main); 
+								
+								   break;
+							case '1':  // MODE    主IP   主端口
+								    strcat((char *)SMS_Service.SMS_sd_Content,sms_ack_data);
+									strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+									if(Vechicle_Info.Link_Frist_Mode==1)  
+                                         strcat(SMS_Service.SMS_sd_Content,"MODE(mainlink)");
+									else
+                                         strcat(SMS_Service.SMS_sd_Content,"MODE(dnsr)");
+									strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+									IP_Str(SMS_Service.SMS_sd_Content+strlen(SMS_Service.SMS_sd_Content), *( u32 * ) RemoteIP_main);
+								    strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+                                    sprintf(SMS_Service.SMS_sd_Content+strlen(SMS_Service.SMS_sd_Content),"%d",RemotePort_main);  
+												
+								    break;
+                            case '2':
+								    strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+                                    strcat(SMS_Service.SMS_sd_Content,Posit_ASCII.Lat_ASCII);// 分隔符号
+                                    strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+                                    strcat(SMS_Service.SMS_sd_Content,Posit_ASCII.Longi_ASCII);// 分隔符号
+                                    strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+                                    strcat(SMS_Service.SMS_sd_Content,&Posit_ASCII.AV_ASCII);// 分隔符号
+									strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+								    if(GpsStatus.Position_Moule_Status==1)
+									{
+									  strcat(SMS_Service.SMS_sd_Content,"BD");
+									}
+								else if(GpsStatus.Position_Moule_Status==2)
+									{
+									  strcat(SMS_Service.SMS_sd_Content,"GPS");
+									}
+								else if(GpsStatus.Position_Moule_Status==3)
+									{
+									  strcat(SMS_Service.SMS_sd_Content,"BD+GPS");
+									}
+                                     strcat(SMS_Service.SMS_sd_Content,"#");// 分隔符号
+                                     sprintf(SMS_Service.SMS_sd_Content+strlen(SMS_Service.SMS_sd_Content),"%d",ModuleSQ); 
+								
+								    break; 
+						   case '3':  // 省域ID  市域ID
+						   	       strcat(SMS_Service.SMS_sd_Content,"provinceid(");// 分隔符号						   	       
+							       sprintf(SMS_Service.SMS_sd_Content+strlen(SMS_Service.SMS_sd_Content),"%d",Vechicle_Info.Dev_ProvinceID); 
+							       strcat(SMS_Service.SMS_sd_Content,")#");// 分隔符号							       
+						   	       strcat(SMS_Service.SMS_sd_Content,"cityid(");// 分隔符号						   	       
+							       sprintf(SMS_Service.SMS_sd_Content+strlen(SMS_Service.SMS_sd_Content),"%d)",Vechicle_Info.Dev_CityID); 
+           					        break;
+				     	}	
+					   
+					    if(ACKstate)
+							SMS_Service.SMS_sendFlag=1;  // 发送返回短息标志位
 				}
 			else if(strncmp(pstrTemp,"ISP",3)==0)				///15.远程下载IP 端口
 				{
@@ -540,7 +605,7 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 				}
 			else if(strncmp(pstrTemp,"PLATENUM",8)==0)
 				{
-				    rt_kprintf("Vech_Num is %s", sms_content);
+				    rt_kprintf("车牌号:%s", sms_content); 
 					memset((u8*)&Vechicle_Info.Vech_Num,0,sizeof(Vechicle_Info.Vech_Num));	//clear	
 				    rt_memcpy(Vechicle_Info.Vech_Num,sms_content,strlen(sms_content));
 					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
@@ -567,9 +632,9 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 					if(j)
 					{
 						
-						JT808Conf_struct.Link_Frist_Mode=u16Temp;  
-		        		rt_kprintf("\r\n 首次连接方式 %s ,%d \r\n",sms_content,JT808Conf_struct.Link_Frist_Mode);          
-		        		Api_Config_Recwrite_Large(jt808,0,(u8*)&JT808Conf_struct,sizeof(JT808Conf_struct));
+						Vechicle_Info.Link_Frist_Mode=u16Temp;  
+		        		rt_kprintf("\r\n 首次连接方式 %s ,%d \r\n",sms_content,Vechicle_Info.Link_Frist_Mode);          
+						DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));		
 					  	Add_SMS_Ack_Content(sms_ack_data,ACKstate);  
 						 //--------    清除鉴权码 -------------------
 					     idip("clear");		   
@@ -581,21 +646,52 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 					     idip("clear");		
                      DEV_regist.Enable_sd=1; // set 发送注册标志位
 			         DataLink_EndFlag=1; 
+					 Add_SMS_Ack_Content(sms_ack_data,ACKstate);  //  ack  state
            	    }
 		   //  20
 	        else if(strncmp(pstrTemp,"PASSWORD",8)==0)  //设置密码通过
        	    {
-                  j=sscanf(sms_content,"%d",&u16Temp);
-				if((j==0)||(j==1))
+                j=sscanf(sms_content,"%d",&u16Temp);
+				if(j)
 				{
-				  Vechicle_Info.loginpassword_flag=j;	   // clear  first flag 	 
-				  DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));    
+				  Vechicle_Info.loginpassword_flag=(u8)u16Temp;	   // clear  first flag 	  
+				  DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+				  Add_SMS_Ack_Content(sms_ack_data,ACKstate);  //  ack  state
+				    if(Vechicle_Info.loginpassword_flag)
+				    	{
+				    	  //--------    清除鉴权码 -------------------
+					      idip("clear");
+						  DEV_regist.Enable_sd=1; // set 发送注册标志位
+			              DataLink_EndFlag=1; 
+				    	}
 				} 
        	    } 
-			else												
+			else if(strncmp(pstrTemp,"RECOVER",7)==0)
 				{
+                     //------  界面回复出厂设置
+					 Vechicle_Info.loginpassword_flag=0;	  // clear	first flag		 
+					 DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+					 Add_SMS_Ack_Content(sms_ack_data,ACKstate);  //  ack  state                  
+                     Systerm_Reset_counter=Max_SystemCounter-30; //返回短信后恢复出厂设置
+					 
+				} //provinceid
+			else if(strncmp(pstrTemp,"PROVINCEID",10)==0)
+			{
+                  provinceid(sms_content);
+				  Add_SMS_Ack_Content(sms_ack_data,ACKstate);
+				 
+			}	
+			else if(strncmp(pstrTemp,"CITYID",6)==0)
+			{
+                  cityid(sms_content); 
+				  Add_SMS_Ack_Content(sms_ack_data,ACKstate); 
+				 
+			}
+			else												
+			{
 				;
 				}
+			//---------------------------------------------------------------
 			}
 		else
 			{
@@ -651,24 +747,11 @@ u8 SMS_Rx_Text(char *instr,char *strDestNum)
 }
 
 
-/*********************************************************************************
-*函数名称:u8 SMS_Rx_PDU(char *instr,u16 len)
-*功能描述:接收到PDU格式的短信处理函数
-*输    入:instr 原始短信数据，len接收到得信息长度，单位为字节
-*输    出:none 
-*返 回 值:	1:正常完成，
-			0:表示失败
-*作    者:白养民
-*创建日期:2013-05-29
-*---------------------------------------------------------------------------------
-*修 改 人:
-*修改日期:
-*修改描述:
-*********************************************************************************/
 u8 SMS_Rx_PDU(char *instr,u16 len)
 {
 	char *pstrTemp;
 	u8 ret=0;
+	u16 content_len=0;
 	
 	//////
 	memset( SMS_Service.SMS_destNum, 0, sizeof( SMS_Service.SMS_destNum ) );
@@ -676,11 +759,13 @@ u8 SMS_Rx_PDU(char *instr,u16 len)
 	memset(pstrTemp,0,200);
 	rt_kprintf( "\r\n 短信原始消息: " );
 	rt_device_write( &dev_vuart, 0, GSM_rx, len );
-	
-	len=GsmDecodePdu(GSM_rx,len,&SMS_Service.Sms_Info,pstrTemp);
-	GetPhoneNumFromPDU( SMS_Service.SMS_destNum,  SMS_Service.Sms_Info.TPA, sizeof(SMS_Service.Sms_Info.TPA));
 
-	//memcpy( SMS_Service.SMS_destNum, SMS_Service.Sms_Info.TPA,sizeof( SMS_Service.SMS_destNum ) );
+	#ifdef MC8332_CDMA
+
+        content_len=CDMA_decode_PDU(GSM_rx,len-3,SMS_Service.SMS_destNum,pstrTemp); //-1 因为有一个->
+        len=content_len; 
+    #endif 
+		
 	rt_kprintf( "\r\n  短息来源号码:%s \r\n", SMS_Service.SMS_destNum );
 	rt_kprintf( "\r\n 短信消息: " ); 
 	rt_device_write( &dev_vuart, 0, pstrTemp, len );
@@ -830,7 +915,6 @@ void SMS_Test(char * s)
 void SMS_PDU(char *s)
 {
 	u16 len;
-	u16 i,j;
 	char *pstrTemp;
 	pstrTemp=(char *)rt_malloc(160);	///短信解码后的完整内容，解码后汉子为GB码
 	len=GsmDecodePdu(s,strlen(s),&SMS_Service.Sms_Info,pstrTemp);

@@ -45,7 +45,7 @@ Crystal: 3.6864Mhz
 //   2.     config   information
 #define    ConfigStart_offset                         808        //   Block   ÆðÊ¼Î»ÖÃ  Conifg  Struct Save      Sector 1 
 #define    TiredCondifg_offset                        864        //   Block   ÆðÊ¼Î»ÖÃ  Conifg  Struct Save      Sector 3  
-#define    JT808_BakSetting_offset                    960        //   Block   ÆðÊ¼Î»Ö
+#define    JT808_BakSetting_offset                    960        //   Block   ÆðÊ¼Î»?
 #define    JT808Start_offset                          1000        //   Block   ÆðÊ¼Î»ÖÃ  Conifg  Struct Save    Sector 2 
  
 
@@ -189,7 +189,10 @@ Crystal: 3.6864Mhz
 #define     SettingChg_offset                         3544                    // ²ÎÊýÐÞ¸Ä¼ÇÂ¼
 
 
-// 13. Picture   Area
+// 13. GPS MODULE
+#define     DF_GPS_MODULE_offset                         3600                   // GPS ¶¨Î»Ä£¿éÅÐ¶Ï 
+
+// 14. Picture   Area
                                                      /* 
                                                                 filename            cameraNum    size
                                                                    19                         1             4
@@ -201,7 +204,7 @@ Crystal: 3.6864Mhz
 
 
 
-// 14  Sound  Area
+// 15  Sound  Area
 #define       SoundStart_offdet                      5248      //4200                 32K ¿Õ¼ä        // Block ÆðÊ¼Î»ÖÃ 15sÉùÒô´æ´¢ÇøÓò(Current Save) ½«À´Òª·Åµ½TF¿¨ÖÐ
 			                                                                /*  
 			                                                                             filesize              filename 
@@ -215,9 +218,9 @@ Crystal: 3.6864Mhz
 #define       DF_License_effect                       5416
 #define       DF_Vehicle_Struct_offset                5424                 // block ÆðÊ¼Î»ÖÃ   
 #define       DF_SIMID_12D                            6000                 // Block  	ÆðÊ¼Î»ÖÃ     
+#define       DF_Voice_offset                         5992
 
 
-//  15 ×Ö¿â²»ÔÚDataflash ÁË¿ÉÒÔÓÃÁË
 
 
 
