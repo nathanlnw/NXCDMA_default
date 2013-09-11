@@ -761,7 +761,8 @@ u16   CDMA_decode_PDU(const u8* pSrc,u16 pSrcLength,u8 *SmsSytle,u8 *DataDst)
 
     // 1. ASCII to HEX  convert
     memset(buf,0,sizeof(buf)); 
-    hex_len=GSM_AsciitoHEX_Convert((u8*)pSrc,pSrcLength,buf); 
+   // hex_len=GSM_AsciitoHEX_Convert((u8*)pSrc,pSrcLength,buf); 
+	Ascii_To_Hex((const u8*)pSrc,buf,pSrcLength); 
 	//OutPrint_HEX("MSG SMS",buf,hex_len);
 
 	//2.获取来源号码
