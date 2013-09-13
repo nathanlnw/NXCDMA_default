@@ -188,9 +188,12 @@ extern  u8     GSM_AsciiTx[GSM_AsciiTX_SIZE];
 
 extern 	GSM_POWER	GSM_PWR;  
 
+//---------------------------
+extern u8   Delete_all_sms_flag;  // 删除所有短信标志位      
+
 
 extern void GSM_CSQ_timeout(void);
-extern void GSM_CSQ_Query(void);
+extern u8   GSM_CSQ_Query(void);
 extern void  DataLink_MainSocket_set(u8 *IP, u16  PORT, u8 DebugOUT);
 extern void  DataLink_AuxSocket_set(u8 *IP, u16  PORT,u8 DebugOUT) ;
 extern void  DataLink_IspSocket_set(u8 *IP, u16  PORT,u8 DebugOUT); 

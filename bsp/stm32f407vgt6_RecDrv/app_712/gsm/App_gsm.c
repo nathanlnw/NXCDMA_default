@@ -368,7 +368,19 @@ static void gsm_thread_entry(void* parameter)
 		  	 //   TTS	
              TTS_Data_Play();		 
              //   Get  CSQ value
-	         GSM_CSQ_Query();	 
+	         if(GSM_CSQ_Query()==false)
+	         {
+	            if(Delete_all_sms_flag==1)
+	            {
+	                 delay_ms(100);  
+					  rt_hw_gsm_output("AT+CMGD=1,4\r\n");    //检查信号强度
+					  if(DispContent)	
+					        rt_kprintf("删除所有短信\r\n");   
+               
+                   Delete_all_sms_flag=0;
+	            }
+
+	         }
              
 			 //   SMS  Service
 			 SMS_Process();            

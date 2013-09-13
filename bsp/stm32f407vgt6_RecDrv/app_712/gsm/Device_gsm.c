@@ -146,7 +146,8 @@ u8    Dnsr_retry=0;  // 域名解析次数
 //------- GPPRS 功能相关 ----------------
 //u8 Datalink_close=0;  //挂断后不再登陆
 
-
+//---------------------------
+u8  Delete_all_sms_flag=0;  // 删除所有短信标志位  
 
 //-------- TCP2 send ---------
 u8     TCP2_ready_dial=0;
@@ -548,7 +549,7 @@ void GSM_CSQ_timeout(void)
 
 }
 
-void GSM_CSQ_Query(void)
+u8 GSM_CSQ_Query(void)
 {    
        if((CSQ_flag==1)&&(MediaObj.Media_transmittingFlag==0)&&(Dev_Voice.CMD_Type!='1'))  
 	   { 
@@ -557,7 +558,9 @@ void GSM_CSQ_Query(void)
 		  rt_hw_gsm_output("AT+CSQ\r\n");    //检查信号强度
 		    if(DispContent)	
 		        rt_kprintf("AT+CSQ\r\n");  
+		  return true;	
 	   } 	
+	   return false;
 }
 
 
@@ -1829,25 +1832,37 @@ static void GSM_Process(u8 *instr, u16 len)
 			
 			j = sscanf( GSM_rx + 6, "%d", &i );
 			rt_kprintf( "\r\n获取音量: %d ",j );
-			if( j<=2)
+			if( i<=2)
 			 {	 
 			    Menu_voice_value=0;// 音量小
 				 rt_kprintf( " 等级  1\r\n");
 			  }
 			else
-			if(j<=4)
+			if(i<=4)
 			{
 				Menu_voice_value=1;// 音量中
                  rt_kprintf( " 等级  2\r\n");
 			}
 			else
-			if(j<=7)	
+			if(i<=7)	
 			{
 				Menu_voice_value=2;// 音量大
                 rt_kprintf( " 等级  3\r\n"); 
 			}
 
 	    }
+        else     //+CMGS:19 
+		if( strncmp( (char*)GSM_rx, "+CMGS:", 6 ) == 0 )  
+	    {
+			
+			j = sscanf( GSM_rx + 6, "%d", &i );
+			rt_kprintf( "\r\n +CMGS: %d ",i );
+			if( i>=30)  
+			 {	 
+			   Delete_all_sms_flag=1;  
+			 }
+	    } 
+		               
 		//+ZCEND
 		// +ZPPPSTATUS: CLOSED
 	   //============================================================================

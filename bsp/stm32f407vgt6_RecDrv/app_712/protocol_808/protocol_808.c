@@ -7372,6 +7372,30 @@ void Spd_ExpInit(void)
 
  }
 
+u16  Instr_2_GBK(u8 *SrcINstr, u16 Inlen, u8* DstOutstr )
+{
+  u16 i=0,j=0;
+  
+	
+	//对非GBK编码处理------------------------------------
+	for(i=0,j=0;i<Inlen;i++)
+		{
+		if((SrcINstr[i]>=0xA1)&&(SrcINstr[i+1]>=0xA0))
+			{
+			DstOutstr[j]=SrcINstr[i];
+			DstOutstr[j+1]=SrcINstr[i+1];
+			j+=2;
+			i++;
+			}
+		else
+			{
+			DstOutstr[j]=' ';
+			DstOutstr[j+1]=SrcINstr[i];
+			j+=2;
+			}
+		}
+	return   j;		    					
+}
 
 //-----------------------------------------------------------
 void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议 
@@ -7763,12 +7787,16 @@ void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议
 								     //     2. 正常短信
 									memset( TextInfo.TEXT_Content,0,sizeof(TextInfo.TEXT_Content));
 									memcpy(TextInfo.TEXT_Content,UDP_HEX_Rx+14,infolen-1);
+									//---------------------									
+									//对非GBK编码处理------------------------------------
+                                    contentlen=Instr_2_GBK(UDP_HEX_Rx+14,infolen-1,TextInfo.TEXT_Content);					
+									//-------------
 									TextInfo.TEXT_SD_FLAG=1;	// 置发送给显示屏标志位  // ||||||||||||||||||||||||||||||||||
 
 									//========================================
 									TextInforCounter++;
-									rt_kprintf("\r\n写入收到的第 %d 条信息,消息长度=%d,消息:%s",TextInforCounter,infolen-1,TextInfo.TEXT_Content);
-									TEXTMSG_Write(TextInforCounter,1,infolen-1,TextInfo.TEXT_Content);	
+									rt_kprintf("\r\n写入收到的第 %d 条信息,消息长度=%d,消息:%s",TextInforCounter,contentlen,TextInfo.TEXT_Content);
+									TEXTMSG_Write(TextInforCounter,1,contentlen,TextInfo.TEXT_Content);	 
 							   	}
 							//========================================
 						 } 
@@ -7824,11 +7852,12 @@ void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议
 									  else
 									  	 EventObj.Event_ID=UDP_HEX_Rx[15];
 									  
-									  EventObj.Event_Len=UDP_HEX_Rx[16];
+									 // EventObj.Event_Len=UDP_HEX_Rx[16];
 									  memset(EventObj.Event_Str,0,sizeof(EventObj.Event_Str));
-									  memcpy(EventObj.Event_Str,UDP_HEX_Rx+17,EventObj.Event_Len);
+									  //----  Instr  转 GBK ----------------------
+									  EventObj.Event_Len=Instr_2_GBK(UDP_HEX_Rx+17,UDP_HEX_Rx[16],EventObj.Event_Str);	 		
 									  EventObj.Event_Effective=1; 
-                                                                 Api_RecordNum_Write(event_808, EventObj.Event_ID, (u8*)&EventObj,sizeof(EventObj));									  rt_kprintf("\r\n 事件内容:%s\r\n",EventObj.Event_Str);   
+                                      Api_RecordNum_Write(event_808, EventObj.Event_ID, (u8*)&EventObj,sizeof(EventObj));									  rt_kprintf("\r\n 事件内容:%s\r\n",EventObj.Event_Str);   
 									  rt_kprintf("\r\n 事件内容:%s\r\n",EventObj.Event_Str);   
 							          break;
 							default:
@@ -7869,12 +7898,16 @@ void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议
 						  	}
 						   rt_kprintf("\r\n  中心下发提问 \r\n"); 
 						  {
-						     ASK_Centre.ASK_infolen=UDP_HEX_Rx[14];
+						     //ASK_Centre.ASK_infolen=UDP_HEX_Rx[14];
 							 memset(ASK_Centre.ASK_info,0,sizeof(ASK_Centre.ASK_info));
-							 memcpy(ASK_Centre.ASK_info,UDP_HEX_Rx+15,ASK_Centre.ASK_infolen);
+							 //----  Instr  转 GBK ----------------------
+							 ASK_Centre.ASK_infolen=Instr_2_GBK(UDP_HEX_Rx+15,UDP_HEX_Rx[14],ASK_Centre.ASK_info);	
+							// memcpy(ASK_Centre.ASK_info,UDP_HEX_Rx+15,ASK_Centre.ASK_infolen);
 							 rt_kprintf("\r\n  问题: %s \r\n",ASK_Centre.ASK_info); 
 							 memset(ASK_Centre.ASK_answer,0,sizeof(ASK_Centre.ASK_answer));
-							 memcpy(ASK_Centre.ASK_answer,UDP_HEX_Rx+15+ASK_Centre.ASK_infolen,infolen-2-ASK_Centre.ASK_infolen);	 
+							 //----  Instr  转 GBK ----------------------
+							 contentlen=Instr_2_GBK(UDP_HEX_Rx+15+UDP_HEX_Rx[14],infolen-2-UDP_HEX_Rx[14],ASK_Centre.ASK_answer);	
+							// memcpy(ASK_Centre.ASK_answer,UDP_HEX_Rx+15+ASK_Centre.ASK_infolen,infolen-2-ASK_Centre.ASK_infolen);	 
 
 							 ASK_Centre.ASK_SdFlag=1;   // ||||||||||||||||||||||||||||||||||
 							 ASK_Centre.ASK_floatID=Centre_FloatID; // 备份 FloatID	 
@@ -7924,9 +7957,11 @@ void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议
 									  else
 									  	  MSG_BroadCast_Obj.INFO_TYPE=UDP_HEX_Rx[15];
 									  
-									  MSG_BroadCast_Obj.INFO_LEN=(UDP_HEX_Rx[16]<<8)+UDP_HEX_Rx[17];
+									 contentlen=(UDP_HEX_Rx[16]<<8)+UDP_HEX_Rx[17];
 									  memset(MSG_BroadCast_Obj.INFO_STR,0,sizeof(MSG_BroadCast_Obj.INFO_STR));
-									  memcpy(MSG_BroadCast_Obj.INFO_STR,UDP_HEX_Rx+18,MSG_BroadCast_Obj.INFO_LEN);  
+									  //----  Instr  转 GBK ----------------------
+							          MSG_BroadCast_Obj.INFO_LEN=Instr_2_GBK(UDP_HEX_Rx+18,contentlen,MSG_BroadCast_Obj.INFO_STR);
+									  //memcpy(MSG_BroadCast_Obj.INFO_STR,UDP_HEX_Rx+18,MSG_BroadCast_Obj.INFO_LEN);  
 									  MSG_BroadCast_Obj.INFO_Effective=1;
 									  MSG_BroadCast_Obj.INFO_PlyCancel=1;  
 	                                                          Api_RecordNum_Write(msg_broadcast, MSG_BroadCast_Obj.INFO_TYPE, (u8*)&MSG_BroadCast_Obj,sizeof(MSG_BroadCast_Obj)); 
@@ -7960,20 +7995,24 @@ void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议
 						  memcpy(MSG_BroadCast_Obj.INFO_STR,UDP_HEX_Rx+16,infolen-3); 
 
 						  MSG_BroadCast_Obj.INFO_SDFlag=1;    // ||||||||||||||||||||||||||||||||||
+						  Api_RecordNum_Write(msg_broadcast, MSG_BroadCast_Obj.INFO_TYPE, (u8*)&MSG_BroadCast_Obj,sizeof(MSG_BroadCast_Obj)); 
                            //------------------------------
 						 /*  Dev_Voice.CMD_Type='2';
 						   memset(Dev_Voice.Play_info,0,sizeof(Dev_Voice.Play_info));
                                memcpy(Dev_Voice.Play_info,UDP_HEX_Rx+16,infolen-3);
 						   Dev_Voice.info_sdFlag=1;
 						   */
-						   rt_kprintf("\r\n 信息服务内容:%s\r\n",Dev_Voice.Play_info); 
 
                            // --------  发送给文本信息  --------------    
 						   memset( TextInfo.TEXT_Content,0,sizeof(TextInfo.TEXT_Content));
-						   memcpy(TextInfo.TEXT_Content,UDP_HEX_Rx+16,infolen-3);
+						   
+						   //----  Instr  转 GBK ----------------------
+						   contentlen=Instr_2_GBK(UDP_HEX_Rx+16,infolen-3,TextInfo.TEXT_Content);						   
+						  // memcpy(TextInfo.TEXT_Content,UDP_HEX_Rx+16,infolen-3);
 						   TextInfo.TEXT_SD_FLAG=1;    // 置发送给显示屏标志位	// ||||||||||||||||||||||||||||||||||
 						   
- 
+                           
+						   rt_kprintf("\r\n 信息服务内容:%s\r\n",TextInfo.TEXT_Content); 
                           //------- 返回 ----
 						 //  if(SD_ACKflag.f_CentreCMDack_0001H==0)
 						 {
@@ -8022,9 +8061,12 @@ void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议
                                    Rx_PhoneBOOK.NumLen=UDP_HEX_Rx[16];								   
 								   memset(Rx_PhoneBOOK.NumberStr,0,sizeof(Rx_PhoneBOOK.NumberStr)); 
 								   memcpy(Rx_PhoneBOOK.NumberStr,UDP_HEX_Rx+17,Rx_PhoneBOOK.NumLen);
-								   Rx_PhoneBOOK.UserLen=UDP_HEX_Rx[17+Rx_PhoneBOOK.NumLen]; 								   
-								   memset(Rx_PhoneBOOK.UserStr,0,sizeof(Rx_PhoneBOOK.UserStr));								   
-								   memcpy(Rx_PhoneBOOK.UserStr,UDP_HEX_Rx+18+Rx_PhoneBOOK.NumLen,Rx_PhoneBOOK.UserLen);
+								   
+								   contentlen=UDP_HEX_Rx[17+Rx_PhoneBOOK.NumLen]; 								   
+								   memset(Rx_PhoneBOOK.UserStr,0,sizeof(Rx_PhoneBOOK.UserStr));	
+								     //----  Instr  转 GBK ----------------------
+						           Rx_PhoneBOOK.UserLen=Instr_2_GBK(UDP_HEX_Rx+18+Rx_PhoneBOOK.NumLen,contentlen,Rx_PhoneBOOK.UserStr);	
+								   //memcpy(Rx_PhoneBOOK.UserStr,UDP_HEX_Rx+18+Rx_PhoneBOOK.NumLen,Rx_PhoneBOOK.UserLen);
 								   
 								   for(i=0;i<8;i++)
 								   {
@@ -8033,7 +8075,7 @@ void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议
 								    memset(PhoneBook.NumberStr,0,sizeof(PhoneBook.NumberStr));  
 								    PhoneBook.UserLen=0;		
 								    memset(PhoneBook.UserStr,0,sizeof(PhoneBook.UserStr)); 	 
-									   Api_RecordNum_Read(phonebook, i+1, (u8*)&PhoneBook,sizeof(PhoneBook)); 
+									   Api_RecordNum_Write(phonebook, i+1, (u8*)&PhoneBook,sizeof(PhoneBook)); 
 									if(strncmp((char*)PhoneBook.UserStr,(const char*)Rx_PhoneBOOK.UserStr,Rx_PhoneBOOK.UserLen) == 0) 
 									{ // 找到相同名字的把以前的删除用新的代替
 									   Api_RecordNum_Write(phonebook, i+1, (u8*)&Rx_PhoneBOOK,sizeof(Rx_PhoneBOOK)); 
@@ -8049,11 +8091,19 @@ void TCP_RX_Process( u8  LinkNum)  //  ---- 808  标准协议
                                    Rx_PhoneBOOK.NumLen=UDP_HEX_Rx[16];								   
 								   memset(Rx_PhoneBOOK.NumberStr,0,sizeof(Rx_PhoneBOOK.NumberStr)); 
 								   memcpy(Rx_PhoneBOOK.NumberStr,UDP_HEX_Rx+17,Rx_PhoneBOOK.NumLen);
-								   Rx_PhoneBOOK.UserLen=UDP_HEX_Rx[17+Rx_PhoneBOOK.NumLen]; 								   
-								   memset(Rx_PhoneBOOK.UserStr,0,sizeof(Rx_PhoneBOOK.UserStr));		
+								 //  Rx_PhoneBOOK.UserLen=UDP_HEX_Rx[17+Rx_PhoneBOOK.NumLen]; 								   
+								 //  memset(Rx_PhoneBOOK.UserStr,0,sizeof(Rx_PhoneBOOK.UserStr));		
 								   Rx_PhoneBOOK.Effective_Flag=1; // 有效标志位  
-								   memcpy(Rx_PhoneBOOK.UserStr,UDP_HEX_Rx+18+Rx_PhoneBOOK.NumLen,Rx_PhoneBOOK.UserLen);							   
-								   Api_RecordNum_Read(phonebook, UDP_HEX_Rx[14], (u8*)&Rx_PhoneBOOK, sizeof(Rx_PhoneBOOK)); 
+								  // memcpy(Rx_PhoneBOOK.UserStr,UDP_HEX_Rx+18+Rx_PhoneBOOK.NumLen,Rx_PhoneBOOK.UserLen);	
+								   //---------------------------------------------------  
+								   contentlen=UDP_HEX_Rx[17+Rx_PhoneBOOK.NumLen]; 								   
+								   memset(Rx_PhoneBOOK.UserStr,0,sizeof(Rx_PhoneBOOK.UserStr));	
+								     //----  Instr  转 GBK ----------------------
+						           Rx_PhoneBOOK.UserLen=Instr_2_GBK(UDP_HEX_Rx+18+Rx_PhoneBOOK.NumLen,contentlen,Rx_PhoneBOOK.UserStr);	
+								   //memcpy(Rx_PhoneBOOK.UserStr,UDP_HEX_Rx+18+Rx_PhoneBOOK.NumLen,Rx_PhoneBOOK.UserLen);
+                                   //-------------------------------------------
+								   
+								   Api_RecordNum_Write(phonebook, UDP_HEX_Rx[14], (u8*)&Rx_PhoneBOOK, sizeof(Rx_PhoneBOOK)); 
                                                            rt_kprintf("\r\n Name:%s\r\n",Rx_PhoneBOOK.UserStr); 
 								   rt_kprintf("\r\n Number:%s\r\n",Rx_PhoneBOOK.NumberStr);
 								   break;

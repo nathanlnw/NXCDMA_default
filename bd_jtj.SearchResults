@@ -1,56 +1,17 @@
----- Api_Config_write Matches (53 in 7 files) ----
-Device_485.c (bsp\stm32f407vgt6_recdrv\app_712\u4_485):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Device_485.c (bsp\stm32f407vgt6_recdrv\app_712\u4_485):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):	 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):	    Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):        u8    Api_Config_write(u8 *name,u16 ID,u8* buffer, u16 wr_len)  
-Device_808.h (bsp\stm32f407vgt6_recdrv\app_712\protocol_808): extern   u8    Api_Config_write(u8 *name,u16 ID,u8* buffer, u16 wr_len);
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):				  Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					  Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct)); 
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):                               Api_Config_write(tired_config,0,(u8*)&TiredConf_struct,sizeof(TiredConf_struct));				  
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):                               Api_Config_write(tired_config,0,(u8*)&TiredConf_struct,sizeof(TiredConf_struct));			
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):                               Api_Config_write(tired_config,0,(u8*)&TiredConf_struct,sizeof(TiredConf_struct));				  
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):                                   Api_Config_write(tired_config,0,(u8*)&TiredConf_struct,sizeof(TiredConf_struct));				
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):				       Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):                                 	 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):                                    Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):				        Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):		   Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):		   Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):		Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):		Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<P><STRONG><a name="[219]"></a>Api_Config_write</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, device_808.o(i.Api_Config_write))
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = Api_Config_write &rArr; DF_WriteFlashSector &rArr; SST25V_ByteWrite &rArr; SST25V_WriteEnable &rArr; SPI_Flash_SendByte
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR>[Called By]<UL><LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = RstWrite_ACConoff_counter &rArr; Api_Config_write &rArr; DF_WriteFlashSector &rArr; SST25V_ByteWrite &rArr; SST25V_WriteEnable &rArr; SPI_Flash_SendByte
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR>[Calls]<UL><LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = SysConfig_init &rArr; Api_Config_write &rArr; DF_WriteFlashSector &rArr; SST25V_ByteWrite &rArr; SST25V_WriteEnable &rArr; SPI_Flash_SendByte
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR>[Calls]<UL><LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = TIRED_CONF_Init &rArr; Api_Config_write &rArr; DF_WriteFlashSector &rArr; SST25V_ByteWrite &rArr; SST25V_WriteEnable &rArr; SPI_Flash_SendByte
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR>[Calls]<UL><LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Api_Config_write
-SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):						Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):						Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):						Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):						Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):						Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):						Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
-Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):            return(Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct)));       
-Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):     return(Api_Config_write(tired_config,0,(u8*)&TiredConf_struct,sizeof(TiredConf_struct)));       
-Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):    Api_Config_write(tired_config,0,(u8*)&TiredConf_struct,sizeof(TiredConf_struct));
----- Api_Config_write Search Errors Encountered (1) ----
-The following 1 files could not be processed:
-D:\TW703_FormalUSE\NX_CDMA\NXgghypt_BD_CDMA-\bsp\stm32f407vgt6_RecDrv\JLinkLog.txt : File could not be opened.
+---- Vechicle_Info.Dev_Color Matches (16 in 5 files) ----
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						Vechicle_Info.Dev_Color=0;
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						Vechicle_Info.Dev_Color=Menu_color_num; 
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					rt_kprintf("\r\n车牌颜色设置完成，按菜单键返回，%d",Vechicle_Info.Dev_Color);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):                     Vechicle_Info.Dev_Color=0;
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				     Vechicle_Info.Dev_Color=Menu_color_num;
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):               switch(Vechicle_Info.Dev_Color)
+Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):	   Original_info[Original_info_Wr++]=0; //Vechicle_Info.Dev_Color;
+Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):	   Original_info[Original_info_Wr++]=2; //Vechicle_Info.Dev_Color; 
+Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):			Original_info[Original_info_Wr++]=Vechicle_Info.Dev_Color;
+Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):		Original_info[Original_info_Wr++]=Vechicle_Info.Dev_Color;
+Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					Vechicle_Info.Dev_Color=Content[0];           
+Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					rt_kprintf("\r\n 车辆颜色: %d  \r\n",Vechicle_Info.Dev_Color);    
+SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):					Vechicle_Info.Dev_Color=u16Temp; 
+SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):	        		rt_kprintf("\r\n 车辆颜色: %s ,%d \r\n",sms_content,Vechicle_Info.Dev_Color);          
+Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):	Vechicle_Info.Dev_Color=1;       // 默认颜色    // JT415    1  蓝 2 黄 3 黑 4 白 9其他     
+Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):         rt_kprintf("\r\n        车辆颜色:   JT415    1  蓝 2 黄 3 黑 4 白 9其他----当前颜色 %d \r\n",Vechicle_Info.Dev_Color);  
