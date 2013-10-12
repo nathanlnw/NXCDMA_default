@@ -46,6 +46,7 @@ Crystal: 3.6864Mhz
 #define    ConfigStart_offset                         808        //   Block   起始位置  Conifg  Struct Save      Sector 1 
 #define    TiredCondifg_offset                        864        //   Block   起始位置  Conifg  Struct Save      Sector 3  
 #define    JT808_BakSetting_offset                    960        //   Block   起始位?
+#define    JT808_Bak2Setting_offset                   6240        //   Block   起始位?
 #define    JT808Start_offset                          1000        //   Block   起始位置  Conifg  Struct Save    Sector 2 
  
 
@@ -217,9 +218,11 @@ Crystal: 3.6864Mhz
 #define       DF_DeviceID_offset                      5400                 // Block 起始位置   车辆ID  12  位 BCD   
 #define       DF_License_effect                       5416
 #define       DF_Vehicle_Struct_offset                5424                 // block 起始位置   
-#define       DF_SIMID_12D                            6000                 // Block  	起始位置     
-#define       DF_Voice_offset                         5992
+#define       DF_VehicleBAK_Struct_offset             6200                 // block 起始位置   
+#define       DF_VehicleBAK2_Struct_offset            6216                 // block 起始位置      
 
+#define       DF_SIMID_12D                            6000                 // Block  	起始位置     
+#define       DF_LOGIIN_Flag_offset                          6040                 // Block      起始位置 
 
 
 

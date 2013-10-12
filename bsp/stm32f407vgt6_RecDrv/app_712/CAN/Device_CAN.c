@@ -458,7 +458,7 @@ void CAN_SD(char* instr)
 	}
 	else 
 	{      
-	  CANTXStr((u8*)instr,strlen((const char*)(char*)instr));  
+	  CANTXStr((u8*)instr,strlen((char*)instr));  
 	  memset(Reg_buf,0,sizeof(Reg_buf));
 	  memcpy(Reg_buf,instr,strlen((const char*)instr));
 	  rt_kprintf("\r\n		 Can ·¢ËÍÊı¾İ: "); 

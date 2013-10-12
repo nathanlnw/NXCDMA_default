@@ -78,10 +78,10 @@ void App_rxGsmData_SemRelease(u8* instr, u16 inlen,u8 link_num)
 {
 	/* release semaphore to let finsh thread rx data */
 	//rt_sem_release(&app_rx_gsmdata_sem);
-	Receive_DataFlag=1; 
 	app_rx_gsm_infoStruct.info=instr;
 	app_rx_gsm_infoStruct.len=inlen;  
 	app_rx_gsm_infoStruct.link_num=link_num;  
+	Receive_DataFlag=1;  	
 }
 
 void  App_thread_timer(void)
@@ -97,7 +97,7 @@ void  App_thread_timer(void)
 void  gps_thread_timer(void)
 {
    gps_thread_runCounter++;
-   if(gps_thread_runCounter>200)   // 400* app_thread_delay(dur)  
+   if((gps_thread_runCounter>300)&&(BD_ISP.ISP_running==0))   // 400* app_thread_delay(dur)   
     {
        rt_kprintf("\r\n  gps  thread  dead! \r\n");   
        reset();  
@@ -335,8 +335,15 @@ static void timeout_app(void *  parameter)
 	if((OneSec_CounterApp%3)==0)  	 
 	{ 
 	   if((CommAT.Total_initial==1)) 
-			CommAT.Execute_enable=1;	 //  enable send   periodic 			   
-	}	   
+		{	
+		    if(CommAT.cmd_run_once==0)
+		        CommAT.Execute_enable=1;	 //  enable send   periodic 		
+		    if(( CommAT.Initial_step==16)&&(Login_Menu_Flag==0))
+				CommAT.cmd_run_once=1;
+			else
+				CommAT.cmd_run_once=0;  
+	   	}
+	}	
 
      OneSec_CounterApp++;
      if(OneSec_CounterApp>=5)	 
@@ -518,6 +525,7 @@ static void App808_thread_entry(void* parameter)
 	   {   
 	        Do_SendGPSReport_GPRS();    
 	   } 
+	    rt_thread_delay(8);
        // 5. ---------------  顺序存储 GPS  -------------------		    
 		if(GPS_getfirst)	 //------必须搜索到经纬度
 		{
@@ -529,7 +537,7 @@ static void App808_thread_entry(void* parameter)
 	   // 6.   ACC 状态检测
              ACC_status_Check();
 	   // 7.   系统延时
-      //  rt_thread_delay(15);	
+        rt_thread_delay(7);	
 	   // 8.	 行车记录仪相关的数据存储 
 	   if(BD_ISP.ISP_running==0)
 		    JT808_Related_Save_Process();  
@@ -555,7 +563,7 @@ static void App808_thread_entry(void* parameter)
 				   delay_ms(18); 
                    Redial_reset_save=0;  
 	         	}
-			    rt_thread_delay(27);  	
+		    rt_thread_delay(12);  	
 	          //    485   related  over   	 	   
       //---------------------------------------- 
 	   app_thread_runCounter=0; 

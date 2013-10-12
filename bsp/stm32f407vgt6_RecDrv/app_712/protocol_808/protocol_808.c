@@ -317,6 +317,9 @@ u32  	fTimer3s_warncount=0;
 
 // ------  车辆信息单独了 ---------------
 VechINFO     Vechicle_Info;     //  车辆信息  
+VechINFO     Vechicle_Info_BAK;  //  车辆信息 BAK
+VechINFO     Vechicle_info_BAK2; //  车辆信息BAK2     
+u8           Login_Menu_Flag=0;       //   登陆界面 标志位
 
 
 //------  车门开关拍照 -------
@@ -1694,7 +1697,7 @@ void  Save_GPS(void)
 		  {
 		         if(DF_LOCK==enable)    // 清除文件区域时 ，禁止操作DF
 				 	return ;
-				 if(Vechicle_Info.loginpassword_flag!=1)  // 没有被设置前不存储相关位置信息，没有意义
+				 if(Login_Menu_Flag!=1)  // 没有被设置前不存储相关位置信息，没有意义
 				 	return;  
 		     //-------------------------------------------------------	 
 		     //1.   时间超前判断
@@ -2001,7 +2004,7 @@ u8  Stuff_RegisterPacket_0100H(u8  LinkNum)
 	if(License_Not_SetEnable==0) //  0  设置车牌号  
 	{
 		//  车牌
-		memcpy(Original_info+Original_info_Wr,Vechicle_Info.Vech_Num,strlen((const char*)(const char*)(Vechicle_Info.Vech_Num)));//13);  
+		memcpy(Original_info+Original_info_Wr,Vechicle_Info.Vech_Num,strlen((const char*)(Vechicle_Info.Vech_Num)));//13);  
 		Original_info_Wr+=strlen((const char*)(Vechicle_Info.Vech_Num));
 	}
 	else
@@ -2145,8 +2148,17 @@ u8  Stuff_Normal_Data_0200H(void)
  
   }
 
+  //---------- 附加信息 5 ----
+  	 Original_info[Original_info_Wr++]=0x25; //扩展车辆信号状态
+	 //  附加信息长度
+	 Original_info[Original_info_Wr++]=4; 
+	 //  类型
+	 Original_info[Original_info_Wr++]=0x00;
+       Original_info[Original_info_Wr++]=0x00;
+	 Original_info[Original_info_Wr++]=0x00;
+       Original_info[Original_info_Wr++]=BD_EXT.Extent_IO_status; 
 
-	   //  附加信息 5  -----------------------------	  
+	   //  附加信息 6  -----------------------------	  
 	 //  附加信息 ID
 	 Original_info[Original_info_Wr++]=0xFE; //信号强度
 	 //  附加信息长度
@@ -6471,18 +6483,26 @@ u8  CentreSet_subService_8103H(u32 SubID, u8 infolen, u8 *Content )
 					
 
 	                break;
-	 case  0x0081: // 车辆所在的省域ID
+	 case  0x0081: // 车辆所在的省域ID 
 	                if(infolen!=2)
 						  break;
 					Vechicle_Info.Dev_ProvinceID=(Content[0]<<8)+Content[1];
-                    DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
+                    DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 					rt_kprintf("\r\n 车辆所在省域ID: 0x%X \r\n",Vechicle_Info.Dev_ProvinceID); 
 	                break;
 	 case  0x0082: // 车辆所在市域ID
 	                if(infolen!=2)
 						  break;
 					Vechicle_Info.Dev_ProvinceID=(Content[0]<<8)+Content[1];
-                    DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
+                    DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 					rt_kprintf("\r\n 车辆所在市域ID: 0x%X \r\n",Vechicle_Info.Dev_ProvinceID); 
 	                break;
 	 case  0x0083: // 公安交通管理部门颁发的机动车号牌
@@ -6490,14 +6510,22 @@ u8  CentreSet_subService_8103H(u32 SubID, u8 infolen, u8 *Content )
 						  break;					
 					memset(Vechicle_Info.Vech_Num,0,sizeof(Vechicle_Info.Vech_Num));
 					memcpy(Vechicle_Info.Vech_Num,Content,infolen);
-					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));		
+					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));	
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 					rt_kprintf("\r\n 机动车驾驶证号: %s  \r\n",Vechicle_Info.Vech_Num);  
 	                break;
 	 case  0x0084: // 车牌颜色  按照国家规定
 	                if(infolen!=1)
 						  break;
 					Vechicle_Info.Dev_Color=Content[0];           
-					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));		
+					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));	
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 					rt_kprintf("\r\n 车辆颜色: %d  \r\n",Vechicle_Info.Dev_Color);    
 
 					//  redial();
@@ -6833,7 +6861,11 @@ void CenterSet_subService_8701H(u8 cmd,  u8*Instr)
 				 memcpy(Vechicle_Info.Vech_Num,Instr+17,12);
 				 memcpy(Vechicle_Info.Vech_Type,Instr+29,12); 
 
-				DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
+				DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));   
+				WatchDog_Feed();
+				DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+				WatchDog_Feed();
+				DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 				break;
 	 case 0xC2: //设置记录仪时钟
 			    // 没啥用，给个回复就行，俺有GPS校准就够了 
@@ -9414,6 +9446,10 @@ void  Process_GPRSIN_DeviceData(u8 *instr, u16  infolen)
 					 
 			
 				 	DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					WatchDog_Feed();
+				    DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 
                  Adata_ACKflag.A_Flag_Dn_DrvInfo_82H=instr[2];
 				    
@@ -11054,7 +11090,11 @@ void chepai(u8 *instr)
 {    
     memset(Vechicle_Info.Vech_Num,0,sizeof(Vechicle_Info.Vech_Num));
     memcpy(Vechicle_Info.Vech_Num,instr,8); 
-   DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
+   DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));    
+   WatchDog_Feed();
+   DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+   WatchDog_Feed();
+   DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 }
 FINSH_FUNCTION_EXPORT(chepai, set_chepai);   
 
@@ -11063,7 +11103,11 @@ void  vin_set(u8 *instr)
 	 //车辆VIN
 	memset(Vechicle_Info.Vech_VIN,0,sizeof(Vechicle_Info.Vech_VIN));
 	memcpy(Vechicle_Info.Vech_VIN,instr,strlen(instr)); 
-	DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));		
+	DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));	
+	WatchDog_Feed();
+	DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+	WatchDog_Feed();
+	DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 
        rt_kprintf("\r\n 手动设置vin:%s \r\n",instr); 
 
@@ -11092,7 +11136,12 @@ void  link_mode(u8 *instr)
        rt_kprintf("\r\n DNSR :%s \r\n",instr);  
    }	
   
-  DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));	  
+  DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));
+  WatchDog_Feed();
+  DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+  
+  WatchDog_Feed();
+  DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 
 }
 FINSH_FUNCTION_EXPORT(link_mode, link_mode );    
@@ -11178,10 +11227,9 @@ void dnsr_aux(u8*instr)
 void password(u8 in)
 {
   
-   Vechicle_Info.loginpassword_flag=in;    // clear  first flag 	 
-   DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
-
-  rt_kprintf("\r\n  password=%d \r\n",Vechicle_Info.loginpassword_flag);  
+   Login_Menu_Flag=in;    // clear  first flag 	 Login_Menu_Flag=0;     //  输入界面为0   
+   DF_WriteFlashSector(DF_LOGIIN_Flag_offset,0,&Login_Menu_Flag,1); 
+   rt_kprintf("\r\n  password=%d \r\n",Login_Menu_Flag);  
 }
 FINSH_FUNCTION_EXPORT(password, password);   
 
@@ -11259,7 +11307,12 @@ void provinceid(u8 *strin)
 {
   sscanf(strin, "%d", (u32*)&Vechicle_Info.Dev_ProvinceID);
   
-  DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));	  
+  DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));
+  WatchDog_Feed();
+  DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+  
+  WatchDog_Feed();
+  DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
   rt_kprintf("\r\n 车辆所在省域ID: %d \r\n",Vechicle_Info.Dev_ProvinceID); 
 }
 FINSH_FUNCTION_EXPORT(provinceid, provinceid);    
@@ -11267,7 +11320,12 @@ FINSH_FUNCTION_EXPORT(provinceid, provinceid);
 void cityid(u8 *strin) 
 {
    sscanf(strin, "%d", (u32*)&Vechicle_Info.Dev_CityID);  
-   DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));	  
+   DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));
+   WatchDog_Feed();
+   DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+   
+   WatchDog_Feed();
+   DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
    rt_kprintf("\r\n 车辆所在市域ID: %d \r\n",Vechicle_Info.Dev_CityID);   
 }
 FINSH_FUNCTION_EXPORT(cityid, cityid);     

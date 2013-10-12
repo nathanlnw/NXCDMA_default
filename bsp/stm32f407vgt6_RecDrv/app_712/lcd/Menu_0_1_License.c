@@ -260,6 +260,12 @@ static void keypress(unsigned int key)
 						memset(Vechicle_Info.Vech_Num,0,sizeof(Vechicle_Info.Vech_Num));
 						memcpy(Vechicle_Info.Vech_Num,Menu_Car_license,strlen((const char*)Menu_Car_license));
 					    DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+						WatchDog_Feed();
+						DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+						WatchDog_Feed();
+						DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+						WatchDog_Feed();
+					    DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));
 						}
 					
 				    License_Type_flag=2;

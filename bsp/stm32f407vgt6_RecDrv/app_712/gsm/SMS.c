@@ -608,7 +608,12 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 				    rt_kprintf("车牌号:%s", sms_content); 
 					memset((u8*)&Vechicle_Info.Vech_Num,0,sizeof(Vechicle_Info.Vech_Num));	//clear	
 				    rt_memcpy(Vechicle_Info.Vech_Num,sms_content,strlen(sms_content));
-					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
+					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 					
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 					Add_SMS_Ack_Content(sms_ack_data,ACKstate);
 
 					 //--------    清除鉴权码 -------------------
@@ -622,7 +627,13 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 						
 					Vechicle_Info.Dev_Color=u16Temp; 
 	        		rt_kprintf("\r\n 车辆颜色: %s ,%d \r\n",sms_content,Vechicle_Info.Dev_Color);          
-	        		DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
+	        		DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+					
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 				  	Add_SMS_Ack_Content(sms_ack_data,ACKstate);
 					}
 				}
@@ -635,6 +646,12 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 						Vechicle_Info.Link_Frist_Mode=u16Temp;  
 		        		rt_kprintf("\r\n 首次连接方式 %s ,%d \r\n",sms_content,Vechicle_Info.Link_Frist_Mode);          
 						DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));		
+						
+						WatchDog_Feed();
+						DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+						
+						WatchDog_Feed();
+						DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 					  	Add_SMS_Ack_Content(sms_ack_data,ACKstate);  
 						 //--------    清除鉴权码 -------------------
 					     idip("clear");		   
@@ -654,10 +671,11 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
                 j=sscanf(sms_content,"%d",&u16Temp);
 				if(j)
 				{
-				  Vechicle_Info.loginpassword_flag=(u8)u16Temp;	   // clear  first flag 	  
-				  DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+				  Login_Menu_Flag=(u8)u16Temp;	   // clear  first flag 	 			
+			      DF_WriteFlashSector(DF_LOGIIN_Flag_offset,0,&Login_Menu_Flag,1); 
+			
 				  Add_SMS_Ack_Content(sms_ack_data,ACKstate);  //  ack  state
-				    if(Vechicle_Info.loginpassword_flag)
+				    if(Login_Menu_Flag)
 				    	{
 				    	  //--------    清除鉴权码 -------------------
 					      idip("clear");
@@ -669,8 +687,9 @@ void   SMS_protocol (u8 *instr,u16 len, u8  ACKstate)   //  ACKstate
 			else if(strncmp(pstrTemp,"RECOVER",7)==0)
 				{
                      //------  界面回复出厂设置
-					 Vechicle_Info.loginpassword_flag=0;	  // clear	first flag		 
-					 DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+					 Login_Menu_Flag=0;	  // clear	first flag		 
+					 DF_WriteFlashSector(DF_LOGIIN_Flag_offset,0,&Login_Menu_Flag,1); 
+
 					 Add_SMS_Ack_Content(sms_ack_data,ACKstate);  //  ack  state                  
                      Systerm_Reset_counter=Max_SystemCounter-30; //返回短信后恢复出厂设置
 					 

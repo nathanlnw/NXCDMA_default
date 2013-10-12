@@ -72,10 +72,10 @@ void SST25V_DBSY(void)
         SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;//SPI_Direction_1Line_Tx;
         SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
         SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
-        SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+        SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;  
         SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
         SPI_InitStructure.SPI_NSS  = SPI_NSS_Soft;
-        SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;/* 72M/64=1.125M */ 
+        SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;/* 42M/64=1.125M */    
         SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
         SPI_InitStructure.SPI_CRCPolynomial = 7; 
 

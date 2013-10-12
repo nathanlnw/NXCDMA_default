@@ -388,66 +388,78 @@ u8  Get_SensorStatus(void)
 		   {   //		接高  触发
 			   Sensorstatus|=0x80;
 			    BD_EXT.FJ_IO_1 |=0x80;  //  bit7 
+			    BD_EXT.Extent_IO_status |= 0x10;  // bit4 ---->刹车
 		   }
 		  else
 		   {  //   常态
 			   Sensorstatus&=~0x80;		
 			    BD_EXT.FJ_IO_1 &=~0x80;  //  bit7 
+			    BD_EXT.Extent_IO_status &= ~0x10; //bit4 ---->刹车
 		   } 
 	//	-------------- J1pin5			 左转灯
 		 if(LeftLight_StatusGet())	//	PC7 
 		  {   //	   接高  触发
 			  Sensorstatus|=0x40;
 			   BD_EXT.FJ_IO_1 |=0x40;  //  bit6
+			    BD_EXT.Extent_IO_status |= 0x08;//bit3---->  左转灯
 		  }
 		 else
 		  {  //   常态
 			 Sensorstatus&=~0x40; 	
 			 BD_EXT.FJ_IO_1 &=~0x40;  //  bit6 
+			  BD_EXT.Extent_IO_status &= ~0x08; //bit3---->  左转灯
 		  }
    //  -------------- J1pin7				右转灯
 	     if(RightLight_StatusGet())	//PC2 
 	     {	//		 接高  触发
 				Sensorstatus|=0x20;
 				 BD_EXT.FJ_IO_1 |=0x20; //bit5
+				 BD_EXT.Extent_IO_status |= 0x04;// bit2----> 右转灯
 		}
             else
 		{  //	常态
 			   Sensorstatus&=~0x20;		
 		   BD_EXT.FJ_IO_1 &=~0x20; //bit5
+		   BD_EXT.Extent_IO_status &= ~0x04;//bit2----> 右转灯
 		} 
    
    //  --------------远光灯-----------------------
 	   if(FarLight_StatusGet())	// PC0
 		{	//		 接高  触发
 			Sensorstatus|=0x10;
+			BD_EXT.Extent_IO_status |= 0x02; //bit 1  ----->  远光灯
 			
 		}
 	   else
 		{  //	常态
 		   Sensorstatus&=~0x10;		
+		   BD_EXT.Extent_IO_status&= ~0x02;//bit 1  ----->  远光灯     
 		}  
     //  --------------近光灯----------------------
    		 if(NearLight_StatusGet())  // Pc1
 		  {   //       接高  触发
 		      Sensorstatus|=0x08;
 		       BD_EXT.FJ_IO_1 |=0x10; //bit4	  
+		      BD_EXT.Extent_IO_status |= 0x01; //bit 0  ----->  近光灯
 		  }
 		 else
 		  {  //	  常态
 			 Sensorstatus&=~0x08;		
 			  BD_EXT.FJ_IO_1 &=~0x10; //bit4	  
+			  BD_EXT.Extent_IO_status &=~0x01; //bit 0  ----->  近光灯 
 		  } 
   // --------------J1pin9          雾灯/   雨刷     
           if(FogLight_StatusGet())  //PD8  
 		  {   //	   接高  触发
 			  Sensorstatus|=0x04;
 			  BD_EXT.FJ_IO_1 |=0x08; //bit3	    
+			  BD_EXT.Extent_IO_status |= 0x40;//  bit6 ----> 雾灯
 		  }
 		 else
 		  {  //   常态
 			  Sensorstatus&=~0x04;
 			  BD_EXT.FJ_IO_1 &=~0x08; //bit3	  
+			   BD_EXT.Extent_IO_status &= ~0x40;//  bit6 ----> 雾灯
 		  } 
   //  --------------J1pin6			 车门/飞翼
 	    if(DoorLight_StatusGet())  // PE3     
@@ -595,12 +607,6 @@ void TIM5_IRQHandler( void )
 		Delta_1s_Plus	= 0;
 	}
 }
-
-
-
-
-
-
 
 
 
@@ -851,7 +857,7 @@ else
 			       if(cycle_write>=Max_CycleNum)
 			  	               cycle_write=0;  
 				DF_Write_RecordAdd(cycle_write,cycle_read,TYPE_CycleAdd);   
-				DF_delay_ms(20);  
+				DF_delay_us(20);  
 		        //-------------------------------	
 		       // rt_mutex_release(DF_lock_mutex);  //  释放
 		        return true;
@@ -945,6 +951,8 @@ else
                      DF_WriteFlashSector(JT808Start_offset, 0, buffer, wr_len);  // formal  use
                      WatchDog_Feed(); 
 					 DF_WriteFlashSector(JT808_BakSetting_offset,0,buffer,wr_len); // bak  setting   					 
+					 WatchDog_Feed(); 
+					 DF_WriteFlashSector(JT808_Bak2Setting_offset,0,buffer,wr_len); // bak  setting    	
 			         return true;		 
                 }
 	    if(strcmp((const char*)name,BD_ext_config)==0)

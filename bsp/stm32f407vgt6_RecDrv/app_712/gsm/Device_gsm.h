@@ -70,6 +70,8 @@ u8     Total_initial;
 u8     Initial_step;
 u8     Execute_couter; 
 u8     Execute_enable; 
+u8     cmd_run_once;  
+
 
 }COMM_AT; 
 
@@ -226,6 +228,7 @@ extern u8    TTS_Data_Play(void);
 extern u8    TTS_Get_Data(u8* Instr,u16 LEN) ; 
 extern void TTS_Exception_TimeLimt(void);     //  µ¥Î»: s 
 extern void TTS_play(u8 * instr);
+extern u32 GSM_HextoAscii_Convert(u8*SourceHex,u16 SouceHexlen,u8 *Dest);   
 
 //   VOC REC 
 #ifdef REC_VOICE_ENABLE

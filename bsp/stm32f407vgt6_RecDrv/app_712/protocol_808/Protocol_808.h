@@ -12,6 +12,7 @@
 #include <serial.h>
 #include "App_moduleConfig.h" 
 #include "gps.h"
+#include "DF_Oper.h"
 
  // ----   Media  Trans state ---
 #define   MEDIA
@@ -944,6 +945,10 @@ typedef struct _CAN_TRAN
 
 // ------  车辆信息单独了 ---------------
 extern  VechINFO             Vechicle_Info;     //  车辆信息  
+extern  VechINFO     Vechicle_Info_BAK;  //  车辆信息 BAK
+extern  VechINFO     Vechicle_info_BAK2; //  车辆信息BAK2      
+extern  u8           Login_Menu_Flag;	   //	登陆界面 标志位    
+
 
 
 //------- 北斗扩展协议  ------------

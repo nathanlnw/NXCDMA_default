@@ -113,7 +113,6 @@ extern u32  DutyCycle;
 
 
 
-
 /*    
      -----------------------------
     1.     ‰»Îπ‹Ω≈◊¥Ã¨º‡≤‚
@@ -135,7 +134,7 @@ extern u8  LeftLight_StatusGet(void);
 extern u8  DoorLight_StatusGet(void);
 extern u8  RightLight_StatusGet(void);
 extern u8  BreakLight_StatusGet(void);
-extern u8  RainBrush_StatusGet(void);
+extern u8 RainBrush_StatusGet(void);
 extern u8  HardWareGet(void);      
 
 //   OUTPUT

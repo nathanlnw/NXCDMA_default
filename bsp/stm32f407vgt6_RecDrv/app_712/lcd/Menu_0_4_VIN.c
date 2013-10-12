@@ -133,7 +133,11 @@ static void keypress(unsigned int key)
 						 //车辆VIN
 						memset(Vechicle_Info.Vech_VIN,0,sizeof(Vechicle_Info.Vech_VIN));
 						memcpy(Vechicle_Info.Vech_VIN,Menu_Vin_Code,17);
-						DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));         
+						DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));    
+						delay_ms(20);
+						DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+						WatchDog_Feed();
+					    DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 
 					    //rt_kprintf("\r\nVIN 设置完成，按菜单键返回，%s",Menu_Vin_Code);
 					    }

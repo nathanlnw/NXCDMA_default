@@ -171,8 +171,12 @@ static void keypress(unsigned int key)
 					rt_kprintf("\r\n车辆类型设置完成，按菜单键返回，%s",Menu_VechileType);		
 					memset(Vechicle_Info.Vech_Type,0,sizeof(Vechicle_Info.Vech_Type));
 					memcpy(Vechicle_Info.Vech_Type,Menu_VechileType,10);
-					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));         
-					}
+						DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+						WatchDog_Feed();
+					    DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+						WatchDog_Feed();
+					    DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));
+						}
 				lcd_fill(0);
 				lcd_text12(12,3,"车辆类型选择完毕",16,LCD_MODE_SET);
 				lcd_text12(6,18,"按确认键设置下一项",18,LCD_MODE_SET);

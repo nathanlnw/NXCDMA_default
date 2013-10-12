@@ -13,7 +13,7 @@
 #include  "Vdr.h"
 
  
-#define   SYSID            0xB9EE     
+#define   SYSID            0xB9BB     
                                 /*        
                                                         0x0000   -----   0x00FF  …˙≤˙∫Õ—–∑¢”√
                                                         0x0100   -----   0x0FFF  ≤˙∆∑≥ˆªı”√
@@ -28,6 +28,7 @@ SYS_CONF          SysConf_struct;   //  œµÕ≥≈‰÷√
 ALIGN(RT_ALIGN_SIZE) 
 JT808_CONF       JT808Conf_struct;    //  JT 808   œ‡πÿ≈‰÷√   
 JT808_CONF       JT808_struct_Bak;    //  JT808 œ‡πÿƒ£ Ω…Ë÷√±∏∑›
+JT808_CONF       JT808_struct_Bak2;   //  JT808  bak 2
 
 ALIGN(RT_ALIGN_SIZE) 
 TIRED_CONF      TiredConf_struct;    //  ∆£¿Õº› ªœ‡πÿ≈‰÷√
@@ -41,8 +42,8 @@ u8      DeviceNumberID[13];//="800130100001";    // ≥µ¡æDeviceID    ---- ∫”±±ÃÏµ
 u8      SimID_12D[13]; // »ÎÕ¯ID  ∫≈¬Î 12 Œª  ◊Œª Œ™ 0
 
 u8          RemoteIP_Dnsr[4]={255,255,255,255}; 
-u8		RemoteIP_main[4]={58,83,210,131};//{125,38,185,88};//{113,31,28,101 };//{113,31,92,200};//ÃÏΩÚ{60,28,50,210}; ∫”±±ÃÏµÿÕ® 113,31,28,100                        
-u16		RemotePort_main= 7008;//ÃÏΩÚ9131;   ∫”±±ÃÏµÿÕ® 8201             //test tianjin     
+u8		RemoteIP_main[4]={218,95,142,6};//{125,38,185,88};//{113,31,28,101 };//{113,31,92,200};//ÃÏΩÚ{60,28,50,210}; ∫”±±ÃÏµÿÕ® 113,31,28,100                        
+u16		RemotePort_main= 9131;//ÃÏΩÚ9131;   ∫”±±ÃÏµÿÕ® 8201             //test tianjin     
 u8		RemoteIP_aux[4]={60,28,50,210};    //{60,28,50,210}
 u16		RemotePort_aux=4000; 
 //           Link2  Related 
@@ -388,10 +389,16 @@ void  Vehicleinfo_Init(void)
 	Vechicle_Info.Dev_ProvinceID=64;  // ƒ¨»œ °ID       12   ÃÏΩÚ  64  ƒ˛œƒ
 	Vechicle_Info.Dev_CityID=101;      // ƒ¨»œ –ID   0		101  ƒ˛œƒ“¯¥® 
 	Vechicle_Info.Dev_Color=1;       // ƒ¨»œ—’…´    // JT415    1  ¿∂ 2 ª∆ 3 ∫⁄ 4 ∞◊ 9∆‰À˚     
-	Vechicle_Info.loginpassword_flag=0;
-	Vechicle_Info.Link_Frist_Mode=0; //     0  : dnsr first     1: mainlink  first  
+	//Vechicle_Info.loginpassword_flag=0;
+	Vechicle_Info.Link_Frist_Mode=1; //     0  : dnsr first     1: mainlink  first  
 
 	DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+	
+	WatchDog_Feed();
+	DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+	
+	WatchDog_Feed();
+	DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 	
 }
 
@@ -1385,10 +1392,10 @@ void SetConfig(void)
           // Api_Config_read(jt808,0,(u8*)&JT808Conf_struct,sizeof(JT808Conf_struct));   //  ∂¡»°JT808   ≈‰÷√–≈œ¢
          //-------- JT808 ≤Œ ˝≈‰÷√∂¡»°≤‚ ‘£¨≤Ÿ◊˜∆µ∑±∂¯«“÷ÿ“™À˘“‘–Ë“™Ãÿ ‚¥¶¿Ì 
            DF_ReadFlash(JT808Start_offset, 0,(u8*)&JT808Conf_struct,sizeof(JT808Conf_struct)); 
-		   DF_delay_ms(100); 	// large content delay	
+		   DF_delay_ms(80); 	// large content delay	
 
 		   DF_ReadFlash(JT808_BakSetting_offset, 0,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak)); 
-		   DF_delay_ms(100); 	// large content delay	 
+		   DF_delay_ms(80); 	// large content delay	 
 
 		   // 2. ±»Ωœ
 		  i=memcmp((u8*)&JT808Conf_struct,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak));

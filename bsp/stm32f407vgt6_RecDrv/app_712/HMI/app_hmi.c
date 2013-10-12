@@ -354,8 +354,8 @@ static void HMI_thread_entry(void* parameter)
 	    Init_4442(); 
 
 
-	rt_kprintf("\r\nVechicle_Info.loginpassword_flag=%d\r\n",Vechicle_Info.loginpassword_flag);
-    if(Vechicle_Info.loginpassword_flag==0)
+	rt_kprintf("\r\nVechicle_Info.loginpassword_flag=%d\r\n",Login_Menu_Flag);
+    if(Login_Menu_Flag==0)
     	{
     	    JT808Conf_struct.Regsiter_Status=0;   //需要重新注册
             pMenuItem=&Menu_0_0_password;

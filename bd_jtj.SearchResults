@@ -1,17 +1,4 @@
----- Vechicle_Info.Dev_Color Matches (16 in 5 files) ----
-Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						Vechicle_Info.Dev_Color=0;
-Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						Vechicle_Info.Dev_Color=Menu_color_num; 
-Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					rt_kprintf("\r\n车牌颜色设置完成，按菜单键返回，%d",Vechicle_Info.Dev_Color);
-Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):                     Vechicle_Info.Dev_Color=0;
-Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				     Vechicle_Info.Dev_Color=Menu_color_num;
-Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):               switch(Vechicle_Info.Dev_Color)
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):	   Original_info[Original_info_Wr++]=0; //Vechicle_Info.Dev_Color;
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):	   Original_info[Original_info_Wr++]=2; //Vechicle_Info.Dev_Color; 
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):			Original_info[Original_info_Wr++]=Vechicle_Info.Dev_Color;
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):		Original_info[Original_info_Wr++]=Vechicle_Info.Dev_Color;
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					Vechicle_Info.Dev_Color=Content[0];           
-Protocol_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					rt_kprintf("\r\n 车辆颜色: %d  \r\n",Vechicle_Info.Dev_Color);    
-SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):					Vechicle_Info.Dev_Color=u16Temp; 
-SMS.c (bsp\stm32f407vgt6_recdrv\app_712\gsm):	        		rt_kprintf("\r\n 车辆颜色: %s ,%d \r\n",sms_content,Vechicle_Info.Dev_Color);          
-Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):	Vechicle_Info.Dev_Color=1;       // 默认颜色    // JT415    1  蓝 2 黄 3 黑 4 白 9其他     
-Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):         rt_kprintf("\r\n        车辆颜色:   JT415    1  蓝 2 黄 3 黑 4 白 9其他----当前颜色 %d \r\n",Vechicle_Info.Dev_Color);  
+---- JT808_BakSetting_offset Matches (3 in 3 files) ----
+Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 DF_WriteFlashSector(JT808_BakSetting_offset,0,buffer,wr_len); // bak  setting   					 
+DF_Oper.h (bsp\stm32f407vgt6_recdrv\app_712\dataflash):#define    JT808_BakSetting_offset                    960        //   Block   起始位?
+Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):		   DF_ReadFlash(JT808_BakSetting_offset, 0,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak)); 

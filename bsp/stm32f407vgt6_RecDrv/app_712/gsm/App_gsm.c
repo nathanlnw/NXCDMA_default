@@ -331,7 +331,9 @@ static void gsm_thread_entry(void* parameter)
 		   HMI_app_init();	
       #endif           
 	       gps_init();	  
+
 	   
+	   Device_CAN2_regist();	//	Device CAN2 Init 
 	 //--------------------------------------  
 	while (1)
 	{
@@ -360,7 +362,7 @@ static void gsm_thread_entry(void* parameter)
 			 memcpy(atd_str,"ATD",3);
 			 memcpy(atd_str+3,JT808Conf_struct.LISTEN_Num,strlen((const char*)JT808Conf_struct.LISTEN_Num));
 			 memcpy(atd_str+3+strlen((const char*)JT808Conf_struct.LISTEN_Num),";\r\n",3);
-			 rt_hw_gsm_output(atd_str);
+			 rt_hw_gsm_output((const char*)atd_str); 
 			 rt_kprintf("\r\n²¦´ò%s\r\n",atd_str);
 			}
 		     //---------  Step timer

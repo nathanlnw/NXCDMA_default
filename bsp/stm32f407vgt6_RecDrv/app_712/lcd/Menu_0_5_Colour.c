@@ -71,6 +71,10 @@ static void keypress(unsigned int key)
 					else
 						Vechicle_Info.Dev_Color=Menu_color_num; 
 					DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+					WatchDog_Feed();
+					DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 					
 					lcd_fill(0);
 					lcd_text12(12,3,"车牌颜色设置完成",16,LCD_MODE_SET);
@@ -159,10 +163,15 @@ static void keypress(unsigned int key)
 				else
 				     Vechicle_Info.Dev_Color=Menu_color_num;
 				//车辆设置完成
-				Vechicle_Info.loginpassword_flag=1; 
+				Login_Menu_Flag=1;     //  输入界面为0 
+		        DF_WriteFlashSector(DF_LOGIIN_Flag_offset,0,&Login_Menu_Flag,1); 
 				//  存储
 				//rt_kprintf("\r\n(保存4   )Vechicle_Info.Vech_Num=%s",Vechicle_Info.Vech_Num);
-				DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));         
+				DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+				WatchDog_Feed();
+				DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+				WatchDog_Feed();
+				DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
 				//error=Api_Config_Recwrite_Large(jt808,0,(u8*)&JT808Conf_struct,sizeof(JT808Conf_struct));
 				//rt_kprintf("\r\n write  error=%d",error);
 				delay_ms(3);

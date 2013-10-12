@@ -1184,9 +1184,9 @@ void GSM_Module_TotalInitial(void)
 					 CommAT.Initial_step++;
 					 break;
 			 case 5:
-					 rt_hw_gsm_output(CommAT_Str6);    
+					 rt_hw_gsm_output(CommAT_Str8);     
 					 if(DispContent)
-					 rt_kprintf(CommAT_Str6); 
+					 rt_kprintf(CommAT_Str8); 
 					 CommAT.Initial_step++; 
 					 break;
 			 case 6:
@@ -1256,7 +1256,10 @@ void GSM_Module_TotalInitial(void)
 			         rt_hw_gsm_output(CommAT_Str17); 
 					  if(DispContent)
 					 rt_kprintf(CommAT_Str17);
-					 CommAT.Initial_step++;
+					 
+					 if(Login_Menu_Flag==1) 	  // 先初始化然后再执行拨号。保证短息OK
+						CommAT.Initial_step++;  
+					 
 					 break;		 
 			 case 17://  信号强度 /		
 			         rt_hw_gsm_output(Signal_Intensity_str); 
@@ -1862,7 +1865,14 @@ static void GSM_Process(u8 *instr, u16 len)
 			   Delete_all_sms_flag=1;  
 			 }
 	    } 
-		               
+		if( strncmp( (char*)GSM_rx, "+ZCEND:25", 9 ) == 0 )  
+		{   //+ZCEND:25
+		              
+		     CallState=CallState_Idle;	
+			  Speak_OFF;// 关闭功放 
+			 failed = true;
+			 rt_kprintf("\r\n Callstate=Idle\r\n"); 
+		  }
 		//+ZCEND
 		// +ZPPPSTATUS: CLOSED
 	   //============================================================================
@@ -1919,7 +1929,7 @@ static void GSM_Process(u8 *instr, u16 len)
 	 	      //  You must   register on 
 	 		  if(CommAT.Total_initial==1)
 	 			{
-	                if(ModuleSQ>10)
+	                if((ModuleSQ>10)&&(CommAT.Initial_step==17))      
 	 				{
 	 				  CommAT.Initial_step++;
 					  rt_kprintf("\r\n CSQ check Pass : %s\r\n",GSM_rx);      
@@ -1933,10 +1943,11 @@ static void GSM_Process(u8 *instr, u16 len)
 	      connect=true;
 	}
 	
-#ifndef MC8332_CDMA
+#ifdef MC8332_CDMA
 	else
 	if (strncmp((char*)GSM_rx, "ERROR",5) == 0) 
 	{
+	    rt_kprintf("\r\n rx _error \r\n");
 	   error = true;
 	   CallState=CallState_Idle;  
 	   //----------------------
@@ -2090,7 +2101,7 @@ RXOVER:
 void  IMSIcode_Get(void)
 {
 
-        if((GSM_PWR.GSM_power_over==1) &&(Vechicle_Info.loginpassword_flag==1))
+        if(GSM_PWR.GSM_power_over==1)
 		{
                IMSIGet.Checkcounter++;
 		       if(IMSIGet.Checkcounter>20)     //  15*30=450ms      

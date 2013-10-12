@@ -99,6 +99,8 @@
 #include "CRC.h"  
 
 #include "Vdr.h"
+#include "DF_Oper.h"
+
 
 
 // size                 

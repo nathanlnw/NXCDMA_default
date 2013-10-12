@@ -184,7 +184,7 @@ int rt_application_init()
     rt_thread_t init_thread;
 
 
-     Device_CAN2_regist();    //  Device CAN2 Init 
+    // Device_CAN2_regist();    //  Device CAN2 Init 
 
 #if (RT_THREAD_PRIORITY_MAX == 32)
     init_thread = rt_thread_create("init",

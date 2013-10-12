@@ -320,7 +320,7 @@ void  DwinLCD_Data_Process(void)
 					  memset(dwin_reg,0,sizeof(dwin_reg));
 					  IP_Str((char*)dwin_reg, *( u32 * ) RemoteIP_main);		   
 					  strcat((char*)dwin_reg, " :"); 	  
-					  sprintf((char*)dwin_reg+strlen((const char*)(const char*)dwin_reg), "%u\r\n", RemotePort_main);  
+					  sprintf((char*)dwin_reg+strlen((const char*)dwin_reg), "%u\r\n", RemotePort_main);  
 				         memcpy((char*)SysConf_struct.IP_Main,RemoteIP_main,4);
 					  SysConf_struct.Port_main=RemotePort_main;
 					 Api_Config_write(config,ID_CONF_SYS,(u8*)&SysConf_struct,sizeof(SysConf_struct));
@@ -631,7 +631,7 @@ void  Pic_Data_Process(void)
 						 //擦除一个64K的区域用于图片存储  
 					     Api_DFdirectory_Delete(camera_4); 	   
 					}	
-					 DF_delay_ms(200);  
+					 DF_delay_ms(150);  
 					 WatchDog_Feed(); 
 					 pic_current_page++;  // 图片内容从 第二个page 开始 第一个Page 存储的是图片索引 
 					 pic_PageIn_offset=0; // 页内偏移清空 
@@ -687,7 +687,7 @@ void  Pic_Data_Process(void)
 				   pic_size+=PackageLen;// 图片大小累加	 				   
 				   pic_current_page++; //写一页加一
 				  // pic_PageIn_offset+=PackageLen;  
-				   DF_delay_ms(80);   
+				   DF_delay_ms(50);   
 	   //   5.   最后一包 ，即拍照结束
 		  if(last_package==1)
 		 {
@@ -711,7 +711,7 @@ void  Pic_Data_Process(void)
 			   PictureName[18]=Camera_Number;
 			   memcpy(PictureName+19,(u8*)&pic_size,4);	 			   
 			   DF_WriteFlashDirect(pic_current_page,0,PictureName, 23);  
-			   DF_delay_ms(10); 
+			   DF_delay_ms(8); 
 			   
 	               //  5.1   更新图片读写记录
 	               pic_write++;

@@ -217,7 +217,7 @@ u8  Vdr_PowerOn_getWriteIndex(u8 type)
 					   	{
 					   	   WatchDog_Feed();
 				           SST25V_SectorErase_4KByte( VDR_08H_START );  
-						   DF_delay_ms(100);
+						   DF_delay_ms(80);
 						   Vdr_Wr_Rd_Offset.V_08H_Write=0;
 					   	}							   	
 		   	          
@@ -240,7 +240,7 @@ u8  Vdr_PowerOn_getWriteIndex(u8 type)
 					   	{
 					   	   WatchDog_Feed();
 				           SST25V_SectorErase_4KByte( VDR_09H_START );   
-						   DF_delay_ms(100);
+						   DF_delay_ms(80);
 						   Vdr_Wr_Rd_Offset.V_09H_Write=0;  
 					   	} 
 					   break;
@@ -262,7 +262,7 @@ u8  Vdr_PowerOn_getWriteIndex(u8 type)
 					   	{
 					   	   WatchDog_Feed();
 				           SST25V_SectorErase_4KByte( VDR_10H_START );    
-						   DF_delay_ms(100);
+						   DF_delay_ms(80);
 						   Vdr_Wr_Rd_Offset.V_10H_Write=0;   
 					   	}  
 					   break;
@@ -283,7 +283,7 @@ u8  Vdr_PowerOn_getWriteIndex(u8 type)
 					   	{
 					   	   WatchDog_Feed();
 				           SST25V_SectorErase_4KByte( VDR_11H_START );    
-						   DF_delay_ms(100);
+						   DF_delay_ms(80);
 						   Vdr_Wr_Rd_Offset.V_11H_Write=0;       
 					   	}  
 					   break;
@@ -304,7 +304,7 @@ u8  Vdr_PowerOn_getWriteIndex(u8 type)
 					   	{
 					   	   WatchDog_Feed();
 				           SST25V_SectorErase_4KByte( VDR_12H_START );   
-						   DF_delay_ms(100);
+						   DF_delay_ms(80);
 						   Vdr_Wr_Rd_Offset.V_12H_Write=0;           
 					   	}  
 						break;
@@ -324,7 +324,7 @@ u8  Vdr_PowerOn_getWriteIndex(u8 type)
 					   	{
 					   	   WatchDog_Feed();
 				           SST25V_SectorErase_4KByte( VDR_13H_START );     
-						   DF_delay_ms(100);
+						   DF_delay_ms(80);
 						   Vdr_Wr_Rd_Offset.V_13H_Write=0;       
 					   	}  
 						break;
@@ -345,7 +345,7 @@ u8  Vdr_PowerOn_getWriteIndex(u8 type)
 					   	{
 					   	   WatchDog_Feed();
 				           SST25V_SectorErase_4KByte( VDR_14H_START );        
-						   DF_delay_ms(100);
+						   DF_delay_ms(80);
 						   Vdr_Wr_Rd_Offset.V_14H_Write=0;       
 					   	}  
 						break;
@@ -366,7 +366,7 @@ u8  Vdr_PowerOn_getWriteIndex(u8 type)
 					   	{
 					   	   WatchDog_Feed();
 				           SST25V_SectorErase_4KByte( VDR_15H_START );     
-						   DF_delay_ms(100);
+						   DF_delay_ms(80);
 						   Vdr_Wr_Rd_Offset.V_15H_Write=0;          
 					   	}  
 						break;
@@ -486,7 +486,7 @@ void query_vdr(u8 type,u8 *intime, u16 current_start,u16 num)
 					   {
 						  WatchDog_Feed();
 						  SST25V_SectorErase_4KByte( VDR_08H_START );  
-						  DF_delay_ms(100);
+						  DF_delay_ms(80);
 						  Vdr_Wr_Rd_Offset.V_08H_Write=0;
 					   }							   
 					 
@@ -508,7 +508,7 @@ void query_vdr(u8 type,u8 *intime, u16 current_start,u16 num)
 					   {
 						  WatchDog_Feed();
 						  SST25V_SectorErase_4KByte( VDR_09H_START );	
-						  DF_delay_ms(100);
+						  DF_delay_ms(80);
 						  Vdr_Wr_Rd_Offset.V_09H_Write=0;  
 					   } 
 					  break;
@@ -529,7 +529,7 @@ void query_vdr(u8 type,u8 *intime, u16 current_start,u16 num)
 					   {
 						  WatchDog_Feed();
 						  SST25V_SectorErase_4KByte( VDR_10H_START );	
-						  DF_delay_ms(100);
+						  DF_delay_ms(80);
 						  Vdr_Wr_Rd_Offset.V_10H_Write=0;	
 					   }  
 					  break;
@@ -550,7 +550,7 @@ void query_vdr(u8 type,u8 *intime, u16 current_start,u16 num)
 					   {
 						  WatchDog_Feed();
 						  SST25V_SectorErase_4KByte( VDR_11H_START );	
-						  DF_delay_ms(100);
+						  DF_delay_ms(80);
 						  Vdr_Wr_Rd_Offset.V_11H_Write=0;		
 					   }  
 					  break;
@@ -571,7 +571,7 @@ void query_vdr(u8 type,u8 *intime, u16 current_start,u16 num)
 					   {
 						  WatchDog_Feed();
 						  SST25V_SectorErase_4KByte( VDR_12H_START );		
-						  DF_delay_ms(100);
+						  DF_delay_ms(80);
 						  Vdr_Wr_Rd_Offset.V_12H_Write=0;			
 					   }  
 					   break;
@@ -591,7 +591,7 @@ void query_vdr(u8 type,u8 *intime, u16 current_start,u16 num)
 					   {
 						  WatchDog_Feed();
 						  SST25V_SectorErase_4KByte( VDR_13H_START );		
-						  DF_delay_ms(100);
+						  DF_delay_ms(80);
 						  Vdr_Wr_Rd_Offset.V_13H_Write=0;		
 					   }  
 					   break;
@@ -612,7 +612,7 @@ void query_vdr(u8 type,u8 *intime, u16 current_start,u16 num)
 					   {
 						  WatchDog_Feed();
 						  SST25V_SectorErase_4KByte( VDR_14H_START );		 
-						  DF_delay_ms(100);
+						  DF_delay_ms(80);
 						  Vdr_Wr_Rd_Offset.V_14H_Write=0;		
 					   }  
 					   break;
@@ -633,7 +633,7 @@ void query_vdr(u8 type,u8 *intime, u16 current_start,u16 num)
 					   {
 						  WatchDog_Feed();
 						  SST25V_SectorErase_4KByte( VDR_15H_START );		
-						  DF_delay_ms(100);
+						  DF_delay_ms(80);
 						  Vdr_Wr_Rd_Offset.V_15H_Write=0;		   
 					   }  
 					   break;
@@ -999,7 +999,7 @@ u16 get_08h( u16 indexnum,u8 *p)
 
    //    2. read   
       SST25V_BufferRead(buf, addr, 128 );
-      DF_delay_ms(80);
+      DF_delay_ms(60);
        OutPrint_HEX("08H content",buf,128); // debug   
    //     3.  FCS  check
            FCS=0;
@@ -1043,7 +1043,7 @@ u16  get_09h( u16 indexnum,u8 *p)
 	
 	//	  2. read	
 	   SST25V_BufferRead(buf, addr, 669 ); //2+content 
-	   DF_delay_ms(80);
+	   DF_delay_ms(60);
 	   OutPrint_HEX("09H content",buf,669); // debug 
 	//	   3.  FCS	check
 	          FCS=0;
@@ -1086,7 +1086,7 @@ u16 get_10h( u16 indexnum,u8 *p)
 	
 	//	  2. read	
 	   SST25V_BufferRead(buf, addr, 236 );	
-	   DF_delay_ms(80); 
+	   DF_delay_ms(60); 
 	   OutPrint_HEX("10H content",buf,236); // debug 
 	//	   3.  FCS	check
 	         FCS=0;

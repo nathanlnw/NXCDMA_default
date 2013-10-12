@@ -97,7 +97,7 @@ void rtthread_startup(void)
  
 	 
     #endif 	 
-   rt_kprintf("\n\r  ÄþÏÄCDMA ±±¶·³µÔØÖÕ¶Ë GGHYPT  TW703-BD  Version 1.0 Ë«Module¼æÈÝ°æ±¾\r\n ");       
+   rt_kprintf("\n\r  ÄþÏÄCDMA ±±¶·³µÔØÖÕ¶Ë GGHYPT  TW703-BD  Version 1.1 Ë«Module¼æÈÝ°æ±¾  link_mode:1 init\r\n ");       
 	/* show version */
 	rt_show_version(); 
 
@@ -110,7 +110,7 @@ void rtthread_startup(void)
 	/* init timer system */
 	rt_system_timer_init();
 
-      rt_system_heap_init((void*)STM32_SRAM_BEGIN, (void*)STM32_SRAM_END);
+      rt_system_heap_init((void*)STM32_SRAM_BEGIN, (void*)STM32_SRAM_END); 
 
 	/* init scheduler system */
 	rt_system_scheduler_init();

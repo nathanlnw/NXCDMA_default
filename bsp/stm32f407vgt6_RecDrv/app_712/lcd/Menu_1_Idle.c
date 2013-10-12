@@ -213,7 +213,34 @@ void  Disp_Idle(void)
 		      Dis_speDer[2]=disp_spd%10+'0'; 
 		}
 
-       //---------------方向-----------------------------              
+       //---------------方向-----------------------------    
+       memset(Dis_speDer+12,' ',8); // 初始化为空格
+
+       // 1. 正北判断
+       if((GPS_direction<=23)||(GPS_direction>337))	
+	   	 memcpy(Dis_speDer+12,"正北",4);
+	   // 2. 东北判断
+       if((GPS_direction<=68)&&(GPS_direction>23))	
+	   	 memcpy(Dis_speDer+12,"东北",4);
+	     // 3. 正东判断
+       if((GPS_direction<=113)&&(GPS_direction>=68))	
+	   	 memcpy(Dis_speDer+12,"正东",4);
+	     // 4.东南判断
+       if((GPS_direction<=158)&&(GPS_direction>113))	
+	   	 memcpy(Dis_speDer+12,"东南",4);
+	     //5. 正南判断
+       if((GPS_direction<=203)&&(GPS_direction>158))	
+	   	 memcpy(Dis_speDer+12,"正南",4);
+	     // 6. 西南判断
+       if((GPS_direction<=248)&&(GPS_direction>=203))	
+	   	 memcpy(Dis_speDer+12,"西南",4);
+	     // 7. 正西判断
+       if((GPS_direction<=293)&&(GPS_direction>=248))	
+	   	 memcpy(Dis_speDer+12,"正西",4);
+	     // 8.西北判断
+       if((GPS_direction<=337)&&(GPS_direction>293))	
+	   	 memcpy(Dis_speDer+12,"西北",4);  
+  /*     
             if((GPS_direction>=100)&&(GPS_direction<=360))
        	{
                     Dis_speDer[12]=GPS_direction/100+'0';
@@ -237,7 +264,7 @@ void  Disp_Idle(void)
 		      Dis_speDer[14]=GPS_direction%10+'0'; 
 		}
 
-
+*/
 	//--------------------------------------------------   
     lcd_fill(0);	
 	lcd_text12(0,10,(char *)Dis_date,20,LCD_MODE_SET);
@@ -297,6 +324,8 @@ static void keypress(unsigned int key)
 				reset_firstset=4;
 			else if(reset_firstset==4)
 				reset_firstset=5;	
+			else    // add later
+				 reset_firstset=0;
 			break;
 		case KeyValueUP:
 			Dis_deviceid_flag=0;
@@ -306,6 +335,8 @@ static void keypress(unsigned int key)
 				reset_firstset=3;
 			else if(reset_firstset==5)
 				reset_firstset=6;
+			else    // add later
+				 reset_firstset=0;  
 			break;
 		case KeyValueDown:
 			Dis_deviceid_flag=0;
@@ -335,8 +366,8 @@ if(reset_firstset==6)
 	{
 	reset_firstset++;
 	//----------------------------------------------------------------------------------	
-		Vechicle_Info.loginpassword_flag=0;     // clear  first flag		
-		DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));      
+	 Login_Menu_Flag=0;     //  输入界面为0 
+     DF_WriteFlashSector(DF_LOGIIN_Flag_offset,0,&Login_Menu_Flag,1);   
 	//----------------------------------------------------------------------------------
 	}
 else if(reset_firstset>=7)//50ms一次,,60s
