@@ -184,14 +184,19 @@ extern u8       TCP2_Coutner;  // 定时器计数
 extern u8       TCP2_login;       // TCP 建立好连接后的标志位   
 
 
+//--------   电话性能指示 -------------------
+extern  u8  Ring_counter;  // ring   来电话，性能指示
+extern  u8  Calling_ATA_flag; //     接听电话操作  
+
+//---------------------------
+extern u8   Delete_all_sms_flag;  // 删除所有短信标志位      
+
+
 ALIGN(RT_ALIGN_SIZE)
 extern  u8     GSM_rx[GSMRX_SIZE];       
 extern  u8     GSM_AsciiTx[GSM_AsciiTX_SIZE];
 
 extern 	GSM_POWER	GSM_PWR;  
-
-//---------------------------
-extern u8   Delete_all_sms_flag;  // 删除所有短信标志位      
 
 
 extern void GSM_CSQ_timeout(void);
@@ -228,7 +233,6 @@ extern u8    TTS_Data_Play(void);
 extern u8    TTS_Get_Data(u8* Instr,u16 LEN) ; 
 extern void TTS_Exception_TimeLimt(void);     //  单位: s 
 extern void TTS_play(u8 * instr);
-extern u32 GSM_HextoAscii_Convert(u8*SourceHex,u16 SouceHexlen,u8 *Dest);   
 
 //   VOC REC 
 #ifdef REC_VOICE_ENABLE

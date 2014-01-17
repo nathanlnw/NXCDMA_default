@@ -133,7 +133,7 @@
 
 
 
-#define   Max_SystemCounter            20400// 28800 // 86400   //定时重启时间24小时 一天  
+#define   Max_SystemCounter            86400// 28800 // 86400   //定时重启时间24小时 一天   
 
 //-----------------------  Max  Add    ---------------------------------
 #define   Max_CycleNum                  16384
@@ -259,7 +259,6 @@ extern u8       EmergentWarn;               // 紧急报警
 extern u8     Vechicle_TYPE;                //   车辆类型    1:大型货车  2: 小型货车  3:大型客车  4: 中型客车   5:小型客车
 extern u8	  OnFire_Status; 					//      1 : ACC 点火操作完成	   0 :	ACC  关火操作完成 
 extern u8     Login_Status;                    //   01H:登录，02H：退出，03H：更换驾驶员
-extern u8     Powercut_Status;                 //01H:上电，02H：断电
 extern u8     Settingchg_Status;              /*
 												82H:设置车辆信息，84H：设置状态量
 												C2H:设置记录仪时钟 
@@ -286,6 +285,7 @@ extern u32  current_distance_meter;    //   当前距离
 //---------  SytemCounter ------------------
 extern u32  Systerm_Reset_counter; 
 extern u8   SYSTEM_Reset_FLAG;        // 系统复位标志位  
+extern u8   DistanceWT_Flag;  //  写里程标志位
 
 extern u32      Device_type;    // 硬件类型   STM32103  新A1 
 extern u32      Firmware_ver;   // 软件版本 
@@ -321,7 +321,7 @@ extern void  ProductAttribute_init(void);
 
 
 
-
+extern void Rails_Routline_Read(void);        
 extern void SysConfiguration(void);
 extern void SetConfig(void);
 extern void DefaultConfig(void);

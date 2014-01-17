@@ -140,14 +140,18 @@ u8     Enable_UDP_sdFlag=0;
 
 u8    Dial_jump_State=0;  // 拨号过程中  状态跳转标志， DialInit5  DialInit6 到 DialInit7 的跳转标记
 u8    Dnsr_state=0;  //  DNSR 状态   1: 表示在域名解析成功的前提下
-u8    Dnsr_retry=0;  // 域名解析次数
 
 
 //------- GPPRS 功能相关 ----------------
 //u8 Datalink_close=0;  //挂断后不再登陆
 
+//--------   电话性能指示 -------------------
+u8  Ring_counter=0;  // ring   来电话，性能指示
+u8  Calling_ATA_flag=0; //     接听电话操作
+
 //---------------------------
 u8  Delete_all_sms_flag=0;  // 删除所有短信标志位  
+
 
 //-------- TCP2 send ---------
 u8     TCP2_ready_dial=0;
@@ -369,7 +373,6 @@ void VOC_REC_dataGet(u8 *instr )
                       VocREC.Sate=VOICEREC_DEL;  // 删除文件  
 		        VocREC.ExcuteFlag=1;  
 			 VocREC.file_read=0;   // clear  
-                        DF_LOCK=disable; 
 			 //   开始准备上传 录音
 			  Sound_send_start(); //开始上传
 			 //--------------------------------------------------------------------------
@@ -2047,10 +2050,18 @@ RXOVER:
 								                rt_kprintf("\r\n Aux 连接成功TCP---\r\n");
 								   //     1.   登陆成功后相关操作	 
 								    // <--  注册状态
-								    if(1==JT808Conf_struct.Regsiter_Status)  
-								             DEV_Login.Operate_enable=1;  
+								    if(1==JT808Conf_struct.Regsiter_Status)   
+								        {
+								           DEV_Login.Operate_enable=1;  
+										   if(DEV_Login.Sd_counter==0)
+                                               DEV_Login.Enable_sd=1;    
+								    	}
 									else
-										 JT808Conf_struct.Regsiter_Status=0;     
+										{
+										  JT808Conf_struct.Regsiter_Status=0;  
+										  if(DEV_regist.Sd_counter==0)
+										     DEV_regist.Enable_sd=1; 
+										}
 									 
 								   // connect = true;
 								         //  -----  Data  Dial Related ------
@@ -2261,7 +2272,7 @@ void  rt_hw_gsm_init(void)
    GPIO_ResetBits(GPIOD,GPRS_GSM_Power);
    GPIO_ResetBits(GPIOD,GPRS_GSM_PWKEY);    //M66 常态下置低      控高
    
-  Speak_OFF;//  关闭音频功放 
+  Speak_OFF;//  关闭音频功放  
   //Speak_ON;  // debug
 
 /*

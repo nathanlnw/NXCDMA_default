@@ -1,4 +1,18 @@
----- JT808_BakSetting_offset Matches (3 in 3 files) ----
-Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):					 DF_WriteFlashSector(JT808_BakSetting_offset,0,buffer,wr_len); // bak  setting   					 
-DF_Oper.h (bsp\stm32f407vgt6_recdrv\app_712\dataflash):#define    JT808_BakSetting_offset                    960        //   Block   ÆðÊ¼Î»?
-Sys_config.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):		   DF_ReadFlash(JT808_BakSetting_offset, 0,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak)); 
+---- Socket_main_Set Matches (19 in 5 files) ----
+Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):void Socket_main_Set(u8* str)
+Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):FINSH_FUNCTION_EXPORT(Socket_main_Set,Set Socket main); 
+Device_808.h (bsp\stm32f407vgt6_recdrv\app_712\protocol_808): extern  void Socket_main_Set(u8* str); 
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	                        Socket_main_Set(IPstr);   
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):                        Socket_main_Set("60.28.50.210:9131"); 
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv): <LI><a href="#[1cb]">Socket_main_Set</a> from device_808.o(i.Socket_main_Set) referenced from device_808.o(FSymTab)
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<P><STRONG><a name="[1cb]"></a>Socket_main_Set</STRONG> (Thumb, 128 bytes, Stack size 96 bytes, device_808.o(i.Socket_main_Set))
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = Socket_main_Set &rArr; str2ipport &rArr; __0sscanf &rArr; __vfscanf_char &rArr; __vfscanf &rArr; _scanf_real
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR>[Called By]<UL><LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set

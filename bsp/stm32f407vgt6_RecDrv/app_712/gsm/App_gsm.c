@@ -14,6 +14,7 @@
 #include  <string.h>
 #include "App_moduleConfig.h"
 #include "App_gsm.h"
+#include "Device_gsm.h" 
 
 
 
@@ -333,7 +334,6 @@ static void gsm_thread_entry(void* parameter)
 	       gps_init();	  
 
 	   
-	   Device_CAN2_regist();	//	Device CAN2 Init 
 	 //--------------------------------------  
 	while (1)
 	{
@@ -344,6 +344,7 @@ static void gsm_thread_entry(void* parameter)
               GSM_Module_TotalInitial();  
             // 3. Receivce & Process   Communication  Module   data ----
 	       GSM_Buffer_Read_Process(); 
+		   rt_thread_delay(8);   	
 	       DataLink_Process();		
              //------------------------------------------------
 		    if (Send_DataFlag== 1) 
@@ -372,21 +373,32 @@ static void gsm_thread_entry(void* parameter)
              //   Get  CSQ value
 	         if(GSM_CSQ_Query()==false)
 	         {
-	            if(Delete_all_sms_flag==1)
-	            {
-	                 delay_ms(100);  
-					  rt_hw_gsm_output("AT+CMGD=1,4\r\n");    //检查信号强度
-					  if(DispContent)	
-					        rt_kprintf("删除所有短信\r\n");   
-               
-                   Delete_all_sms_flag=0;
-	            }
+	             if(Calling_ATA_flag==1)
+	             	{
+                        rt_thread_delay(3);  
+		                rt_hw_gsm_output("ATA\r\n");    //检查信号强度
+					    if(DispContent)	
+					        rt_kprintf(" 接听   ATA\r\n");   
 
-	         }
-             
+                       Calling_ATA_flag=0;
+	             	}
+				   else
+					if(Delete_all_sms_flag==1)
+					{
+						 delay_ms(100);  
+						  rt_hw_gsm_output("AT+CMGD=1,4\r\n");	  //检查信号强度
+						  if(DispContent)	
+								rt_kprintf("删除所有短信\r\n");   
+				   
+					   Delete_all_sms_flag=0;
+					}
+				 
+				 
+			 }  
+			 
 			 //   SMS  Service
 			 SMS_Process();            
-	         rt_thread_delay(25);    	      
+	         rt_thread_delay(10);      	      
 			   
 	}
 }

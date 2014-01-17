@@ -117,7 +117,6 @@ static void rt_thread_entry_led(void* parameter)
 			     else
 				{      //    电源正常情况下
 				       CutPowerCounter=0;
-                                   Powercut_Status=0x01;
 					  if(Battery_Flag==1)
 			    	         {
 			    	            MainPower_Recover_process();

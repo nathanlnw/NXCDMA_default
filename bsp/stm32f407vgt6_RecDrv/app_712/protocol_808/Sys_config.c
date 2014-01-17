@@ -13,7 +13,7 @@
 #include  "Vdr.h"
 
  
-#define   SYSID            0xB9BB     
+#define   SYSID            0xB8BC     
                                 /*        
                                                         0x0000   -----   0x00FF  生产和研发用
                                                         0x0100   -----   0x0FFF  产品出货用
@@ -94,7 +94,6 @@ u8      EmergentWarn=0;               // 紧急报警
 u8     Vechicle_TYPE=1;                 //   车辆类型    1:大型货车  2: 小型货车  3:大型客车  4: 中型客车   5:小型客车
 u8     OnFire_Status=0;                      //   1 : ACC 点火操作完成     0 :  ACC  关火操作完成 
 u8     Login_Status=0x02;                    //   01H:登录，02H：退出，03H：更换驾驶员
-u8     Powercut_Status=0x01;                 //01H:上电，02H：断电
 u8     Settingchg_Status=0x00;                 /*
 												82H:设置车辆信息，84H：设置状态量
 												C2H:设置记录仪时钟 
@@ -112,6 +111,7 @@ u32  current_distance_meter=0;    //   当前距离
 
 //---------  SytemCounter ------------------
 u32  Systerm_Reset_counter=0;
+u8   DistanceWT_Flag=0;  //  写里程标志位
 u8   SYSTEM_Reset_FLAG=0;        // 系统复位标志位 
 u32  Device_type=0x00000001; //硬件类型   STM32103  新A1 
 u32  Firmware_ver=0x0000001; // 软件版本
@@ -457,6 +457,7 @@ u8     JT808_Conf_init( void )
    	
                 JT808Conf_struct.OutGPS_Flag=1;     //  0  默认  1  接外部有源天线 
                 JT808Conf_struct.concuss_step=40;
+				JT808Conf_struct.Auto_ATA_flag=0; // 不启用自动接听  
 				
 		   JT808_RealTimeLock_Init();   //  实时跟踪设置	
 
@@ -1325,7 +1326,23 @@ void  SendMode_ConterProcess(void)         //  定时发送处理程序
 }
 
 
+//----------  
+void  Rails_Routline_Read(void)
+{
+   u16  i=0;
+   
+            //-----------读取围栏状态-------
+           
+		   for(i=0;i<8;i++)
+		   {
+				Api_RecordNum_Read(Rail_rect,i+1, (u8*)&Rail_Rectangle_multi[i], sizeof(Rail_Rectangle));
+				delay_ms(2);
+				Api_RecordNum_Read(Rail_cycle,i+1, (u8*)&Rail_Cycle_multi[i],sizeof(Rail_Cycle));	
 
+				
+		   }  
+
+} 
 
 
 //-----------------------------------------------------------------
@@ -1350,7 +1367,11 @@ void  FirstRun_Config_Write(void)
 		   RailPolygen_Init();	
 		   RouteLine_Init(); 
                  TEXTMSG_Write_Init();	   
- 		 
+				 
+ 		  //---- add special -----------  
+ 		  Login_Menu_Flag=0;     //  输入界面为0 
+		  DF_WriteFlashSector(DF_LOGIIN_Flag_offset,0,&Login_Menu_Flag,1); 
+		  
 
 }
 //-----------------------------------------------------------------
@@ -1385,7 +1406,7 @@ void SetConfig(void)
 
  void ReadConfig(void) 
 {
-    u16   i=0;
+    u16   res[3];
 	
            DF_delay_ms(500);  
 		  DF_LOCK=1;   // lock  df
@@ -1397,37 +1418,83 @@ void SetConfig(void)
 		   DF_ReadFlash(JT808_BakSetting_offset, 0,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak)); 
 		   DF_delay_ms(80); 	// large content delay	 
 
-		   // 2. 比较
-		  i=memcmp((u8*)&JT808Conf_struct,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak));
+		   DF_ReadFlash(JT808_Bak2Setting_offset, 0,(u8*)&JT808_struct_Bak2,sizeof(JT808_struct_Bak2)); 
+		   DF_delay_ms(80); 	// large content delay	
 
-			if(i==0)
-			   rt_kprintf("\r\n JT808 读取校验成功! i=%d\r\n",i); 
-			else
-				{
-				   rt_kprintf("\r\n JT808 读取校验失败! i=%d\r\n",i); 	 
+		   // 2. compare
+		   /*
+		           note:   res[0] == org cmp  bak    res[1]== bak  cmp  bak2    res[2]== bak2  cmp  org		  
 
-				   if((JT808Conf_struct.DURATION.Default_Dur==0xFF)&&\
-				   	  (JT808Conf_struct.DURATION.Sleep_Dur==0xFF)&&\
-				   	  (JT808Conf_struct.SD_MODE.Dur_EmegencMode==0xFF))
-				    {
-				       Api_Config_Recwrite_Large(jt808,0,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak));	
-					   rt_kprintf("\r\n Formal Fail");
-				   	}	
-				   else 	   
-                   if((JT808_struct_Bak.DURATION.Default_Dur==0xFF)&&\
-				   	  (JT808_struct_Bak.DURATION.Sleep_Dur==0xFF)&&\
-				   	  (JT808_struct_Bak.SD_MODE.Dur_EmegencMode==0xFF))
-                   	{
-				      Api_Config_Recwrite_Large(jt808,0,(u8*)&JT808Conf_struct,sizeof(JT808Conf_struct));
-					   rt_kprintf("\r\n Bak Fail");
-                   	}
-                   else
-                   	{
-                   	  rt_kprintf("\r\n all recover"); 
-	                  JT808_Conf_init();	
-                   	}
-				}
-           
+		           ---org --<seg1>--  bak ---<seg2>----bak2 ---<seg3>---
+		           |-----------<---------------<----------------------|
+		    */
+		   res[0]=memcmp((u8*)&JT808Conf_struct,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak));
+		   res[1]=memcmp((u8*)&JT808_struct_Bak,(u8*)&JT808_struct_Bak2,sizeof(JT808_struct_Bak));
+		   res[2]=memcmp((u8*)&JT808_struct_Bak2,(u8*)&JT808Conf_struct,sizeof(JT808_struct_Bak));
+
+           // 3. judge 
+           if(res[0]&&res[1]&&res[2])   // 全有问题
+           	{
+           	   rt_kprintf("\r\n JT808 全部失败!\r\n"); 	
+			   rt_kprintf("\r\n need all recover"); 
+	           JT808_Conf_init();	
+           	}
+		   else
+		   if(res[0]&&res[1])   //    seg1  seg2  有问题说明  BAK error
+		   	{    
+		   	    // org  bak2 ---ok      bak---error
+		   	   if((u8)(JT808Conf_struct.DURATION.Default_Dur>>24)!=0xFF) // 判断正确的是不是 FF
+		   	   	{ 
+		   	   	 
+				  DF_WriteFlashSector(JT808_BakSetting_offset,0,(u8*)&JT808Conf_struct,sizeof(JT808_struct_Bak));
+				  rt_kprintf("\r\n JT808 BAK error ,correct ok"); 			
+
+		   	   	}
+			   else
+			   	{ 
+			   	  rt_kprintf("\r\n need all recover 1"); 
+				  JT808_Conf_init();
+			   	}
+
+		   	}
+		   else
+		   if(res[0]&&res[2])  //  seg1  seg3    有问题说明 BAK2  error
+		   	{
+		   	   // org  bak  ---ok       bak2 -----error
+		   	   if((u8)(JT808Conf_struct.DURATION.Default_Dur>>24)!=0xFF) // 判断正确的是不是 FF
+		   	   	{ 
+		   	   	 
+				  DF_WriteFlashSector(JT808_Bak2Setting_offset,0,(u8*)&JT808Conf_struct,sizeof(JT808_struct_Bak));
+				  rt_kprintf("\r\n JT808 BAK2 error ,correct ok"); 			
+
+		   	   	}
+			   else
+			   	{ 
+			   	  rt_kprintf("\r\n need all recover 2"); 
+				  JT808_Conf_init();
+			   	}
+
+		   	}
+		   else
+		   if(res[1]&&res[2])  //  seg2  seg3	 有问题说明 org  error
+			{
+			   //  bak  bak2 --ok     org---error
+		         if((u8)(JT808_struct_Bak.DURATION.Default_Dur>>24)!=0xFF) // 判断正确的是不是 FF
+		   	   	{ 
+		   	   	 
+				  DF_WriteFlashSector(JT808Start_offset,0,(u8*)&JT808_struct_Bak,sizeof(JT808_struct_Bak));
+				  rt_kprintf("\r\n JT808 org error ,correct ok"); 	 		
+
+		   	   	}
+			   else
+			   	{ 
+			   	  rt_kprintf("\r\n need all recover 3"); 
+				  JT808_Conf_init();
+			   	}
+		   
+			} 
+		   else
+		   	rt_kprintf("\r\n JT808 读取校验成功! \r\n"); 
          //-------------------------------------------------------------------------------------
 		   
 		   SysConfig_Read();  //读取系统配置信息	                 
@@ -1443,8 +1510,82 @@ void SetConfig(void)
                  BD_EXT_Read();   
 		   Api_Read_var_rd_wr();	  	  	   
 
-		   DF_ReadFlash(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));   
-           
+           //  Vechicle  compare
+		   DF_ReadFlash(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info));  
+		   
+		   WatchDog_Feed();
+		   DF_ReadFlash(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info_BAK,sizeof(Vechicle_Info_BAK)); 
+
+		   WatchDog_Feed();
+		   DF_ReadFlash(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_info_BAK2,sizeof(Vechicle_info_BAK2)); 
+
+		   //  compare
+		   /*
+		           note:   res[0] == org cmp  bak    res[1]== bak  cmp  bak2    res[2]== bak2  cmp  org		  
+
+		           ---org --<seg1>--  bak ---<seg2>----bak2 ---<seg3>---
+		           |-----------<---------------<----------------------|
+		    */
+		   res[0]=memcmp((u8*)&Vechicle_Info,(u8*)&Vechicle_Info_BAK,sizeof(Vechicle_Info_BAK));	
+		   res[1]=memcmp((u8*)&Vechicle_Info_BAK,(u8*)&Vechicle_info_BAK2,sizeof(Vechicle_Info_BAK));
+		   res[2]=memcmp((u8*)&Vechicle_info_BAK2,(u8*)&Vechicle_Info,sizeof(Vechicle_Info_BAK));
+
+			// 3. judge 
+			if(res[0]&&res[1]&&res[2])	 // 全有问题
+			 {
+				rt_kprintf("\r\n Vechicle全部失败! \r\n");	 
+				rt_kprintf("\r\n need all recover"); 
+				Vehicleinfo_Init();// 写入车辆信息	 
+			 }
+			else
+			if(res[0]&&res[1])	 //    seg1  seg2  有问题说明  BAK error
+			 {	  
+				 // org  bak2 ---ok 	 bak---error
+				if((u8)(Vechicle_Info.Dev_CityID>>8)!=0xFF) // 判断正确的是不是 FF
+				{ 
+				  DF_WriteFlashSector(DF_VehicleBAK_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+				  rt_kprintf("\r\n Vehicle BAK error ,correct ok");   
+		   	   	}
+			   else
+			   	{ 
+			   	  rt_kprintf("\r\n Vehicle need all recover 1"); 
+				  Vehicleinfo_Init();
+			   	}			
+			 }
+			else
+			if(res[0]&&res[2])	//	seg1  seg3	  有问题说明 BAK2  error
+			 {
+				// org	bak  ---ok		 bak2 -----error
+			    if((u8)(Vechicle_Info.Dev_CityID>>8)!=0xFF) // 判断正确的是不是 FF
+				{ 
+				  DF_WriteFlashSector(DF_VehicleBAK2_Struct_offset,0,(u8*)&Vechicle_Info,sizeof(Vechicle_Info)); 
+				  rt_kprintf("\r\n Vehicle BAK2 error ,correct ok");   
+		   	   	}
+			   else
+			   	{ 
+			   	  rt_kprintf("\r\n Vehicle need all recover 2"); 
+				  Vehicleinfo_Init();
+			   	}
+			
+			 }
+			else
+			if(res[1]&&res[2])	//	seg2  seg3	  有问题说明 org  error
+			 {
+				//	bak  bak2 --ok	   org---error
+			    	if((u8)(Vechicle_Info.Dev_CityID>>8)!=0xFF) // 判断正确的是不是 FF
+				{ 
+				  DF_WriteFlashSector(DF_Vehicle_Struct_offset,0,(u8*)&Vechicle_Info_BAK,sizeof(Vechicle_Info_BAK)); 
+				  rt_kprintf("\r\n Vehicle BAK error ,correct ok");   
+		   	   	}
+			   else
+			   	{ 
+			   	  rt_kprintf("\r\n Vehicle need all recover 3"); 
+				  Vehicleinfo_Init();
+			   	}
+			
+			 }
+			else
+				rt_kprintf("\r\n Vehicle 读取校验成功! \r\n");  
 			//---- 设备ID  --------	 
 		  // memset(DeviceNumberID,0,sizeof(DeviceNumberID));
 		  // DF_ReadFlash(DF_DeviceID_offset,0,(u8*)DeviceNumberID,12);  
@@ -1456,7 +1597,8 @@ void SetConfig(void)
 		   memset(SimID_12D,0,sizeof(SimID_12D));
 		   DF_ReadFlash(DF_SIMID_12D,0,(u8*)SimID_12D,12);  
 
-		   
+		   //------  读取 录入状态-----------
+		   DF_ReadFlash(DF_LOGIIN_Flag_offset,0,&Login_Menu_Flag,1); 
 		   
 		   if(JT808Conf_struct.DF_K_adjustState)  
 		   {
@@ -1466,13 +1608,14 @@ void SetConfig(void)
 		   {
 		              ModuleStatus&=~Status_Pcheck;
                   } 
+           Rails_Routline_Read();
                  
           DF_LOCK=0;  // unlock 
     rt_kprintf("\r\n Read Config Over \r\n");   
 }
 void DefaultConfig(void)
 {
-   u32 DriveCode32=0;
+   u32 DriveCode32=0;  
    u8  reg_str[30],i=0;
 
        rt_kprintf("\r\n         SYSTEM ID=0x%X ",SysConf_struct.Version_ID);   
@@ -1548,6 +1691,8 @@ void DefaultConfig(void)
                   rt_kprintf("特征系数--尚未校准!\r\n");   
 
 	  //   里程
+		  JT808Conf_struct.DayStartDistance_32=DayStartDistance_32;
+		  JT808Conf_struct.Distance_m_u32=Distance_m_u32;		
          rt_kprintf("\r\n		   累计里程: %d  米   ,  当日里程:   %d米\r\n",JT808Conf_struct.Distance_m_u32,JT808Conf_struct.Distance_m_u32-JT808Conf_struct.DayStartDistance_32);  	
          //  速度限制
          rt_kprintf("		   允许最大速度: %d  Km/h    超速报警持续时间门限: %d  s \r\n", JT808Conf_struct.Speed_warn_MAX,JT808Conf_struct.Spd_Exd_LimitSeconds);  		 
@@ -1657,13 +1802,27 @@ void DefaultConfig(void)
 			} 
 	  	// 短息中心号码-----------------------------
 	  	// rt_kprintf("\r\n		   短息中心号码 :%s	 \r\n",JT808Conf_struct.SMS_RXNum);
-		// -------------- 北斗模块的读取  ----------
-	  	 BD_MODULE_Read();
 
 		 // ---  硬件版本信息-------------
 		  HardWareVerion=HardWareGet();		 
 		  rt_kprintf("\r\n		        -------硬件版本:%X        B : %d %d %d\r\n",HardWareVerion,(HardWareVerion>>2)&0x01,(HardWareVerion>>1)&0x01,(HardWareVerion&0x01));   
- 
+          rt_kprintf("\r\n 			              \r\n"); 
+	       if(Vechicle_Info.Vech_Type_Mark==1)               
+		       rt_kprintf("\r\n 			                         ----------当前车辆模式	   :         两客一危 \r\n");	
+		   else
+		   if(Vechicle_Info.Vech_Type_Mark==2) 	              
+		       rt_kprintf("\r\n 			                         ----------当前车辆模式	   :         货车 \r\n");	 
+
+          if(HardWareVerion==7) // 全1
+		        BD_MODULE_Read();
+		  if(HardWareVerion==6)
+		  	 {  
+		  	   GPS_MODULE_TYPE=Module_3020C;  
+		  	   rt_kprintf("\r\n	北斗定位模块: 3020C/D 模式");   
+			 }
+
+          //------- 自动接听方式 -----------           
+		  rt_kprintf("\r\n		        -------自动接听方式:%d    \r\n",JT808Conf_struct.Auto_ATA_flag);     
 }
 //FINSH_FUNCTION_EXPORT(DefaultConfig, DefaultConfig);     
 
@@ -1684,6 +1843,8 @@ void DefaultConfig(void)
 void RstWrite_ACConoff_counter(void) 
 {
  
+ if(DF_LOCK)
+	   return ; 
   if(TiredConf_struct.Tired_drive.Status_TiredwhRst==0)
   	return;
     Api_Config_write(tired_config,0,(u8*)&TiredConf_struct,sizeof(TiredConf_struct));

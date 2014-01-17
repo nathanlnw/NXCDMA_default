@@ -80,8 +80,8 @@ unsigned char BD_updata_flag=0;//北斗升级度u盘文件的标志
 unsigned int  FilePageBD_Sum=0;//记录文件大小，读文件大小/514
 unsigned int  bd_file_exist=0;//读出存在要升级的文件
 unsigned char device_version[30]={"主机版本:gghypt V1.1"};  //{"主机版本:V BD 2.00"};   // 北斗货运平台对接  
-unsigned char bd_version[20]={"模块版本:V 17.NXC.01"};
-unsigned char bd_version2[20]={"模块版本:V 20.NXC.01"}; 
+unsigned char bd_version[20]={"模块版本:V 17.TJC.01"};
+unsigned char bd_version2[20]={"模块版本:V 20.TJC.01"}; 
 
 
 
@@ -95,7 +95,7 @@ unsigned char print_rec_flag=0;  // 打印记录标志
 u8  print_workingFlag=0;  // 打印进行中。。
 
 
-u8 CarSet_0_counter=1;//记录设置车辆信息的设置内容1:车牌号2:类型3:颜色
+u8 CarSet_0_counter=0;//记录设置车辆信息的设置内容1:车牌号2:类型3:颜色
 
 //------------ 使用前锁定相关 ------------------
 unsigned char Menu_Car_license[10];//存放车牌号码

@@ -9,7 +9,6 @@ u8    ReadCycle_timer=0;   // 超时判断
 
 
 u32     cycle_write=0, cycle_read=0;  // 循环存储记录
-u32     cycle_writeAbnormal_counter=0;  // 写数据异常
 u32    AvrgSpdPerMin_write=0,AvrgSpdPerMin_Read=0; // 车辆每分钟平均速度记录
 u32    AvrgSpdPerSec_write=0,AvrgSpdPerSec_Read=0; // 车辆每秒平均速度记录
 u32    AvrgMintPosit_write=0,AvrgMintPosit_Read=0; // 车辆单位小时内每分钟位置记录
@@ -34,7 +33,7 @@ u8 SaveCycleGPS(u32 cyclewr,u8 *content ,u16 saveLen)
     u32  pageoffset=0;   //Page 偏移
     u32  InPageoffset;   //页内Record偏移
     u16  InPageAddr=0;   //页内 地址偏移 
-	u8   reg[1]={0};
+//	u8   reg[1]={0};
 	u8   rd_back[40];
 	u16  i=0,retry=0;
 
@@ -55,7 +54,7 @@ u8 SaveCycleGPS(u32 cyclewr,u8 *content ,u16 saveLen)
   SV_RTRY:
       if(retry>=2)
 	  	  return false;
-	  
+	   delay_ms(5);
 	   WatchDog_Feed(); 
 	   DF_WriteFlashDirect(pageoffset+CycleStart_offset,InPageAddr,content,saveLen);  //   写入信息
 	   DF_delay_us(30);   

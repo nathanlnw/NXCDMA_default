@@ -459,17 +459,41 @@ static u8  CHKendTake_ReadyToSend(void)
 
 void  OpenDoor_TakePhoto(void)
 {
+  
    	    //------------------------------ 开关车门拍照状态检测 -----------------------------
 	  if(DoorLight_StatusGet())  // PA1
 	  	{
 	            DoorOpen.currentState=1;
 		    //   rt_kprintf( "\r\n   门高!\r\n "); 
+		     //--------------------------------------
+	    if( (Car_Status[2]&0x20)==0x00)
+	      	{
+				Car_Status[2]|=0x20; 
+				PositionSD_Enable();					
+				Current_UDP_sd=1;	
+				rt_kprintf("\r\n  前门开启\r\n");	  
+		      	}	
+			   Car_Status[2]|=0x20; //  Bit(13)     Set  1  表示  前门开
+
+			 //--------------------------------------
 	  	}
 	  else
 	  	{
 	            DoorOpen.currentState=0;
  		    // rt_kprintf( "\r\n   门低!\r\n ");   
+ 		    //-------------------------------
+ 		     if( Car_Status[2]&0x20)
+	      	{
+				Car_Status[2]&=~0x20;
+				PositionSD_Enable();					
+				Current_UDP_sd=1;	
+				rt_kprintf("\r\n  前门关闭\r\n");	 	 
+	      	}
+	            Car_Status[2]&=~0x20; //  Bit(4)     Set  0  表示  飞翼开  0 营运状态 	
+
+			//-------------------------------
  	  	}
+	  #if 0
 	  if((DoorOpen.currentState!=DoorOpen.BakState)&&(DataLink_Status())) 
 	  	{	   
 	  	   rt_kprintf( "\r\n开关车门状态变化 \r\n");				 
@@ -482,12 +506,15 @@ void  OpenDoor_TakePhoto(void)
 		   	} 
 	  }
 	  DoorOpen.BakState=DoorOpen.currentState; //  update state        
+      #endif
+
 }
 
 void  _485_RxHandler(u8 data)
 {
     //      Large   LCD   Data 
  
+	rt_interrupt_enter( );
       _485_dev_rx[_485dev_wr++]=data;
 	
 
@@ -567,6 +594,7 @@ void  _485_RxHandler(u8 data)
 					  break ;
      } 
 
+  rt_interrupt_leave( );   
 }
 
 
@@ -658,20 +686,20 @@ void  Pic_Data_Process(void)
 	       //  4.   填写存储图片内容数据  --------------------		
 	       WatchDog_Feed();  
 		   DF_WriteFlashDirect(pic_current_page,0,_485_content, PackageLen);// 写一次一个Page 512Bytes
-		   delay_ms(90);  
+		   delay_ms(150);   
 		   //rt_kprintf(" \r\n ---- write  pic_current_page=%d  \r\n",pic_current_page);   		   
-		   rt_kprintf(" \r\n ---- packet=%d  \r\n",CameraState.block_counter);     
+		   rt_kprintf(" \r\n ---- pkg=%d  \r\n",CameraState.block_counter);     
 		  
                          //---  read compare 
 		    memset(pic_buf,0,600);
 		    DF_ReadFlash(pic_current_page,0,pic_buf, PackageLen);
-			delay_ms(30);
+			delay_ms(10);
 		    for(i=0;i<PackageLen;i++)
 		   {		if(pic_buf[i]!=_485_content[i])
 		    	       {
 		    	          rt_kprintf(" \r\n ----read not equal write  where i=%d  Rd[i]=%2X  WR[i]=%2X \r\n",i,pic_buf[i],_485_content[i]); 
 						  DF_WriteFlashDirect(pic_current_page,0,_485_content, PackageLen);// 再写一次一个Page 512Bytes
-		                  delay_ms(85);   
+		                  delay_ms(100);  
 					      break;		  
 		    	       }
 		   }	 
@@ -687,7 +715,7 @@ void  Pic_Data_Process(void)
 				   pic_size+=PackageLen;// 图片大小累加	 				   
 				   pic_current_page++; //写一页加一
 				  // pic_PageIn_offset+=PackageLen;  
-				   DF_delay_ms(50);   
+				 //  DF_delay_ms(50);   
 	   //   5.   最后一包 ，即拍照结束
 		  if(last_package==1)
 		 {

@@ -183,7 +183,7 @@ void u3_power(u8 i)
         rt_kprintf("\r\n---------U3_power OFF\r\n"); 
 	}
 }
-FINSH_FUNCTION_EXPORT(u3_power, u3_power[1|0]);    
+//FINSH_FUNCTION_EXPORT(u3_power, u3_power[1|0]);    
 
 
 void u3_send(u8 *instr)
@@ -198,8 +198,7 @@ void u3_send(u8 *instr)
 	}
 		 rt_kprintf("\r\nU3_out:%s\r\n",instr);
 }
-FINSH_FUNCTION_EXPORT(u3_send, u3_send[1|0]);     
-
+//FINSH_FUNCTION_EXPORT(u3_send, u3_send[1|0]);     
 
 #endif 
 

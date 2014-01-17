@@ -14,6 +14,9 @@
 #include "gps.h"
 #include "DF_Oper.h"
 
+
+#define  CURREN_LIM_Dur        1  
+
  // ----   Media  Trans state ---
 #define   MEDIA
 #define  enable                1
@@ -27,7 +30,7 @@
 #define  INIT         1
 #define  PROCESS      0
 
-#define  K_adjust_Duration       20                //  校验K值所需要时间  
+#define  K_adjust_Duration       30                //  校验K值所需要时间   
 
 
 // -------  ISP  Address   -------------
@@ -247,14 +250,15 @@ typedef struct _DriveInfo
 
 typedef struct _VechInfo
 {
- u8     Vech_VIN[18];        // 车辆VIN号17
- u8     Vech_Num[13];	     // 车牌号12
- u8     Vech_Type[13];       // 车辆类型 12
- u16    Dev_ProvinceID;      // 车辆所在省ID
- u16    Dev_CityID;          // 车辆所在市ID    
  u8     Dev_Color;           // 车牌颜色           // JT415    1  蓝 2 黄 3 黑 4 白 9其他
  u8     loginpassword_flag;  //  界面输入标志位    0 :default    1:  longin ok
  u8     Link_Frist_Mode;		 //   首次连接模式		  0  : dnsr first	  1: mainlink  first 
+ u8     Vech_Type_Mark;//    1:两客一危    2:货运
+ u16    Dev_ProvinceID;      // 车辆所在省ID
+ u16    Dev_CityID;          // 车辆所在市ID    
+ u8     Vech_VIN[18];        // 车辆VIN号17
+ u8     Vech_Num[13];	     // 车牌号12
+ u8     Vech_Type[13];       // 车辆类型 12
 }VechINFO;
 
 //--------- 终端属性---------
@@ -448,7 +452,7 @@ typedef struct _TEXT_INFO
 {
   u8  TEXT_FLAG;          //  文本标志
   u8  TEXT_SD_FLAG;       // 发送标志位  
-  u8  TEXT_Content[100];  // 文本内容
+  u8  TEXT_Content[DFBakSize];  // 文本内容
 }TEXT_INFO;
 
 //----- 信息 ----
@@ -688,9 +692,6 @@ typedef struct  _SYSConfig           //  name:  config
 
 typedef struct  _JT808Config   //name:  jt808
 {
-    SEND_DIST   DISTANCE;	       // 定距离回传相关   16 Bytes
-    SEND_DUR    DURATION;		//	发送间隔相关
-    SEND_MODE  SD_MODE;         // 信息上报模式    发送方式   
     u8       LOAD_STATE  ;           //选中车辆的负载状态标志   1:空车   2:半空   3:重车
     u8       ConfirmCode[20];       // 鉴权码
     u8       Regsiter_Status;        //  注册状态
@@ -701,10 +702,10 @@ typedef struct  _JT808Config   //name:  jt808
 
     u8       FirstSetupDate[6];           //  初次安装时间
     u8       DeviceOnlyID[35];           //   行车记录仪的唯一ID
-    u16     Msg_Float_ID;                 //   消息流水号
+    u16      Msg_Float_ID;                 //   消息流水号
 
-    u32     Distance_m_u32;            //  行驶记录仪行驶里程  单位: 米
-    u32     DayStartDistance_32;     //  每天的起始里程数目
+    u32      Distance_m_u32;            //  行驶记录仪行驶里程  单位: 米
+    u32      DayStartDistance_32;     //  每天的起始里程数目
 
     u32     Speed_warn_MAX;           //  速度报警门限
     u32     Spd_Exd_LimitSeconds;  //  超速报警持续时间门限
@@ -715,7 +716,7 @@ typedef struct  _JT808Config   //name:  jt808
     u8       OutGPS_Flag;     //  0  默认  1  接外部有源天线 
     u8       concuss_step;    //------add by  xijing
     u8       relay_flag;      // 继电器开关状态
-
+    u8       Auto_ATA_flag;   // 自动接听标志位使能    
 	
     //-----------2013   BD add  -------------------------------------
     u16     BD_CycleRadius_DoorValue;    //  电子围栏半径(非法移动阈值)，单位米
@@ -724,16 +725,18 @@ typedef struct  _JT808Config   //name:  jt808
     u16     BD_Collision_Setting;     // 碰撞参数报警设置    bit 7-bit 0   碰撞时间 单位 4ms   、 bit15-8 碰撞加速度 0.1g  0-79  默认10
     u16     BD_Laydown_Setting;    // 侧翻报警参数设置     侧翻角度 单位 1 度 ，默认30度
 
-
     
-    u16     BD_GNSS;
-
-    BD_EXTEND     BD_EXT;  //  北斗相关 CAN GNSS 设置
-
     //------  摄像头 相关设置 ------------------------------
     u32  BD_CameraTakeByTime_Settings;   // 摄像头定时拍照开关    0 不允许1 允许 表13
     u32  BD_CameraTakeByDistance_Settings;  //  摄像头定距离拍照控制位
-    u8   Close_CommunicateFlag;   // 关闭通信标志位
+    u8   Close_CommunicateFlag;   // 关闭通信标志位    
+    u16     BD_GNSS;
+	
+
+    BD_EXTEND     BD_EXT;  //  北斗相关 CAN GNSS 设置	
+    SEND_DIST   DISTANCE;	       // 定距离回传相关   16 Bytes
+    SEND_DUR    DURATION;		//	发送间隔相关
+    SEND_MODE  SD_MODE;         // 信息上报模式    发送方式   
     
      //--------  实时上报 ---------  
     REALTIME_LOCK    RT_LOCK;     // 实时跟踪      
@@ -1010,6 +1013,8 @@ extern POINT        POINT_Obj;      // 路线的拐点
 extern ROUTE        ROUTE_Obj;      // 路线相关
 extern POLYGEN_RAIL Rail_Polygen;   // 多边形围栏
 extern RECT_RAIL    Rail_Rectangle; // 矩形围栏
+extern RECT_RAIL    Rail_Rectangle_multi[8]; // 矩形围栏
+extern CIRCLE_RAIL  Rail_Cycle_multi[8];     // 圆形围栏 
 extern CIRCLE_RAIL  Rail_Cycle;  // 圆形围栏
 extern VEHICLE_CONTROL Vech_Control; //  车辆控制
 extern PHONE_BOOK    PhoneBook;  //  电话本
@@ -1096,7 +1101,7 @@ extern GPS_RMC  GPRMC;                   // GPMC格式
 //---------- 808 协议 -----------------------------------------------------------------------------------------------
 extern 	u16 	        GPS_Hight;			   //	808协议-> 高程	 m 
 extern  u16		        Speed_gps;    // 通过GPS计算出来的速度 km/h   
-extern 	u16	            GPS_speed;								  //  GPS定位时候的速度 km/h
+extern 	u16	            Spd_Using;								  //  当前使用的速度 0.1 km/h
 extern  u16			    GPS_direction;							  //  GPS方向		 单位2度       
 
 //---------- 用GPS校准特征系数相关 ----------------------------
@@ -1105,7 +1110,6 @@ extern u16		Speed_cacu; // 通过K值计算出来的速度
 extern u16 	    Spd_adjust_counter; // 确保匀速状态计数器 
 extern u16      Former_DeltaPlus[K_adjust_Duration]; // 前几秒的脉冲数 
 extern u8       Former_gpsSpd[K_adjust_Duration];// 前几秒的速度        
-extern u8		DF_K_adjustState; // 特征系数自动校准状态说明
  //------- 车辆负载状态 ---------------
 extern u8      CarLoadState_Flag;//选中车辆状态的标志   1:空车   2:半空   3:重车
  //------- 多媒体信息类型---------------
@@ -1294,6 +1298,7 @@ extern u8    Sub_stuff_AppointedPram_0106(void);
 
 extern void  ISP_file_Check(void);
 extern unsigned short int  File_CRC_Get(void);  
+extern u16   Instr_2_GBK(u8 *SrcINstr, u16 Inlen, u8* DstOutstr );  
 //  河北天地通多媒体事件信息上传报文应答不好，所以单独处理  
 extern  void Multimedia_0800H_ACK_process(void);   
 
@@ -1330,7 +1335,6 @@ extern void  Time2BCD(u8 *dest);
 
 extern void SpeedWarnJudge(void);
 extern void Process_GPRSIN_DeviceData(u8 *instr, u16  infolen);
-extern void SpeedSensorProcess(void);   // 通过汽车的速度传感器获得 速度 并计算里程 
 
 
 extern void  Sleep_Mode_ConfigEnter(void); 
@@ -1366,6 +1370,10 @@ extern void  print_power(u8*instr);
 extern void  dur(u8 *content); 
 extern void provinceid(u8 *strin);
 extern void cityid(u8 *strin);  
+extern void  ata_enable(u8 value);
+extern void  plus_num(u32 value);
+extern void  spd_type(int  in); 
+extern void  adjust_ok(int in); 
 
 
 

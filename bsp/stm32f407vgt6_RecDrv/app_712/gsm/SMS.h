@@ -6,7 +6,7 @@
 
 
 
-#define  SMS_VER_STRING         "NXC"   //    宁夏CDMA 版本  
+#define  SMS_VER_STRING         "TJC"   //    宁夏CDMA 版本  
 #define  SMS_ENABLE  
 
 #define  SMS_ACK_msg          1      // 需哟返回短息
