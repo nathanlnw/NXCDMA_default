@@ -97,7 +97,7 @@ void rtthread_startup(void)
  
 	 
     #endif 	 
-   rt_kprintf("\n\r  ÄşÏÄCDMA ±±¶·³µÔØÖÕ¶Ë GGHYPT  TW703-BD  Version 1.1 Ë«Module¼æÈİ°æ±¾  link_mode:1 init\r\n ");       
+   rt_kprintf("\n\r  ÄşÏÄCDMA ±±¶·³µÔØÖÕ¶Ë GGHYPT  TW703-BD  Version 1.1 Ë«Module¼æÈİ°æ±¾  CombineAll Select\r\n ");       
 	/* show version */
 	rt_show_version(); 
 

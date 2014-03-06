@@ -1,18 +1,645 @@
----- Socket_main_Set Matches (19 in 5 files) ----
-Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):void Socket_main_Set(u8* str)
-Device_808.c (bsp\stm32f407vgt6_recdrv\app_712\protocol_808):FINSH_FUNCTION_EXPORT(Socket_main_Set,Set Socket main); 
-Device_808.h (bsp\stm32f407vgt6_recdrv\app_712\protocol_808): extern  void Socket_main_Set(u8* str); 
-Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	                        Socket_main_Set(IPstr);   
-Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):                        Socket_main_Set("60.28.50.210:9131"); 
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv): <LI><a href="#[1cb]">Socket_main_Set</a> from device_808.o(i.Socket_main_Set) referenced from device_808.o(FSymTab)
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<P><STRONG><a name="[1cb]"></a>Socket_main_Set</STRONG> (Thumb, 128 bytes, Stack size 96 bytes, device_808.o(i.Socket_main_Set))
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = Socket_main_Set &rArr; str2ipport &rArr; __0sscanf &rArr; __vfscanf_char &rArr; __vfscanf &rArr; _scanf_real
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
-Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR>[Called By]<UL><LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Socket_main_Set
+---- lcd_text12 Matches (645 in 42 files) ----
+Menu_0_0_password.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,"请输入6位密码:",14,LCD_MODE_SET);
+Menu_0_0_password.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(84,3,(char *)password_Code,password_SetFlag-1,LCD_MODE_SET);//-1+14
+Menu_0_0_password.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,19,"0123456789",10,LCD_MODE_SET);
+Menu_0_0_password.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(63,20,"nxC.GGHYPT",10,LCD_MODE_SET);  // 天津公共货运平台             
+Menu_0_0_password.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(36,3,"密码正确",8,LCD_MODE_SET);
+Menu_0_0_password.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,19,"按菜单键进入设置信息",20,LCD_MODE_SET);
+Menu_0_0_password.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(36,3,"密码错误",8,LCD_MODE_SET);
+Menu_0_0_password.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(12,19,"按确认键重新设置",16,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0, 3,"两客一危",8,LCD_MODE_INVERT);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,18,"货运",4,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(15,3,"车辆类型:货运车",15,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(6,18,"按确认键设置下一项",18,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(9,3,"车辆类型:两客一危",17,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(6,18,"按确认键设置下一项",18,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				//lcd_text12(0, 3,"两客一危",8,LCD_MODE_INVERT); 
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				//lcd_text12(0,18,"货运",4,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0, 3,"货运",4,LCD_MODE_INVERT); 
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,18,"两客一危",8,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0, 3,"货运",4,LCD_MODE_SET);
+Menu_0_0_type.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,18,"两客一危",8,LCD_MODE_INVERT);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,0,(char *)Menu_Car_license,License_SetFlag-1,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(0+(License_SetFlag_temp-2)*6,0,(char *)&Menu_Car_license[License_SetFlag_temp-2],1,LCD_MODE_INVERT);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(0,0,(char *)&Menu_Car_license[0],2,LCD_MODE_INVERT);	
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0+(License_SetFlag_temp-2)*6,0,(char *)&Menu_Car_license[License_SetFlag_temp-2],1,LCD_MODE_INVERT);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,0,(char *)&Menu_Car_license[0],2,LCD_MODE_INVERT);	
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,19,"0123456789ABCDEFGHIJ",20,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			    lcd_text12(0,19,"KLMNOPQRSTUVWXYZ",16,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		        lcd_text12(0,20,"宁陕甘京津渝云辽黑湘",20,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		        lcd_text12(0,20,"皖鲁新苏浙赣鄂桂豫晋",20,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		        lcd_text12(0,20,"蒙陕吉闽贵粤青藏川冀",20,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		        lcd_text12(0,20,"琼",2,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,3,"设置车牌号",10,LCD_MODE_INVERT);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,18,"无牌照车辆",10,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(18,3,"车牌号设置完成",14,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(6,18,"按确认键设置下一项",18,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,3,"设置车牌号",10,LCD_MODE_INVERT);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,18,"无牌照车辆",10,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,3,"设置车牌号",10,LCD_MODE_SET);
+Menu_0_1_License.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,18,"无牌照车辆",10,LCD_MODE_INVERT);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		    lcd_text12(0,10,"客运车 旅游车 危品车",20,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(0,10,"客运车",6,LCD_MODE_INVERT);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(12,10,"车辆类型:客运车",15,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		    lcd_text12(0,10,"客运车 旅游车 危品车",20,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(7*6,10,"旅游车",6,LCD_MODE_INVERT);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(12,10,"车辆类型:旅游车",15,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		    lcd_text12(0,10,"客运车 旅游车 危品车",20,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(14*6,10,"危品车",6,LCD_MODE_INVERT);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(12,10,"车辆类型:危品车",15,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(24,3,"车辆类型选择",12,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,19,"按确认键选择车辆类型",20,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(15,3,"车辆类型:货运车",15,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(6,18,"按确认键设置下一项",18,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(12,3,"车辆类型选择完毕",16,LCD_MODE_SET);
+Menu_0_2_CarType.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(6,18,"按确认键设置下一项",18,LCD_MODE_SET);
+Menu_0_3_Sim.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,(char *)Menu_sim_Code,Sim_SetFlag-1,LCD_MODE_SET);
+Menu_0_3_Sim.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12((Sim_SetFlag_temp-2)*6,3,(char *)&Menu_sim_Code[Sim_SetFlag_temp-2],1,LCD_MODE_INVERT);
+Menu_0_3_Sim.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12((Sim_SetFlag_temp-2)*6,3,(char *)&Menu_sim_Code[Sim_SetFlag_temp-2],1,LCD_MODE_INVERT);
+Menu_0_3_Sim.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,19,"0123456789",10,LCD_MODE_SET);
+Menu_0_3_Sim.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,5,(char *)Menu_sim_Code,12,LCD_MODE_SET);
+Menu_0_3_Sim.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(13,19,"SIM卡号设置完成",15,LCD_MODE_SET);
+Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,(char *)Menu_Vin_Code,VIN_SetFlag-1,LCD_MODE_SET);
+Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12((VIN_SetFlag_Temp-2)*6,3,(char *)&Menu_Vin_Code[VIN_SetFlag_Temp-2],1,LCD_MODE_INVERT);
+Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12((VIN_SetFlag_Temp-2)*6,3,(char *)&Menu_Vin_Code[VIN_SetFlag_Temp-2],1,LCD_MODE_INVERT);
+Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(0,19,"0123456789ABCDEFGHIJ",20,LCD_MODE_SET);
+Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(0,19,"KLMNOPQRSTUVWXYZ",16,LCD_MODE_SET);
+Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,5,(char *)Menu_Vin_Code,17,LCD_MODE_SET);
+Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(25,19,"VIN设置完成",11,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(20,10,(char *)car_col,13,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(12,3,"车牌颜色设置完成",16,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(24,18,"按菜单键返回",12,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(20,3,(char *)car_col,13,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(12,18,"按确认键查看信息",16,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,0,"无牌照",6,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,0,(char *)Menu_Car_license,8,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(54,0,(char *)Menu_VechileType,6,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					 lcd_text12(96,0,(char *)"0",1,LCD_MODE_SET); 
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				     lcd_text12(96,0,(char *)Menu_VecLogoColor,4,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,12,"SIM卡号",7,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(43,12,(char *)Menu_sim_Code,12,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(24,23,"确定",4,LCD_MODE_INVERT);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(72,23,"取消",4,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(18,3,"保存已设置信息",14,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,18,"按菜单键进入待机界面",20,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(6, 3,"请确认是否重新设置",18,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(12,18,"按确认键重新设置",16,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,0,"无牌照",6,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,0,(char *)Menu_Car_license,8,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(54,0,(char *)Menu_VechileType,6,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					 lcd_text12(96,0,(char *)"0",1,LCD_MODE_SET); 
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				     lcd_text12(96,0,(char *)Menu_VecLogoColor,4,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,12,"SIM卡号",7,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(43,12,(char *)Menu_sim_Code,12,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(24,23,"确定",4,LCD_MODE_INVERT);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(72,23,"取消",4,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,0,"无牌照",6,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,0,(char *)Menu_Car_license,8,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(54,0,(char *)Menu_VechileType,6,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					 lcd_text12(96,0,(char *)"0",1,LCD_MODE_SET); 
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				     lcd_text12(96,0,(char *)Menu_VecLogoColor,4,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,12,"SIM卡号",7,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(43,12,(char *)Menu_sim_Code,12,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(24,23,"确定",4,LCD_MODE_SET);
+Menu_0_5_Colour.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(72,23,"取消",4,LCD_MODE_INVERT);
+Menu_0_loggingin.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):    lcd_text12( 0, 3,"注册",4,LCD_MODE_SET);
+Menu_0_loggingin.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):    lcd_text12( 0,17,"输入",4,LCD_MODE_SET);
+Menu_0_loggingin.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):    		lcd_text12(30,19,"车辆类型设置",12,LCD_MODE_INVERT);
+Menu_0_loggingin.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(30,19,"车牌号输入",10,LCD_MODE_INVERT);
+Menu_0_loggingin.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(30,19,"车辆类型选择",12,LCD_MODE_INVERT);		
+Menu_0_loggingin.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(30,19,"0+SIM卡号输入",13,LCD_MODE_INVERT); 
+Menu_0_loggingin.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		    lcd_text12(30,19,"17位VIN输入",11,LCD_MODE_INVERT); 
+Menu_0_loggingin.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		    lcd_text12(30,19,"车牌颜色输入",12,LCD_MODE_INVERT); 	
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(19,0,"BD",2,LCD_MODE_SET);
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(19,0,"GPS",3,LCD_MODE_SET);
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(19,0,"G/B",3,LCD_MODE_SET);
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(48,0,"GPRS",4,LCD_MODE_SET);
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	  lcd_text12(85,0,"K",1,LCD_MODE_SET);
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	  lcd_text12(85,0,"H",1,LCD_MODE_SET);   
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,10,(char *)Dis_date,20,LCD_MODE_SET);
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,20,(char *)Dis_speDer,18,LCD_MODE_SET);
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,"需重新设置车牌号和ID",20,LCD_MODE_SET);
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(24,18,"重新加电查看",12,LCD_MODE_SET); 
+Menu_1_Idle.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(30,10,"主电源掉电",10,LCD_MODE_SET); 
+Menu_2_1_Status8.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,10,pinfor,len,LCD_MODE_SET);
+Menu_2_2_Speed15.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(10,0,(char*)t,11,LCD_MODE_SET);
+Menu_2_2_Speed15.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(10,11,(char*)t,11,LCD_MODE_SET);
+Menu_2_2_Speed15.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(10,22,(char*)t,11,LCD_MODE_SET);
+Menu_2_2_Speed15.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(10,3,"停车前15分钟速度",16,LCD_MODE_SET);
+Menu_2_2_Speed15.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):    lcd_text12(24,19,"按确认键查看",12,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(36, 3,"文字消息",8,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0, 19,(char *)InforNum,14,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0, 10,(char *)InforNum,2,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(20,10,(char *)TEXT_Obj_8[screen-1].TEXT_STR,TEXT_Obj_8[screen-1].TEXT_LEN,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(45, 10,"[空]",4,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					    lcd_text12(0, 0,(char *) TEXT_Obj_8[dis_screen_counter-1].TEXT_STR,   20,LCD_MODE_SET); 
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):                        lcd_text12(0,15,(char *)&TEXT_Obj_8[dis_screen_counter-1].TEXT_STR+20,20,LCD_MODE_SET);   
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						    lcd_text12(0, 0,(char *)TEXT_Obj_8[dis_screen_counter-1].TEXT_STR,   20,LCD_MODE_SET); 
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	                        lcd_text12(0,15,(char *)TEXT_Obj_8[dis_screen_counter-1].TEXT_STR+20,TxtInfo_len_0-20,LCD_MODE_SET);   
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						    lcd_text12(0, 0,(char *) TEXT_Obj_8[dis_screen_counter-1].TEXT_STR,TxtInfo_len_0,LCD_MODE_SET);  
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,0,(char *)read_temp_0,20,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,15,(char *)read_temp_0+20,20,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):                    	lcd_text12(0,0,(char *)read_temp_0,20,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(0,0,(char *)read_temp_0+20,CurrentDisplen-20,LCD_MODE_SET);
+Menu_2_3_CentreTextStor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					    lcd_text12(0,0,(char *)read_temp_0,CurrentDisplen,LCD_MODE_SET);	// 显示的是汉字书所以右移1位除2
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	      lcd_text12(10,3,(char *)vech_num,15,LCD_MODE_SET);	   
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(10,19,"车牌颜色:",9,LCD_MODE_SET);
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			 lcd_text12(64,19,(char *)"0",1,LCD_MODE_SET); 
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		     lcd_text12(64,19,(char*)color_disp,4,LCD_MODE_SET); 
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,3,(char *)vech_type,19,LCD_MODE_SET);		
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(0,18,"设备速度:传感器速度",19,LCD_MODE_SET);
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(0,18,"设备速度:GPS速度",16,LCD_MODE_SET);
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):        lcd_text12(0,3,(char *)vech_ID,19,LCD_MODE_SET);
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):        lcd_text12(0,19,(char *)vech_VIN,20,LCD_MODE_SET);
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):        lcd_text12(0,3,(char *)device_ID,19,LCD_MODE_SET);
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):        lcd_text12(0,18,(char *)device_ID_7,14,LCD_MODE_SET);
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(24, 3,"车辆信息查看",12,LCD_MODE_SET);
+Menu_2_4_CarInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(24,19,"查看请按确认",12,LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(30,3,"驾驶员姓名",10,LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(42,19,(char *)JT808Conf_struct.Driver_Info.DriveName,strlen((char *)JT808Conf_struct.Driver_Info.DriveName),LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	//lcd_text12(48,19,(char *)Driver_Info.DriveName,strlen(Driver_Info.DriveName),LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(30,3,"驾驶证号码",10,LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(6,19,(char *)JT808Conf_struct.Driver_Info.DriverCard_ID,18,LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	//lcd_text12(15,19,(char *)Driver_Info.DriverCard_ID,sizeof(Driver_Info.DriverCard_ID),LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0, 3,"1.驾驶员信息查看",16,LCD_MODE_INVERT); 
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	    lcd_text12(0,19,"2.驾驶员信息发送",16,LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0, 3,"1.驾驶员信息查看",16,LCD_MODE_SET); 
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,19,"2.驾驶员信息发送",16,LCD_MODE_INVERT);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,10,"按确认发送驾驶员信息",20,LCD_MODE_SET);
+Menu_2_5_DriverInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(5,10,"驾驶员信息发送成功",18,LCD_MODE_SET);
+Menu_2_6_Mileage.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0, 3,(char *)Dis_date,20,LCD_MODE_SET);
+Menu_2_6_Mileage.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,18,(char *)licheng_sum,16,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	  lcd_text12(30,3,(char*)MSG_Obj_8[screen-1].INFO_STR,MSG_Obj_8[screen-1].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		 lcd_text12(30,19,"点播成功",8,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		 lcd_text12(30,19,"取消成功",8,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(15,5,(char *)MSG_Obj_8[screen-1].INFO_STR,MSG_Obj_8[screen-1].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,20,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(80,20,"取消",4,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,20,"点播",4,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(80,20,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,0,"1.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,(char *)MSG_Obj_8[0].INFO_STR,MSG_Obj_8[0].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,"无",2,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,16,"2.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,(char *)MSG_Obj_8[1].INFO_STR,MSG_Obj_8[1].INFO_LEN,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,"无",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,0,"1.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,(char *)MSG_Obj_8[0].INFO_STR,MSG_Obj_8[0].INFO_LEN,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,"无",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,16,"2.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,(char *)MSG_Obj_8[1].INFO_STR,MSG_Obj_8[1].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,"无",2,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,0,"3.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,(char *)MSG_Obj_8[2].INFO_STR,MSG_Obj_8[2].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,"无",2,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,16,"4.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,(char *)MSG_Obj_8[3].INFO_STR,MSG_Obj_8[3].INFO_LEN,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,"无",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,0,"3.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,(char *)MSG_Obj_8[2].INFO_STR,MSG_Obj_8[2].INFO_LEN,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,"无",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,16,"4.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,(char *)MSG_Obj_8[3].INFO_STR,MSG_Obj_8[3].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,"无",2,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,0,"5.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,(char *)MSG_Obj_8[4].INFO_STR,MSG_Obj_8[4].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,"无",2,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,16,"6.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,(char *)MSG_Obj_8[5].INFO_STR,MSG_Obj_8[5].INFO_LEN,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,"无",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,0,"5.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,(char *)MSG_Obj_8[4].INFO_STR,MSG_Obj_8[4].INFO_LEN,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,"无",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,16,"6.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,(char *)MSG_Obj_8[5].INFO_STR,MSG_Obj_8[5].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,"无",2,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,0,"7.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,(char *)MSG_Obj_8[6].INFO_STR,MSG_Obj_8[6].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,"无",2,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,16,"8.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,(char *)MSG_Obj_8[7].INFO_STR,MSG_Obj_8[7].INFO_LEN,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,"无",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,0,"7.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,(char *)MSG_Obj_8[6].INFO_STR,MSG_Obj_8[6].INFO_LEN,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,0,"无",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		  lcd_text12(0,16,"8.",2,LCD_MODE_SET);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,(char *)MSG_Obj_8[7].INFO_STR,MSG_Obj_8[7].INFO_LEN,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			  lcd_text12(15,16,"无",2,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,0,"取消",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"点播",4,LCD_MODE_INVERT);
+Menu_2_7_RequestProgram.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				  lcd_text12(95,16,"取消",4,LCD_MODE_INVERT);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,(char *)dns1,len1+3,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,18,(char *)dns2,len2+3,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,0,(char *)apn,4+len1,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,11,(char *)ip1,20,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,22,(char *)ip2,20,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):    //lcd_text12(0,3,"优先连接主DNS",13,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,3,"优先连接主IP",12,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,3,"优先连接主DNS",13,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(24,3,"查看设置信息",12,LCD_MODE_SET);
+Menu_2_8_DnsIpDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(30,18,"请按确认键",10,LCD_MODE_SET);
+Menu_2_InforCheck.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,"信息",4,LCD_MODE_SET);
+Menu_2_InforCheck.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,17,"查看",4,LCD_MODE_SET);
+Menu_2_InforCheck.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(30,19,(char *)(psubmenu[menu_pos]->caption),psubmenu[menu_pos]->len,LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,0,(char *)ASK_Centre.ASK_info,ASK_Centre.ASK_infolen,LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0, 0,(char *)ASK_Centre.ASK_info,20,LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,15,(char *)ASK_Centre.ASK_info,(ASK_Centre.ASK_infolen-20),LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(24,10,"没有提问消息",12,LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(12,5,"问题答案发送成功",16,LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(0,0,(char *)DIS_QUESTION_INFOR_temp.DIS_ANSWER1,DIS_QUESTION_INFOR_temp.DIS_ANSWER1_len,LCD_MODE_INVERT);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(0,16,(char *)DIS_QUESTION_INFOR_temp.DIS_ANSWER2,DIS_QUESTION_INFOR_temp.DIS_ANSWER2_len,LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):							lcd_text12(0,0,(char *)DIS_QUESTION_INFOR_temp.DIS_ANSWER1,DIS_QUESTION_INFOR_temp.DIS_ANSWER1_len,LCD_MODE_INVERT);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):							lcd_text12(0,16,(char *)DIS_QUESTION_INFOR_temp.DIS_ANSWER2,DIS_QUESTION_INFOR_temp.DIS_ANSWER2_len,LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(0,0,(char *)DIS_QUESTION_INFOR_temp.DIS_ANSWER1,DIS_QUESTION_INFOR_temp.DIS_ANSWER1_len,LCD_MODE_SET);
+Menu_3_1_CentreQuesSend.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(0,16,(char *)DIS_QUESTION_INFOR_temp.DIS_ANSWER2,DIS_QUESTION_INFOR_temp.DIS_ANSWER2_len,LCD_MODE_INVERT);
+Menu_3_2_FullorEmpty.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(12,3,"车辆负载状态选择",16,LCD_MODE_SET);
+Menu_3_2_FullorEmpty.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(20+i*30,19,(char *)car_status_str[i],4,LCD_MODE_SET);
+Menu_3_2_FullorEmpty.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(20+30*Status,19,(char *)car_status_str[Status],4,LCD_MODE_INVERT);
+Menu_3_2_FullorEmpty.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(12,10,"发送车辆状态",12,LCD_MODE_SET);
+Menu_3_2_FullorEmpty.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(88,10,(char *)car_status_str[CarStatus_change],4,LCD_MODE_SET);
+Menu_3_2_FullorEmpty.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(20,10,(char *)car_status_str[CarStatus_change],4,LCD_MODE_SET);
+Menu_3_2_FullorEmpty.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(48,10,"发送成功",8,LCD_MODE_SET);
+Menu_3_3_ElectronicInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,10,"按确认键发送电子运单",20,LCD_MODE_SET);
+Menu_3_3_ElectronicInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(10,10,"电子运单发送成功",16,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(30,5,"发送成功",8,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,5,(char *)EventObj_8[screen-1].Event_Str,EventObj_8[screen-1].Event_Len,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,0,"1.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,(char *)EventObj_8[0].Event_Str,EventObj_8[0].Event_Len,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,"无",2,LCD_MODE_INVERT);	
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,16,"2.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,(char *)EventObj_8[1].Event_Str,EventObj_8[1].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,"无",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,0,"1.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,(char *)EventObj_8[0].Event_Str,EventObj_8[0].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,"无",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,16,"2.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,(char *)EventObj_8[1].Event_Str,EventObj_8[1].Event_Len,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,"无",2,LCD_MODE_INVERT); 
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,0,"3.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,(char *)EventObj_8[2].Event_Str,EventObj_8[2].Event_Len,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,"无",2,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,16,"4.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,(char *)EventObj_8[3].Event_Str,EventObj_8[3].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,"无",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,0,"3.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,(char *)EventObj_8[2].Event_Str,EventObj_8[2].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,"无",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,16,"4.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,(char *)EventObj_8[3].Event_Str,EventObj_8[3].Event_Len,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,"无",2,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,0,"5.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,(char *)EventObj_8[4].Event_Str,EventObj_8[4].Event_Len,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,"无",2,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,16,"6.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,(char *)EventObj_8[5].Event_Str,EventObj_8[5].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,"无",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,0,"5.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,(char *)EventObj_8[4].Event_Str,EventObj_8[4].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,"无",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,16,"6.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,(char *)EventObj_8[5].Event_Str,EventObj_8[5].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,"无",2,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,0,"7.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,(char *)EventObj_8[6].Event_Str,EventObj_8[6].Event_Len,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,"无",2,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,16,"8.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,(char *)EventObj_8[7].Event_Str,EventObj_8[7].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,"无",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,0,"7.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,(char *)EventObj_8[6].Event_Str,EventObj_8[6].Event_Len,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,0,"无",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,16,"8.",2,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,(char *)EventObj_8[7].Event_Str,EventObj_8[7].Event_Len,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(15,16,"无",2,LCD_MODE_INVERT);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(36,3,"事件设置",8,LCD_MODE_SET);
+Menu_3_7_Affair.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(24,18,"按确认键查看",12,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0, 10,"清空鉴权码",10,LCD_MODE_INVERT);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(60,10," 鉴权 注册",10,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0, 10,"清空鉴权码",10,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(66,10,"鉴权",4,LCD_MODE_INVERT);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(96,10,"注册",4,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0, 10,"清空鉴权码 鉴权 ",16,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(96,10,"注册",4,LCD_MODE_INVERT);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			   lcd_text12(6,10,"按确认键清空鉴权码",18,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(24,10,"鉴权码已清空",12,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			   lcd_text12(0,10,"按确认键发送车台鉴权",20,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			   lcd_text12(30,10,"鉴权已发送",10,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			   lcd_text12(0,10,"按确认键发送车台注册",20,LCD_MODE_SET);
+Menu_3_8_LogOut.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			   lcd_text12(30,10,"注册已发送",10,LCD_MODE_SET);
+Menu_3_InforInteract.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,"信息",4,LCD_MODE_SET);
+Menu_3_InforInteract.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,17,"交互",4,LCD_MODE_SET);
+Menu_3_InforInteract.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):    lcd_text12(30,19,(char *)(psubmenu[menu_pos]->caption),psubmenu[menu_pos]->len,LCD_MODE_SET);
+Menu_4_1_pilao.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12( 0, 3,( char*)Num,sizeof(Num),LCD_MODE_SET);
+Menu_4_1_pilao.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(15,20,(char*)Code,sizeof(Code),LCD_MODE_SET);
+Menu_4_1_pilao.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0, 5,(char *)t_s,strlen((char *)t_s),LCD_MODE_SET);
+Menu_4_1_pilao.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,19,(char *)t_s,strlen((char *)t_e),LCD_MODE_SET);
+Menu_4_1_pilao.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,10,"按确认键查看疲劳记录",20,LCD_MODE_SET);
+Menu_4_1_pilao.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(20,10,"按下翻逐条查看",14,LCD_MODE_SET);
+Menu_4_1_pilao.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,10,"按确认键查看疲劳记录",20,LCD_MODE_SET);
+Menu_4_1_pilao.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(18,10,"无疲劳驾驶记录",14,LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12( 0, 3,( char*)Num,sizeof(Num),LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(15,20,(char*)Code,sizeof(Code),LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(2, 2,(char *)t_s,strlen((char *)t_s),LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(2,12,(char *)t_e,strlen((char *)t_e),LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(2,22,(char *)sp,strlen((char *)sp),LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,10,"按确认键查看超速记录",20,LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(18,10,"按下翻逐条查看",14,LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,10,"按确认键查看超速记录",20,LCD_MODE_SET);
+Menu_4_2_chaosu.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(18,10,"无超速驾驶记录",14,LCD_MODE_SET);
+Menu_4_InforTirExspd.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,3,"违规",4,LCD_MODE_SET);
+Menu_4_InforTirExspd.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,17,"驾驶",4,LCD_MODE_SET);
+Menu_4_InforTirExspd.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(30,19,(char *)(psubmenu[menu_pos]->caption),psubmenu[menu_pos]->len,LCD_MODE_SET);
+Menu_5_1_TelDis.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,(char *)Tel_num_code[screen],1,LCD_MODE_SET);
+Menu_5_1_TelDis.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(15,3,(char*)PhoneBook_8[screen-1].UserStr,strlen((char*)PhoneBook_8[screen-1].UserStr),LCD_MODE_SET);
+Menu_5_1_TelDis.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(40,19,(char *)PhoneBook_8[screen-1].NumberStr,strlen((char*)PhoneBook_8[screen-1].NumberStr),LCD_MODE_SET);
+Menu_5_1_TelDis.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(50,19,"Null",4, LCD_MODE_SET);
+Menu_5_1_TelDis.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(20,10,"电话本记录查看",14,LCD_MODE_SET);
+Menu_5_2_TelAtd.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(36,10,"一键回拨",8,LCD_MODE_SET);
+Menu_5_2_TelAtd.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(42,10,"回拨中",6,LCD_MODE_SET);
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12( 0, 3, "北斗", 4, LCD_MODE_SET );
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12( 0, 17, "升级", 4, LCD_MODE_SET );
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12( 35, 3, "1.串口升级", 10, LCD_MODE_INVERT );
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12( 35, 19, "2.USB升级", 9, LCD_MODE_SET );
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12( 35, 3, "1.串口升级", 10, LCD_MODE_SET );
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12( 35, 19, "2.USB升级", 9, LCD_MODE_INVERT );
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12( 0, 3, "北斗", 4, LCD_MODE_SET );
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12( 0, 17, "升级", 4, LCD_MODE_SET );
+Menu_5_3_bdupgrad.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12( 35, 10,pinfo+1,len-1, LCD_MODE_SET );
+Menu_5_4_BDColdBoot.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(24,10,"按确认键冷启动",12,LCD_MODE_SET);
+Menu_5_4_BDColdBoot.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(6,10,"北斗模块冷启动成功",18,LCD_MODE_INVERT);
+Menu_5_6_Concuss.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(30,10,(char *)concuss_dis,sizeof(concuss_dis),LCD_MODE_SET);
+Menu_5_6_Concuss.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(20,3,"震动级别设置成功",16,LCD_MODE_SET);
+Menu_5_6_Concuss.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(30,19,(char *)concuss_dis,sizeof(concuss_dis),LCD_MODE_SET);
+Menu_5_6_Concuss.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(30,10,(char *)concuss_dis,sizeof(concuss_dis),LCD_MODE_SET);
+Menu_5_6_Concuss.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):			lcd_text12(30,10,(char *)concuss_dis,sizeof(concuss_dis),LCD_MODE_SET);
+Menu_5_8_usb.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,3,"1.指定的事故疑点记录",20,LCD_MODE_SET);
+Menu_5_8_usb.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,3,"2.指定的疲劳驾驶记录",20,LCD_MODE_SET);
+Menu_5_8_usb.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	    lcd_text12(0,3,"3.指定的超速驾驶记录",20,LCD_MODE_SET);
+Menu_5_8_usb.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	//lcd_text12( 0, 3, "数据", 4, LCD_MODE_SET );
+Menu_5_8_usb.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	//lcd_text12( 0, 17, "导出", 4, LCD_MODE_SET );
+Menu_5_8_usb.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12( 20, 10,pinfo+1,len-1, LCD_MODE_SET );
+Menu_5_8_usb.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(6,11,"选择导出的文件类型",18,LCD_MODE_SET);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0, 2,"TTS 音量:    小",15,LCD_MODE_SET);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0, 2,"TTS 音量:    中",15,LCD_MODE_SET);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0, 2,"TTS 音量:    大",15,LCD_MODE_SET);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0, 2,"TTS 音量:    中",15,LCD_MODE_SET);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,20,"音量调节: 小 中 大",18,LCD_MODE_SET);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(60,20,"小",2,LCD_MODE_INVERT);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(78,20,"中",2,LCD_MODE_INVERT);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(96,20,"大",2,LCD_MODE_INVERT);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(78,20,"中",2,LCD_MODE_INVERT);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(12,10,"音量选择完毕:",13,LCD_MODE_SET);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(90,10,"小",2,LCD_MODE_INVERT);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(90,10,"中",2,LCD_MODE_INVERT);
+Menu_5_9_voice.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(90,10,"大",2,LCD_MODE_INVERT);
+Menu_5_other.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,3,"其它",4,LCD_MODE_SET);
+Menu_5_other.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(0,17,"信息",4,LCD_MODE_SET);
+Menu_5_other.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):lcd_text12(30,19,(char *)(psubmenu[menu_pos]->caption),psubmenu[menu_pos]->len,LCD_MODE_SET);
+Menu_6_SetInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,"车辆",4,LCD_MODE_SET);
+Menu_6_SetInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):    lcd_text12(0,17,"设置",4,LCD_MODE_SET);
+Menu_6_SetInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(42,3,"车辆信息设置",12,LCD_MODE_SET);
+Menu_6_SetInfor.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(27,17,"请按确认输入密码",16,LCD_MODE_SET);
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(20,3,"您有一条新消息",14,LCD_MODE_SET);
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(26,19,"按确认键查看",12,LCD_MODE_SET);
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0, 0,(char *)TextInfo.TEXT_Content,20,LCD_MODE_SET); 
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,15,(char *)TextInfo.TEXT_Content+20,20,LCD_MODE_SET);
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(0, 0,(char *)TextInfo.TEXT_Content,20,LCD_MODE_SET); 
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(0,15,(char *)TextInfo.TEXT_Content+20,CurrentDisplen-20,LCD_MODE_SET);
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):						lcd_text12(0, 0,(char *)TextInfo.TEXT_Content,CurrentDisplen,LCD_MODE_SET); 
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0, 0,(char *)read_temp,20,LCD_MODE_SET);	
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,15,(char *)read_temp+20,20,LCD_MODE_SET);
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	                   	lcd_text12(0, 0,(char *)read_temp,20,LCD_MODE_SET);	// 显示的是汉字书所以右移1位除2
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):                        lcd_text12(0,15,(char *)read_temp,CurrentDisplen-20,LCD_MODE_SET);	// 显示的是汉字书所以右移1位除2
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					    lcd_text12(0,0,(char *)read_temp,CurrentDisplen,LCD_MODE_SET);	// 显示的是汉字书所以右移1位除2
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0, 0,(char *)read_temp,20,LCD_MODE_SET);	
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					lcd_text12(0,15,(char *)read_temp+20,20,LCD_MODE_SET);
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	                   	lcd_text12(0, 0,(char *)read_temp,20,LCD_MODE_SET);	// 显示的是汉字书所以右移1位除2
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):                        lcd_text12(0,15,(char *)read_temp,CurrentDisplen-20,LCD_MODE_SET);	// 显示的是汉字书所以右移1位除2
+Menu_7_CentreTextDisplay.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):					    lcd_text12(0,0,(char *)read_temp,CurrentDisplen,LCD_MODE_SET);	// 显示的是汉字书所以右移1位除2
+Menu_Include.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,3,"设备ID:",7,LCD_MODE_SET); 
+Menu_Include.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(42,3,(char *)SimID_12D,12,LCD_MODE_SET);
+Menu_Include.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,18,"终端ID:",7,LCD_MODE_SET); 
+Menu_Include.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(42,18,(char *)SimID_12D+5,7,LCD_MODE_SET);
+Menu_Include.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0, 3,(char *)device_version,strlen((const char*)device_version),LCD_MODE_SET); 
+Menu_Include.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	   lcd_text12(0,19,(char *)bd_version,sizeof(bd_version),LCD_MODE_SET);
+Menu_Include.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	   lcd_text12(0,19,(char *)bd_version2,sizeof(bd_version2),LCD_MODE_SET); 	
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = CarSet_0_fun &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = CarStatus &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = CarType &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = DIS_MEUN_1 &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = Dis_Affair &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = Dis_TelText &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = Dis_dianbo &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = Disp_DnsIP &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = Disp_Idle &rArr; GPSGPRS_Status &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = Display_driver &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = Display_jiayuan &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = GPSGPRS_Status &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR>[Calls]<UL><LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = Multimedia &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = SendAffairMeun &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = SenddianboMeun &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = USB_OUTFileSe &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = Vin_Set &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = can_select &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = can_set_check &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = car_col_fun &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = confirm_login &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<P><STRONG><a name="[26b]"></a>lcd_text12</STRONG> (Thumb, 458 bytes, Stack size 88 bytes, sed1520.o(i.lcd_text12))
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = license_input &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = license_input_az09 &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR>[Calls]<UL><LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = menu_set &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = password_Set &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = record_sel &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = version_disp &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = keypress &rArr; password_Set &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; password_Set &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = keypress &rArr; license_input_az09 &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = show &rArr; license_input &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = keypress &rArr; CarType &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = show &rArr; CarType &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; CarSet_0_fun &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = show &rArr; Disp_Idle &rArr; GPSGPRS_Status &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = timetick &rArr; Disp_Idle &rArr; GPSGPRS_Status &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = keypress &rArr; msg &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = msg &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; msg &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = timetick &rArr; msg &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = drawspeed &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = keypress &rArr; DIS_MEUN_1 &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = show &rArr; DIS_MEUN_1 &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = keypress &rArr; Display_driver &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = Dis_DriverInfor &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = keypress &rArr; Dis_DriverInfor &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = show &rArr; Dis_DriverInfor &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = keypress &rArr; Dis_dianbo &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = show &rArr; Dis_dianbo &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 328<LI>Call Chain = keypress &rArr; Disp_DnsIP &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = keypress &rArr; menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = keypress &rArr; CarStatus &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = show &rArr; CarStatus &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = keypress &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = keypress &rArr; Multimedia &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = show &rArr; Multimedia &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = keypress &rArr; record_sel &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = show &rArr; record_sel &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = keypress &rArr; Dis_Affair &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = keypress &rArr; confirm_login &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = show &rArr; confirm_login &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = keypress &rArr; menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = drawPiLao_1 &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = timetick &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = drawChaoSu_1 &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = timetick &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = keypress &rArr; menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = keypress &rArr; Dis_TelText &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = msg &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; menu_set &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = keypress &rArr; can_set_check &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = show &rArr; can_select &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = keypress &rArr; version_disp &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; version_disp &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = msg &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = keypress &rArr; menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; menuswitch &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = show &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = show &rArr; car_col_fun &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = keypress &rArr; Vin_Set &rArr; lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_text12
+Rt_stm32f4_drv.htm (bsp\stm32f407vgt6_recdrv):<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = show &rArr; Vin_Set &rArr; lcd_text12
+SED1520.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):void lcd_text12(char left,char top ,char *p,char len,const char mode)
+SED1520.h (bsp\stm32f407vgt6_recdrv\app_712\lcd):extern void lcd_text12(char left,char top ,char *p,char len,const char mode);
+（不分组设置）Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):	lcd_text12(0,3,(char *)Menu_Vin_Code,VIN_SetFlag-1,LCD_MODE_SET);
+（不分组设置）Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,19,"0123456789ABCDEFGHIJ",20,LCD_MODE_SET);
+（不分组设置）Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):		lcd_text12(0,19,"KLMNOPQRSTUVWXYZ",16,LCD_MODE_SET);
+（不分组设置）Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(0,5,(char *)Menu_Vin_Code,17,LCD_MODE_SET);
+（不分组设置）Menu_0_4_VIN.c (bsp\stm32f407vgt6_recdrv\app_712\lcd):				lcd_text12(25,19,"VIN设置完成",11,LCD_MODE_SET);

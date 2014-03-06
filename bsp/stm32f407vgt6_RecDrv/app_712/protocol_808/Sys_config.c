@@ -13,7 +13,7 @@
 #include  "Vdr.h"
 
  
-#define   SYSID            0xB8BC     
+#define   SYSID            0xB8BA     
                                 /*        
                                                         0x0000   -----   0x00FF  Éú²úºÍÑÐ·¢ÓÃ
                                                         0x0100   -----   0x0FFF  ²úÆ·³ö»õÓÃ
@@ -42,7 +42,7 @@ u8      DeviceNumberID[13];//="800130100001";    // ³µÁ¾DeviceID    ---- ºÓ±±Ììµ
 u8      SimID_12D[13]; // ÈëÍøID  ºÅÂë 12 Î» Ê×Î» Îª 0
 
 u8          RemoteIP_Dnsr[4]={255,255,255,255}; 
-u8		RemoteIP_main[4]={218,95,142,6};//{125,38,185,88};//{113,31,28,101 };//{113,31,92,200};//Ìì½ò{60,28,50,210}; ºÓ±±ÌìµØÍ¨ 113,31,28,100                        
+u8		RemoteIP_main[4]={111,113,14,154};//{125,38,185,88};//{113,31,28,101 };//{113,31,92,200};//Ìì½ò{60,28,50,210}; ºÓ±±ÌìµØÍ¨ 113,31,28,100                        
 u16		RemotePort_main= 9131;//Ìì½ò9131;   ºÓ±±ÌìµØÍ¨ 8201             //test tianjin     
 u8		RemoteIP_aux[4]={60,28,50,210};    //{60,28,50,210}
 u16		RemotePort_aux=4000; 
@@ -57,7 +57,7 @@ u8           DomainNameStr[50]="jt1.gghypt.net"; ;  // ÓòÃû  ÌìµØÍ¨up.gps960.com
 u8           DomainNameStr_aux[50]="jt2.gghypt.net";     //"www.sina.com";//jt2.gghypt.net
 u16         ACC_on_sd_Duration=30;    //  ACC ¿ªÆôµÄÊ±ºò ÉÏ±¨µÄÊ±¼ä¼ä¸ô  
 u16         ACC_off_sd_Duration=60;    //  ACC ¹Ø±ÕÊ±ºòÉÏ±¨µÄÊ±¼ä¼ä¸ô  
-u8          TriggerSDsatus=0x80;   // ´«¸ÐÆ÷´¥·¢ÉÏ±¨×´Ì¬Î»
+u8          TriggerSDsatus=0x80;   // ´«¸ÐÆ÷´¥·¢ÉÏ±¨×´Ì¬Î» 
 
 
 
